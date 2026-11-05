@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sumi storyboard</title>
+<style>
+:root{--paper:#F5F1EA;--ink:#17161B;--seal:#E8432A;--ash:#8C877F;--apricot:#F4B183;--sheet:#E9E4DA;
+--serif:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
+--sans:"Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0}
+body{background:var(--sheet);color:var(--ink);font-family:var(--sans);padding:40px 16px 64px}
+header{max-width:1400px;margin:0 auto 28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:baseline}
+h1{font-family:var(--serif);font-weight:400;font-size:44px}
+h1 i{color:var(--seal)}
+.dek{color:#4d4a45;font-size:16px;flex:1 1 320px}
+.tag{font-family:var(--mono);font-size:12px;background:var(--ink);color:var(--paper);padding:6px 10px;border-radius:99px}
+.act{max-width:1400px;margin:28px auto 12px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#4d4a45;border-top:1px solid #c9c2b5;padding-top:10px}
+.grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:#fbf9f5;border-radius:14px;padding:10px;box-shadow:0 1px 0 #d8d1c4}
+.f{aspect-ratio:16/9;container-type:inline-size;border-radius:8px;overflow:hidden;position:relative;background:var(--paper);display:flex;align-items:center;justify-content:center}
+.lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;margin:10px 2px 4px;color:#4d4a45}
+.lbl b{color:var(--ink)}
+.note{font-size:13px;line-height:1.45;margin:0 2px;color:#3c3a36}
+.chip{display:inline-block;margin:8px 2px 2px;font-family:var(--mono);font-size:10.5px;border:1px solid var(--ink);border-radius:99px;padding:2px 8px}
+.t{font-size:4.6cqw;letter-spacing:-.01em}
+.s{font-family:var(--serif);font-style:italic}
+.r{color:var(--seal)}
+.drop{width:6cqw;height:6cqw;background:var(--ink);border-radius:50% 50% 50% 8%;transform:rotate(-45deg);position:relative}
+.drop::after{content:"";position:absolute;inset:32% 22% 40% 28%;border-radius:40%;background:var(--paper);transform:rotate(30deg)}
+.cur{position:absolute;width:3.4cqw;height:4.2cqw;background:#2b2930;border-radius:1.6cqw 1.6cqw 1.2cqw 1.2cqw;box-shadow:.3cqw .4cqw 0 rgba(0,0,0,.15)}
+.ph{background:repeating-linear-gradient(45deg,#e4ddd1 0 .6cqw,#efe9df .6cqw 1.2cqw);border:1px dashed #b9b0a2;border-radius:1.6cqw;display:flex;align-items:flex-end;justify-content:center;font-family:var(--mono);font-size:1.3cqw;color:#6b665e;padding:.6cqw}
+.bar{background:#fff;border-radius:1.8cqw;box-shadow:0 1.2cqw 3cqw rgba(23,22,27,.12);padding:1.4cqw 1.8cqw;display:flex;flex-direction:column;gap:1.2cqw}
+.mono{font-family:var(--mono)}
+.warm{position:absolute;border-radius:50%;filter:blur(4cqw)}
+.seam{max-width:1400px;margin:0 auto}
+.strip{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--mono);font-size:11px}
+.strip span{background:#fbf9f5;border-radius:6px;padding:6px 8px}
+.strip em{font-style:normal;color:var(--seal)}
+.sw{display:inline-block;width:2.2cqw;height:2.2cqw;border-radius:6px;vertical-align:middle;margin-right:6px;border:1px solid #0001}
+</style>
+</head>
+<body>
+<header>
+<h1>Sumi — promo <i>v1</i></h1>
+<p class="dek">Every meeting ends with one clear plan. Náčrty kľúčového momentu každého beatu — rozloženie, texty, farby. Pohyb je opísaný pod náčrtom.</p>
+<span class="tag">1920×1080 · 35 s · 12 beatov · hudba + SFX</span>
+</header>
+
+<div class="act">Akt I — bolesť · 0,0–5,4 s</div>
+<div class="grid">
+<div class="card" id="frame-01"><div class="f"><div class="t">Great <span class="s">meeting.</span></div></div>
+<div class="lbl"><b>01 · GREAT MEETING</b><span>0,0–2,6</span></div>
+<p class="note"><b>Slová prichádzajú z rozmazania</b>, po 0,3 s. Stoja 1,6 s, potom sa zmenšia a rozmažú na mieste.</p><span class="chip">→ blur crossfade</span></div>
+
+<div class="card" id="frame-02"><div class="f"><div class="t" style="display:flex;align-items:center;gap:1.4cqw">So… who does <span style="display:inline-flex;align-items:center;justify-content:center;width:8cqw;height:5cqw;border-radius:2.5cqw;background:var(--seal);color:var(--paper);font-weight:600">?</span></div><div class="cur" style="left:63%;top:58%;transform:rotate(-18deg)"></div></div>
+<div class="lbl"><b>02 · WHO DOES WHAT?</b><span>2,6–5,4</span></div>
+<p class="note"><b>Bodka vyrastie do kapsuly s „?“</b>, kurzor-ruka vletí sprava a ťukne, kapsula sa rozprskne na kvapky atramentu.</p><span class="chip">→ whip doľava</span></div>
+
+<div class="card" id="frame-03"><div class="f" style="justify-content:flex-start"><div class="warm" style="width:80%;height:120%;left:20%;top:10%;background:radial-gradient(circle,var(--seal),var(--apricot) 55%,transparent 75%)"></div><div style="position:relative;font-family:var(--serif);font-size:30cqw;line-height:1;color:var(--paper);white-space:nowrap;margin-left:-6cqw;filter:blur(.15cqw)">Introdu</div></div>
+<div class="lbl"><b>03 · INTRODUCING</b><span>5,4–7,2</span></div>
+<p class="note"><b>Obrie orezané písmo letí doľava</b> cez teplú atramentovú škvrnu, potom skočí na malý centrovaný nápis. Drop hudby.</p><span class="chip">→ písmená sa rozkývu</span></div>
+</div>
+
+<div class="act">Akt II — zvrat · 7,2–11,4 s</div>
+<div class="grid">
+<div class="card" id="frame-04"><div class="f"><div style="display:flex;align-items:center;gap:2cqw"><div class="drop"></div><div style="font-size:9cqw;font-weight:600;letter-spacing:-.02em">sumi</div></div><div class="s" style="position:absolute;top:66%;font-size:2.6cqw;color:var(--ash)">meeting notes that act.</div><div class="mono" style="position:absolute;top:18%;left:30%;font-size:4cqw;color:#0003;transform:rotate(-12deg)">u</div><div class="mono" style="position:absolute;top:24%;right:28%;font-size:4cqw;color:#0002">m</div></div>
+<div class="lbl"><b>04 · SUMI</b><span>7,2–10,0</span></div>
+<p class="note"><b>s-u-m-i obiehajú kvapku</b>, ktorá dopadne do stredu a otočí sa; písmená sa zacvaknú do wordmarku. Potom sa zasunú za logo.</p><span class="chip">→ tvrdý strih</span></div>
+
+<div class="card" id="frame-05"><div class="f" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;align-items:stretch;justify-items:stretch">
+<div style="background:var(--seal);display:flex;align-items:center;justify-content:center"><div class="drop" style="background:var(--paper)"></div></div>
+<div style="background:var(--paper);display:flex;align-items:center;justify-content:center"><div class="drop" style="background:none;border:.3cqw solid var(--ink)"></div></div>
+<div style="background:var(--apricot);display:flex;align-items:center;justify-content:center"><div class="drop" style="box-shadow:.6cqw .6cqw 0 #0003"></div></div>
+<div style="background:var(--ink);display:flex;align-items:center;justify-content:center"><div class="drop" style="background:radial-gradient(var(--paper) 30%,transparent 32%) 0 0/1cqw 1cqw"></div></div>
+<div style="background:#efe7da;display:flex;align-items:center;justify-content:center"><div class="drop" style="opacity:.7;filter:blur(.1cqw)"></div></div>
+<div style="background:linear-gradient(135deg,#f3d9c8,#d9d3ea00),var(--paper);display:flex;align-items:center;justify-content:center"><div class="drop" style="background:#ffffff99;border:.2cqw solid #fff;box-shadow:0 1cqw 2cqw #0002"></div></div>
+</div>
+<div class="lbl"><b>05 · MARK REMIX</b><span>10,0–11,4</span></div>
+<p class="note"><b>6 tvrdých strihov po 0,23 s</b> na rytmus: pečiatka, kontúra, papierový výrez, halftone, štetec, sklo. (Na náčrte vedľa seba, vo videe za sebou.)</p><span class="chip">→ kvapka padá</span></div>
+
+<div class="card" id="frame-06"><div class="f"><div class="warm" style="width:70%;height:40%;left:15%;top:-25%;background:var(--apricot);opacity:.5"></div>
+<div class="ph" style="position:absolute;left:8%;top:12%;width:9cqw;height:9cqw;transform:rotate(-6deg)">Call · 48 min</div>
+<div class="ph" style="position:absolute;right:9%;top:14%;width:9cqw;height:9cqw;transform:rotate(5deg)">Slack thread</div>
+<div class="ph" style="position:absolute;left:12%;bottom:10%;width:9cqw;height:9cqw;transform:rotate(4deg)">Doc</div>
+<div class="ph" style="position:absolute;right:13%;bottom:12%;width:9cqw;height:9cqw;transform:rotate(-4deg)">Voice memo</div>
+<div class="bar" style="width:48cqw"><div style="font-size:1.9cqw;color:var(--ash)">Ask Sumi…</div><div style="display:flex;justify-content:space-between;font-size:1.5cqw" class="mono"><span>+ ⇄ <span style="background:#fde3dc;color:var(--seal);border-radius:99px;padding:.2cqw .9cqw">Sumi ✕</span></span><span>▶</span></div></div>
+<div class="cur" style="right:20%;bottom:20%;transform:rotate(-14deg)"></div></div>
+<div class="lbl"><b>06 · SOURCES</b><span>11,4–15,4</span></div>
+<p class="note"><b>Kvapka sa rozleje do baru</b>, zdroje (placeholdery) plávajú v rohoch; kurzor odtiahne prvý, ďalšie idú za ním ako magnet a ukotvia sa s 3D náklonom.</p><span class="chip">→ zoom do baru</span></div>
+</div>
+
+<div class="act">Akt III — dôkaz · 15,4–28,6 s</div>
+<div class="grid">
+<div class="card" id="frame-07"><div class="f" style="background:#fbf9f5"><div style="font-size:5cqw">Turn it into one <span class="s r">plan.</span><span style="display:inline-block;width:.3cqw;height:5cqw;background:var(--ink);vertical-align:middle;margin-left:.4cqw"></span></div><div style="position:absolute;right:9%;color:var(--seal);font-size:6cqw;letter-spacing:-1cqw">▶▶▶</div></div>
+<div class="lbl"><b>07 · THE ASK</b><span>15,4–19,0</span></div>
+<p class="note"><b>Písací stroj, ~14 znakov/s</b>, text stojí 0,6 s, klik na ▶, ktorá sa zmnoží na chevrony a vytlačí scénu doľava.</p><span class="chip">→ chevron push</span></div>
+
+<div class="card" id="frame-08"><div class="f"><div class="bar" style="width:62cqw;gap:1.5cqw;padding:2.4cqw 3cqw">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><div class="s" style="font-size:3.6cqw;font-style:normal">Q3 Launch — the plan</div><span class="mono" style="font-size:1.2cqw;color:var(--ash)">from 4 sources</span></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:1.1cqw 2.4cqw;font-size:1.9cqw;align-items:center">
+<span>☐ Final pricing page</span><span><span class="ph" style="display:inline-flex;width:2.6cqw;height:2.6cqw;border-radius:50%;padding:0;vertical-align:middle"></span> <b>Ava</b></span><span class="s r">Fri</span>
+<span>☐ Beta invite email</span><span><span class="ph" style="display:inline-flex;width:2.6cqw;height:2.6cqw;border-radius:50%;padding:0;vertical-align:middle"></span> <b>Leo</b></span><span class="s r">Tue</span>
+<span>☐ Fix onboarding step 2</span><span><span class="ph" style="display:inline-flex;width:2.6cqw;height:2.6cqw;border-radius:50%;padding:0;vertical-align:middle"></span> <b>Mia</b></span><span class="s r">Thu</span>
+</div></div></div>
+<div class="lbl"><b>08 · THE PLAN</b><span>19,0–22,4</span></div>
+<p class="note"><b>Atramentová vlna prejde zľava doprava</b> a zanechá hotový plán. Potom 1,6 s <b>statický záber</b>, hudba stlmená.</p><span class="chip">→ blur crossfade</span></div>
+
+<div class="card" id="frame-09"><div class="f" style="justify-content:flex-start;gap:2cqw;padding-left:6cqw">
+<div class="bar" style="width:24cqw;height:15cqw;align-items:center;justify-content:center;font-size:2.4cqw">Missed <span class="s r">something?</span></div>
+<div class="bar" style="width:24cqw;height:15cqw;font-size:1.8cqw;justify-content:center;align-items:center">Weekly sync</div>
+<div class="bar" style="width:24cqw;height:15cqw;font-size:1.8cqw;justify-content:center;align-items:center">Client call · Acme</div>
+</div>
+<div class="lbl"><b>09 · MISSED SOMETHING?</b><span>22,4–24,8</span></div>
+<p class="note"><b>Text sa obalí kartou</b>, karta sa zmenší a zľava doprava sa vysunie karusel; zastaví na „Q3 Launch“ a priblíži ju.</p><span class="chip">→ zoom do karty</span></div>
+
+<div class="card" id="frame-10"><div class="f" style="gap:3cqw;padding:3cqw">
+<div class="mono" style="font-size:1.5cqw;line-height:2.1;color:#55514b;flex:1">
+Leo: we should email the beta list…<br>Mia: step two is still confusing.<br>Ava: pricing by <span style="border:.25cqw solid var(--seal);border-radius:50%;padding:0 .5cqw">Friday?</span><br><span style="background:#e8432a59;border-radius:.4cqw;padding:0 .3cqw">Leo: and invite the Acme team too.</span><br>Mia: let's keep it simple.</div>
+<div class="bar" style="flex:1;font-size:1.5cqw;gap:.8cqw"><b class="s" style="font-style:normal;font-size:2.2cqw">Q3 Launch</b><span>☐ Final pricing page · Ava</span><span>☐ Beta invite email · Leo</span><span>☐ Fix onboarding step 2 · Mia</span><span><b>☐ Invite Acme team · Leo · Wed</b> <span class="r">● new</span></span></div>
+<div class="bar mono" style="position:absolute;bottom:4%;left:22%;width:56cqw;padding:1cqw 1.6cqw;flex-direction:row;justify-content:space-between;font-size:1.5cqw"><span>Add the Acme invite.</span><span class="r">▶</span></div></div>
+<div class="lbl"><b>10 · MARK IT</b><span>24,8–28,6</span></div>
+<p class="note"><b>Dva ťahy zvýrazňovačom</b> v prepise, krátka požiadavka, klik, sken a v pláne pribudne 4. úloha s bodkou „new“.</p><span class="chip">→ iris close</span></div>
+</div>
+
+<div class="act">Akt IV — payoff · 28,6–35,0 s</div>
+<div class="grid">
+<div class="card" id="frame-11"><div class="f"><div class="t" style="font-size:5.4cqw">Less recap. More <span class="s r">done.</span></div>
+<svg viewBox="0 0 100 56" style="position:absolute;inset:0;width:100%;height:100%" fill="none" stroke="#17161B33" stroke-dasharray="1 1.5" stroke-width=".3"><path d="M8 50 Q20 10 30 28 T52 26 T72 28 T90 20"/></svg>
+<div class="drop" style="position:absolute;right:8%;top:28%;width:3.4cqw;height:3.4cqw"></div></div>
+<div class="lbl"><b>11 · LESS RECAP. MORE DONE.</b><span>28,6–31,6</span></div>
+<p class="note"><b>Logo sa odrazí 4×</b>, každý dopad vyrazí slovo ako pečiatka. Veta stojí 1,2 s, potom logo letí do kamery a zaleje plochu atramentom.</p><span class="chip">→ atramentová záplava</span></div>
+
+<div class="card" id="frame-12"><div class="f" style="background:var(--ink);color:var(--paper);flex-direction:column;gap:2.4cqw"><div style="display:flex;align-items:center;gap:2cqw"><div class="drop" style="background:var(--paper)"></div><div style="font-size:8cqw;font-weight:600;letter-spacing:-.02em">sumi</div></div><div class="mono" style="font-size:2cqw;opacity:.6">sumi.app</div></div>
+<div class="lbl"><b>12 · ENDCARD</b><span>31,6–35,0</span></div>
+<p class="note"><b>Logo sa preklopí</b>, roztiahnuté písmená sa zúžia do wordmarku, „sumi.app“ sa objaví. Ticho a dozvuk zvončeka.</p><span class="chip">koniec</span></div>
+
+<div class="card"><div class="f" style="flex-direction:column;align-items:stretch;padding:3cqw;gap:.9cqw;font-size:1.25cqw;justify-content:center">
+<b class="s" style="font-size:2.4cqw;font-weight:400">Tokeny</b>
+<div><span class="sw" style="background:#F5F1EA"></span>papier #F5F1EA</div>
+<div><span class="sw" style="background:#17161B"></span>atrament #17161B</div>
+<div><span class="sw" style="background:#E8432A"></span>pečať #E8432A (jediný akcent)</div>
+<div><span class="sw" style="background:#8C877F"></span>sivá #8C877F</div>
+<div class="mono" style="font-size:1.7cqw;line-height:1.5;color:#55514b">Instrument Serif · Inter Tight · JetBrains Mono<br>Zákazy: fialová, neon, fullscreen fotky, mriežka rovnakých kariet</div>
+</div><div class="lbl"><b>TOKENY</b><span>paleta · typo · zákazy</span></div></div>
+</div>
+
+<div class="act">Mapa prechodov · jeden smer: doľava</div>
+<div class="seam strip">
+<span>01 <em>blur crossfade</em> 02</span><span>02 <em>whip ←</em> 03</span><span>03 <em>kyv písmen</em> 04</span><span>04 <em>strih</em> 05</span><span>05 <em>pád kvapky</em> 06</span><span>06 <em>zoom do baru</em> 07</span><span>07 <em>chevron push ←</em> 08</span><span>08 <em>blur crossfade</em> 09</span><span>09 <em>zoom do karty</em> 10</span><span>10 <em>iris</em> 11</span><span>11 <em>logo do kamery</em> 12</span>
+</div>
+</body>
+</html>
