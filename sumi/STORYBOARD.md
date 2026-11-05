@@ -62,7 +62,7 @@ version: v1
 - transition_in: cut
 - scene: Papierové pozadie, uprostred „Great meeting.“ slovo po slove z rozmazania
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** „Great meeting.“ (Inter Tight 88 px, atrament; „meeting.“ v Instrument Serif kurzíve).
 **Pohyb:** 0,15 s „Great“ príde z blur 24 px → 0, scale 1,08 → 1, `expo.out` 0,6 s. 0,45 s „meeting.“ rovnako. Pozadie: veľmi jemné papierové zrno + pomaly dýchajúci teplý kruh vpravo dole (opacity 6 %).
@@ -77,7 +77,7 @@ version: v1
 - transition_in: blur-crossfade
 - scene: „So… who does [?]“, kapsula vyrastie z bodky, kurzor ju ťukne a praskne
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** „So… who does“ + **kapsula** (zaoblená, 140×88 px, pečatná červená) s bielym „?“, ktorý jemne pulzuje.
 **Pohyb:** 2,6 slová blur-in po 0,12 s. 3,3 medzi „does“ a koncom sa objaví **atramentová bodka**, vyrastie do kapsuly (`back.out(1.6)`, 0,45 s), slová sa odsunú doľava. 4,2 **3D kurzor** vletí sprava zdola (`power3.out` 0,5 s), 4,75 klik: kurzor sa zmačkne (scale 0,85), kapsula sa **rozprskne na 6 kvapiek** atramentu, ktoré odletia.
@@ -92,7 +92,7 @@ version: v1
 - transition_in: whip-left
 - scene: Obrie orezané „Introducing“ letí doľava cez teplý atramentový gradient, potom skok na malý nápis
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** „Introducing“ v Instrument Serif **640 px** (orezané okrajmi), papierová farba na teplej škvrne (pečatná červená → marhuľová → papier, rozmazaná 120 px).
 **Pohyb:** 5,4 text prichádza sprava, x +900 → −300 počas 0,9 s, motion blur 30 → 8 px. 6,3 **zoom-out snap**: škvrna sa stiahne do rohu, text skočí na 64 px do stredu, farba atrament (`expo.out` 0,5 s).
@@ -107,7 +107,7 @@ version: v1
 - transition_in: continuous
 - scene: Písmená „Introducing“ sa rozletia, štyri z nich (s-u-m-i) obiehajú atramentovú kvapku, ktorá sa zmení na logo; zložia wordmark „sumi“
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** logo = **atramentová kvapka s vyrezaným „ťahom štetca“** (placeholder vektor, 160 px) + wordmark „sumi“ (Inter Tight 120 px, rozostup −2 %). Pod ním po 9,2 s malé „meeting notes that act.“ (Instrument Serif kurzíva 40 px, sivá).
 **Pohyb:** 7,2 nepotrebné písmená odfúknu a zmiznú; s-u-m-i **obiehajú po elipse** okolo stredu (1 obeh, 1,2 s, 3D perspektíva, písmená vzadu menšie a rozmazané). 7,4 kvapka dopadne do stredu (scale 0 → 1,15 → 1, `elastic.out(1, .6)`), raz sa otočí. 8,5 písmená sa **zacvaknú** vedľa loga do wordmarku (stagger 0,06 s, `expo.out`). 9,2 podtitulok blur-in.
@@ -122,7 +122,7 @@ version: v1
 - transition_in: cut
 - scene: Logo v 6 štýloch, tvrdé strihy na dobu hudby
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** logo vždy v strede, 6 štýlov (CSS/SVG, bez fotiek): 1) **pečiatka** (červená, zrnitý odtlačok) 2) **kontúra** tenkou linkou 3) **papierový výrez** s tieňom 4) **halftone** bodky 5) **štetcový ťah** (neúplný, suchý) 6) **sklo** (rozmazané pozadie, svetlý okraj). Každý štýl má vlastné pozadie z palety.
 **Pohyb:** strih každých **0,23 s** (≈ 1/2 doby pri 104 BPM); logo pri každom strihu jemne „pumpne“ (scale 0,96 → 1).
@@ -137,7 +137,7 @@ version: v1
 - transition_in: drop
 - scene: UI scéna: vstupný bar Sumi v strede, 4 zdroje plávajú v rohoch, kurzor ich ťahá do baru
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** papier s teplým gradientom v hornom a dolnom okraji. V strede **vstupný bar** (920×132 px, radius 28, mäkký tieň): placeholder „Ask Sumi…“ (sivá), vľavo ikony +/⇄, vpravo čip „Sumi ✕“ a tlačidlo ▶. V rohoch 4 **dlaždice zdrojov** (112 px, radius 24, mierne natočené, plávajú): „Call · 48 min“, „Slack thread“, „Doc“, „Voice memo“ — **placeholdery** (šrafa + ikona + popis).
 **Pohyb:** 11,4 bodka z 05 dopadne a rozleje sa do baru (scale-in z bodky, `expo.out` 0,6 s). Dlaždice vplávajú z rohov (stagger 0,1 s) a ďalej sa vznášajú (y ±8 px, 3 s sínus). 12,3 kurzor chytí 1. dlaždicu a **odtiahne ju do baru**; ostatné 3 nasledujú samy ako magnet (stagger 0,25 s). Pri ukotvení sa každá **naklopí v 3D** (rotateX 25° → 0) a zmenší na 56 px. Bar sa pritom roztiahne nahor (výška 132 → 190).
@@ -152,7 +152,7 @@ version: v1
 - transition_in: zoom-through
 - scene: Biela plocha, písací stroj „Turn it into one plan.“, odoslanie, burst šípok
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** „Turn it into one **plan.**“ (Inter Tight 72 px; „plan.“ v serife kurzíve, pečatná červená), blikajúci textový kurzor.
 **Pohyb:** 15,4 kurzor bliká 2× (0,5 s). 15,9 písanie **~14 znakov/s** (≈1,6 s pre 23 znakov), počas písania kamera mierne ide doľava, aby text ostal v strede. 17,5 text hotový, stojí 0,6 s. 18,1 vpravo sa objaví **tlačidlo ▶**, kurzor-ruka naň klikne. 18,4 ▶ sa **zmnoží na 3 chevrony**, ktoré rastú a letia doľava cez celú plochu (`power2.in` 0,6 s) → **tlačia** scénu preč.
@@ -166,7 +166,7 @@ version: v1
 - transition_in: chevron-push
 - scene: Atramentový sken odhalí hotový plán: názov, 3 úlohy s menom a termínom
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** karta plánu (1100×640, radius 28, tieň):
 „**Q3 Launch — the plan**“ (serif 56 px)
@@ -186,7 +186,7 @@ Avatary = kruhové **placeholdery** s iniciálami. Malý štítok vpravo hore �
 - transition_in: blur-crossfade
 - scene: „Missed something?“ → text sa stane kartou → karta sa zmenší a z pravej strany príde karusel ďalších plánov
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** „Missed **something?**“ (Inter Tight 80 px, „something?“ serif kurzíva červená). Potom karta s tým istým textom; karusel 3 kariet: „Weekly sync“, „Client call · Acme“ (fiktívne), „Q3 Launch“.
 **Pohyb:** 22,4 text blur-in po slovách. 23,4 okolo textu vyrastie **biela karta** (od okrajov textu von, `expo.out` 0,5 s). 23,9 karta sa **zmenší na 40 %** a posunie doľava, zprava **prichádza karusel** (push doľava, stagger 0,08 s). 24,5 karusel zastaví na karte „Q3 Launch“.
@@ -200,7 +200,7 @@ Avatary = kruhové **placeholdery** s iniciálami. Malý štítok vpravo hore �
 - transition_in: zoom-into-card
 - scene: Prepis hovoru, zvýrazňovač označí 2 vety, do baru príde čip „Add deadlines“, sken a plán sa aktualizuje
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** vľavo **prepis hovoru** (5 riadkov, mono 24 px, sivá), vpravo plán z 08 (zmenšený). Dole vstupný bar z 06.
 Riadky prepisu (fiktívne):
@@ -217,7 +217,7 @@ Riadky prepisu (fiktívne):
 - transition_in: iris-close
 - scene: Z kruhu sa stane malé logo, ktoré sa odráža po ploche a pri každom dopade zostane slovo
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** papier, finálne „Less recap. More **done.**“ (Inter Tight 84 px, „done.“ serif kurzíva červená).
 **Pohyb:** 28,6 iris sa stiahne na **logo-kvapku** (64 px). Logo sa **odrazí** 4× po dráhe s motion blur (každý odraz `power2.out`, 0,35 s); kde dopadne, tam **vyrazí slovo ako pečiatka** (scale 1,2 → 1, blur 6 → 0): „Less“ · „recap.“ · „More“ · „done.“. 30,2 celý riadok hotový a stojí **1,2 s**. 31,2 logo **letí do kamery** (scale 1 → 30, blur), plocha sa zaleje atramentom.
@@ -231,7 +231,7 @@ Riadky prepisu (fiktívne):
 - transition_in: ink-flood
 - scene: Atramentová plocha, logo sa preklopí, wordmark „sumi“ sa zúži z roztiahnutých písmen, pod ním sumi.app
 - voiceover: onscreen
-- status: outline
+- status: animated
 
 **Na obrazovke:** pozadie atrament `#17161B`, logo v papierovej farbe (120 px) + „sumi“ (Inter Tight 96 px), pod tým „sumi.app“ (mono 28 px, sivá 60 %).
 **Pohyb:** 31,6 logo sa **preklopí** (rotateY 180° → 0, `expo.out` 0,8 s). 32,2 písmená „s u m i“ sa objavia s rozostupom 60 px a **zúžia sa** na −2 % (`expo.out` 0,9 s) a logo sa posunie doľava. 33,2 „sumi.app“ fade-in. 33,4–35,0 statické.
@@ -270,3 +270,10 @@ Riadky prepisu (fiktívne):
 | 28,6–30,2 | 4× „stamp“ | 11 |
 | 31,2 | hlboký whoosh | 11→12 |
 | 31,6 | „ting“ + ticho | 12 |
+
+## Build notes (v1)
+
+- Všetky beaty postavené v `index.html` (jedna časová os, 35,0 s, 30 fps).
+- Zvuky sú **dočasné**, syntetizované skriptom `tools/make_sfx.py` → `assets/sfx/*.wav`. Každý je samostatná audio stopa (id `sfx-*`) — dá sa vymeniť 1:1 alebo posunúť v Studiu.
+- Hudba: zatiaľ žiadna (doplní klient). Odporúčaná hlasitosť hudby pod SFX ~ −16 LUFS, tempo ~104 BPM; strihy v beate 05 sú na 0,233 s (= 1/2 doby pri 128 BPM, resp. sa dajú dorovnať).
+- Ťah štetca v logu: vzostupný „flick“ (pripomína odškrtnutie = hotovo).

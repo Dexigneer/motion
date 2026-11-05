@@ -3,59 +3,675 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
+    <title>Sumi — promo</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <style>
-      /* Placeholders: replace all three with the film's own palette and display face. */
+      @font-face { font-family: "Inter Tight"; src: url("assets/fonts/InterTight.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/InstrumentSerif-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/InstrumentSerif-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 100 800; font-style: normal; }
+
       :root {
-        --ground: #000;
-        --ink: #ffffff;
-        --font-display: sans-serif;
+        --paper: #f5f1ea;
+        --paper-2: #fbf9f5;
+        --card: #fffdf9;
+        --ink: #17161b;
+        --seal: #e8432a;
+        --seal-tint: #fbe1da;
+        --apricot: #f4b183;
+        --ash: #77726a;
+        --hair: #e6dfd3;
+        --sans: "Inter Tight", sans-serif;
+        --serif: "Instrument Serif", serif;
+        --mono: "JetBrains Mono", monospace;
       }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
-        overflow: hidden;
-        background: var(--ground);
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-      }
-      #title {
-        color: var(--ink);
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--sans); color: var(--ink); background: var(--paper); }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .fill { position: absolute; inset: 0; }
+      .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .serif-i { font-family: var(--serif); font-style: italic; font-weight: 400; }
+      .seal { color: var(--seal); }
+      .w { display: inline-block; will-change: transform, filter, opacity; }
+
+      /* shared bits */
+      .cursor { position: absolute; width: 58px; height: 68px; z-index: 50; }
+      .cursor svg { width: 100%; height: 100%; display: block; filter: drop-shadow(4px 8px 6px rgba(23, 22, 27, 0.22)); }
+      .ph { background: repeating-linear-gradient(45deg, #e4ddd1 0 9px, #efe9df 9px 18px); border: 2px dashed #bdb4a6; }
+      .bar { background: var(--card); border-radius: 30px; box-shadow: 0 28px 70px rgba(23, 22, 27, 0.13), 0 2px 0 rgba(23, 22, 27, 0.04); }
+      .chip { display: inline-flex; align-items: center; gap: 8px; background: var(--seal-tint); color: var(--seal); border-radius: 99px; padding: 6px 16px; font: 500 22px var(--sans); }
+      .chip svg { width: 18px; height: 18px; }
+      .send { width: 56px; height: 56px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+      .send svg { width: 20px; height: 20px; margin-left: 3px; }
+      .mark { display: block; }
+
+      /* ambient layer */
+      #amb-glow { position: absolute; width: 900px; height: 900px; left: 1300px; top: 620px; border-radius: 50%; background: radial-gradient(circle, rgba(244, 177, 131, 0.55), rgba(244, 177, 131, 0) 65%); }
+      #amb-glow2 { position: absolute; width: 760px; height: 760px; left: -260px; top: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 67, 42, 0.12), rgba(232, 67, 42, 0) 65%); }
+      #grain { position: absolute; inset: 0; z-index: 90; opacity: 0.11; mix-blend-mode: multiply; pointer-events: none; }
+
+      /* S1 + S2 */
+      .line { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 26px; font-size: 104px; font-weight: 500; letter-spacing: -0.02em; }
+      .line .serif-i { font-size: 118px; letter-spacing: 0; }
+      #s2-cap { position: relative; width: 0px; height: 112px; border-radius: 56px; background: var(--seal); display: flex; align-items: center; justify-content: center; overflow: visible; flex: none; }
+      #s2-q { font-family: var(--serif); font-style: italic; font-size: 92px; color: var(--paper); line-height: 1; display: block; margin-top: 6px; }
+      .drip { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: var(--seal); opacity: 0; }
+      .drip.ink { background: var(--ink); }
+
+      /* S3/S4 */
+      #s3-blob { position: absolute; width: 1500px; height: 1300px; left: 360px; top: -110px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, var(--seal) 0%, #ee7a4f 32%, var(--apricot) 52%, rgba(244, 177, 131, 0) 72%); filter: blur(40px); }
+      #s3-giant { position: absolute; left: 0; top: 50%; margin-top: -380px; height: 760px; line-height: 760px; white-space: nowrap; font-family: var(--serif); font-size: 640px; color: var(--paper-2); }
+      #s3-small { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 104px; }
+      #s3-small span { display: inline-block; }
+      #s4-row { position: absolute; left: 0; right: 0; top: 0; height: 1080px; display: flex; align-items: center; justify-content: center; }
+      #s4-mark { position: relative; z-index: 2; width: 168px; height: 168px; margin-right: 34px; flex: none; }
+      .s4-l { display: inline-block; font-size: 200px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+      #s4-sub { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-family: var(--serif); font-style: italic; font-size: 52px; color: var(--ash); }
+
+      /* S5 */
+      .rm { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; }
+      .rm svg { width: 330px; height: 330px; }
+
+      /* S6 */
+      #s6-glow-t { position: absolute; left: 160px; top: -520px; width: 1600px; height: 800px; border-radius: 50%; background: radial-gradient(closest-side, rgba(244, 177, 131, 0.6), rgba(244, 177, 131, 0)); }
+      #s6-glow-b { position: absolute; left: 360px; top: 860px; width: 1200px; height: 600px; border-radius: 50%; background: radial-gradient(closest-side, rgba(232, 67, 42, 0.18), rgba(232, 67, 42, 0)); }
+      #s6-bar { position: absolute; left: 500px; top: 474px; width: 920px; height: 132px; padding: 0 28px 22px; display: flex; flex-direction: column; justify-content: flex-end; }
+      #s6-ask { font-size: 32px; color: #a39d93; margin-bottom: 18px; padding-left: 6px; }
+      .bar-row { display: flex; align-items: center; justify-content: space-between; }
+      .bar-row .left { display: flex; align-items: center; gap: 18px; font: 400 28px var(--mono); color: var(--ash); }
+      .tile { position: absolute; width: 150px; height: 150px; border-radius: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 18px 40px rgba(23, 22, 27, 0.12); background-color: #efe9df; }
+      .tile .ico { width: 46px; height: 46px; border-radius: 14px; background: var(--card); display: flex; align-items: center; justify-content: center; font: 600 22px var(--sans); color: var(--ink); }
+      .tile .lab { font: 500 17px var(--mono); color: #5d584f; text-align: center; line-height: 1.2; padding: 0 10px; }
+
+      /* S7 */
+      #s7-bg { background: var(--paper-2); }
+      #s7-line { position: absolute; left: 0; right: 0; top: 486px; height: 110px; display: flex; justify-content: center; align-items: center; font-size: 96px; font-weight: 500; letter-spacing: -0.02em; white-space: pre; }
+      #s7-line .c { display: inline-block; opacity: 0; }
+      #s7-line .c.it { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--seal); font-size: 108px; letter-spacing: 0; }
+      #s7-caret { position: absolute; top: 486px; width: 5px; height: 104px; background: var(--ink); left: 0; }
+      #s7-btn { position: absolute; left: 1640px; top: 481px; width: 118px; height: 118px; border-radius: 50%; background: var(--seal); display: flex; align-items: center; justify-content: center; }
+      #s7-btn svg { width: 40px; height: 40px; margin-left: 6px; }
+      .chev { position: absolute; opacity: 0; left: 1640px; top: 481px; width: 118px; height: 118px; }
+      .chev svg { width: 100%; height: 100%; display: block; }
+
+      /* S8 */
+      #s8-card { position: absolute; left: 400px; top: 210px; width: 1120px; height: 660px; padding: 56px 64px; border-radius: 36px; background: var(--card); box-shadow: 0 40px 90px rgba(23, 22, 27, 0.14); }
+      .plan-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 30px; }
+      .plan-title { font-family: var(--serif); font-size: 76px; line-height: 1; }
+      .plan-tag { font: 500 28px var(--mono); color: var(--ash); display: flex; align-items: center; gap: 10px; }
+      .plan-tag i { width: 12px; height: 12px; border-radius: 50%; background: var(--seal); display: inline-block; }
+      .row { display: grid; grid-template-columns: 52px 1fr 64px 120px 90px; align-items: center; height: 112px; border-top: 2px solid var(--hair); font-size: 38px; font-weight: 500; }
+      .chk { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #c9c1b4; display: flex; align-items: center; justify-content: center; }
+      .chk b { width: 16px; height: 16px; border-radius: 50%; background: var(--seal); display: block; }
+      .av { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 600 20px var(--sans); color: #5d584f; border-width: 2px; }
+      .who { font-weight: 600; font-size: 34px; }
+      .day { font-family: var(--serif); font-style: italic; color: var(--seal); font-size: 44px; font-weight: 400; text-align: right; }
+      #s8-wipe { position: absolute; inset: 0; background: var(--seal); }
+      #s8-edge { position: absolute; top: 0; bottom: 0; width: 220px; left: 0; background: linear-gradient(90deg, rgba(23, 22, 27, 0), var(--ink) 70%, var(--seal)); }
+
+      /* S9 */
+      #s9-track { position: absolute; inset: 0; }
+      .s9-card { position: absolute; left: 510px; top: 320px; width: 900px; height: 440px; border-radius: 40px; background: var(--card); box-shadow: 0 36px 80px rgba(23, 22, 27, 0.13); }
+      .s9-card .lbl { position: absolute; left: 64px; top: 70px; font-family: var(--serif); font-size: 84px; line-height: 1; }
+      .s9-card .ln { position: absolute; left: 64px; height: 22px; border-radius: 11px; background: #ebe4d8; }
+      #s9-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 22px; font-size: 86px; font-weight: 500; letter-spacing: -0.02em; }
+      #s9-text .serif-i { font-size: 98px; letter-spacing: 0; }
+      #s9-cardbg { position: absolute; left: 510px; top: 320px; width: 900px; height: 440px; border-radius: 40px; background: var(--card); box-shadow: 0 36px 80px rgba(23, 22, 27, 0.13); }
+
+      /* S10 */
+      #s10-tr { position: absolute; left: 120px; top: 150px; width: 860px; height: 600px; padding: 50px 54px; border-radius: 36px; background: var(--card); box-shadow: 0 30px 70px rgba(23, 22, 27, 0.1); }
+      .tr-h { font: 500 22px var(--mono); color: var(--ash); margin-bottom: 26px; display: flex; gap: 14px; align-items: center; }
+      .tr-h i { width: 12px; height: 12px; border-radius: 50%; background: var(--seal); display: inline-block; }
+      .tl-row { position: relative; font: 400 27px var(--mono); color: #4a463f; height: 88px; display: flex; align-items: center; white-space: nowrap; }
+      .tl-row b { font-weight: 600; color: var(--ink); margin-right: 14px; }
+      .tl-row span.t { position: relative; z-index: 2; }
+      #s10-hl { position: absolute; left: -12px; top: 18px; height: 54px; width: 760px; background: rgba(232, 67, 42, 0.3); border-radius: 10px 22px 12px 18px; z-index: 1; }
+      #s10-friday { position: relative; display: inline-block; }
+      #s10-circ { position: absolute; left: -22px; top: -16px; width: 160px; height: 72px; overflow: visible; }
+      #s10-plan { position: absolute; left: 1030px; top: 150px; width: 770px; height: 600px; padding: 48px 50px; border-radius: 36px; background: var(--card); box-shadow: 0 30px 70px rgba(23, 22, 27, 0.1); overflow: hidden; }
+      #s10-plan .plan-title { font-size: 58px; }
+      #s10-plan .row { grid-template-columns: 46px 1fr 96px 70px; height: 92px; font-size: 29px; }
+      #s10-plan .who { font-size: 27px; }
+      #s10-plan .day { font-size: 34px; }
+      #s10-new { height: 0px; overflow: hidden; }
+      #s10-new .row { border-top-color: rgba(232, 67, 42, 0.45); }
+      #s10-newdot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--seal); margin-left: 12px; vertical-align: middle; }
+      #s10-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 180px; background: linear-gradient(90deg, rgba(232, 67, 42, 0), rgba(232, 67, 42, 0.35) 60%, rgba(23, 22, 27, 0.55)); }
+      #s10-bar { position: absolute; left: 470px; top: 830px; width: 980px; height: 112px; padding: 0 28px 0 36px; display: flex; align-items: center; justify-content: space-between; }
+      #s10-type { position: relative; font: 500 32px var(--sans); white-space: pre; display: flex; align-items: center; }
+      #s10-type .c { opacity: 0; display: inline-block; }
+      #s10-type .ph0 { position: absolute; color: #a39d93; }
+      #s10-caret { display: inline-block; width: 3px; height: 38px; background: var(--ink); margin-left: 2px; }
+
+      /* S11 */
+      #s11-line { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 28px; font-size: 112px; font-weight: 500; letter-spacing: -0.025em; padding-top: 40px; }
+      #s11-line .serif-i { font-size: 128px; letter-spacing: 0; }
+      #s11-ball { position: absolute; left: 0; top: 0; width: 84px; height: 84px; }
+
+      /* S12 */
+      #s12-bg { background: var(--ink); }
+      #s12-row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      #s12-mark { width: 150px; height: 150px; margin-right: 34px; flex: none; }
+      #s12-word { display: flex; font-size: 176px; font-weight: 600; color: var(--paper); line-height: 1; letter-spacing: -0.03em; }
+      #s12-url { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font: 400 34px var(--mono); color: rgba(245, 241, 234, 0.62); letter-spacing: 0.04em; }
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="mark" viewBox="0 0 100 100">
+          <path d="M50 3 C50 3 87 42 87 63 A37 37 0 0 1 13 63 C13 42 50 3 50 3 Z" />
+          <path d="M30 64 C40 71 55 66 70 50" style="fill: none; stroke: var(--cut, #f5f1ea); stroke-width: 7.5; stroke-linecap: round" />
+        </symbol>
+        <symbol id="cursor" viewBox="0 0 40 46">
+          <path d="M6 3 L6 35 L14 27.5 L19.5 40 L26 37.2 L20.6 25 L31.5 25 Z" fill="#17161b" stroke="#f5f1ea" stroke-width="2.6" stroke-linejoin="round" />
+        </symbol>
+        <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.35" result="m" />
+          <feComposite in="SourceGraphic" in2="m" operator="in" />
+        </filter>
+        <filter id="dry" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035 0.6" numOctaves="2" seed="9" result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="9" result="d" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02 0.9" numOctaves="1" seed="2" result="n2" />
+          <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3 2.1" result="m" />
+          <feComposite in="d" in2="m" operator="in" />
+        </filter>
+        <pattern id="dots" width="9" height="9" patternUnits="userSpaceOnUse">
+          <circle cx="4.5" cy="4.5" r="2.6" fill="#f5f1ea" />
+        </pattern>
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div id="root" data-composition-id="main" data-start="0" data-duration="35" data-width="1920" data-height="1080">
+      <!-- ambient paper layer -->
+      <section id="amb" class="clip" data-start="0" data-duration="31.6" data-track-index="0">
+        <div class="fill" style="background: var(--paper)"></div>
+        <div id="amb-glow"></div>
+        <div id="amb-glow2"></div>
+      </section>
+
+      <!-- 01 Great meeting -->
+      <section id="s1" class="clip" data-start="0" data-duration="2.6" data-track-index="1">
+        <div class="line" id="s1-line"><span class="w" id="s1-a">Great</span><span class="w serif-i" id="s1-b">meeting.</span></div>
+      </section>
+
+      <!-- 02 Who does what -->
+      <section id="s2" class="clip" data-start="2.6" data-duration="2.8" data-track-index="1">
+        <div class="line" id="s2-line">
+          <span class="w" id="s2-a">So…</span><span class="w" id="s2-b">who</span><span class="w" id="s2-c">does</span>
+          <span id="s2-cap"><span id="s2-q">?</span>
+            <i class="drip" id="d1"></i><i class="drip ink" id="d2"></i><i class="drip" id="d3"></i><i class="drip ink" id="d4"></i><i class="drip" id="d5"></i><i class="drip" id="d6"></i>
+          </span>
+        </div>
+        <div class="cursor" id="s2-cur"><svg><use href="#cursor" /></svg></div>
+      </section>
+
+      <!-- 03+04 Introducing → Sumi -->
+      <section id="s3" class="clip" data-start="5.4" data-duration="4.6" data-track-index="1">
+        <div id="s3-blob"></div>
+        <div id="s3-giant">Introducing</div>
+        <div id="s3-small"></div>
+        <div id="s4-row">
+          <svg id="s4-mark" class="mark" style="color: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
+          <span class="s4-l">s</span><span class="s4-l">u</span><span class="s4-l">m</span><span class="s4-l">i</span>
+        </div>
+        <div id="s4-sub">meeting notes that act.</div>
+      </section>
+
+      <!-- 05 Mark remix -->
+      <section id="s5" class="clip" data-start="10" data-duration="1.4" data-track-index="1">
+        <div class="rm" id="rm1" style="background: var(--seal)"><svg style="--cut: var(--seal); filter: url(#rough)"><use href="#mark" fill="#f5f1ea" /></svg></div>
+        <div class="rm" id="rm2" style="background: var(--paper)"><svg style="--cut: var(--ink)"><use href="#mark" fill="none" stroke="#17161b" stroke-width="1.6" /></svg></div>
+        <div class="rm" id="rm3" style="background: var(--apricot)"><svg style="--cut: var(--apricot); filter: drop-shadow(14px 18px 0 rgba(23, 22, 27, 0.22))"><use href="#mark" fill="#17161b" /></svg></div>
+        <div class="rm" id="rm4" style="background: var(--ink)"><svg style="--cut: var(--ink)"><use href="#mark" fill="url(#dots)" /></svg></div>
+        <div class="rm" id="rm5" style="background: #efe7da"><svg style="--cut: #efe7da; filter: url(#dry)"><use href="#mark" fill="#17161b" /></svg></div>
+        <div class="rm" id="rm6" style="background: radial-gradient(circle at 35% 30%, #f6c6a6, #f5f1ea 60%)"><svg style="--cut: rgba(255, 255, 255, 0.95); filter: drop-shadow(0 26px 40px rgba(23, 22, 27, 0.18))"><use href="#mark" fill="rgba(255,253,249,0.55)" stroke="#ffffff" stroke-width="1.2" /></svg></div>
+      </section>
+
+      <!-- 06 Sources -->
+      <section id="s6" class="clip" data-start="11.4" data-duration="4.0" data-track-index="1">
+        <div id="s6-cam" class="fill">
+          <div id="s6-glow-t"></div>
+          <div id="s6-glow-b"></div>
+          <div id="s6-bar" class="bar">
+            <div id="s6-ask">Ask Sumi…</div>
+            <div class="bar-row">
+              <div class="left"><span>+</span><span>⇄</span><span class="chip"><svg style="color: var(--seal); --cut: var(--seal-tint)"><use href="#mark" fill="currentColor" /></svg>Sumi ✕</span></div>
+              <div class="send"><svg viewBox="0 0 20 20"><path d="M3 2 L18 10 L3 18 Z" fill="#f5f1ea" /></svg></div>
+            </div>
+          </div>
+          <div class="tile ph" id="t1" data-layout-ignore style="left: 245px; top: 160px"><div class="ico">◖</div><div class="lab">Call · 48 min</div></div>
+          <div class="tile ph" id="t2" data-layout-ignore style="left: 1540px; top: 190px"><div class="ico">#</div><div class="lab">Slack thread</div></div>
+          <div class="tile ph" id="t3" data-layout-ignore style="left: 310px; top: 760px"><div class="ico">≡</div><div class="lab">Doc</div></div>
+          <div class="tile ph" id="t4" data-layout-ignore style="left: 1470px; top: 770px"><div class="ico">∿</div><div class="lab">Voice memo</div></div>
+          <div class="cursor" id="s6-cur" style="left: 0; top: 0"><svg><use href="#cursor" /></svg></div>
+        </div>
+        <div id="s6-white" class="fill" style="background: var(--paper-2); opacity: 0"></div>
+      </section>
+
+      <!-- 07 The ask -->
+      <section id="s7" class="clip" data-start="15.4" data-duration="3.6" data-track-index="1">
+        <div id="s7-bg" class="fill"></div>
+        <div id="s7-cam" class="fill">
+          <div id="s7-line"></div>
+          <div id="s7-caret"></div>
+          <div id="s7-btn"><svg viewBox="0 0 20 20"><path d="M4 2 L18 10 L4 18 Z" fill="#f5f1ea" /></svg></div>
+        </div>
+        <div class="chev" id="ch1"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#17161b" /></svg></div>
+        <div class="chev" id="ch2"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#f4b183" /></svg></div>
+        <div class="chev" id="ch3"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#e8432a" /></svg></div>
+        <div class="cursor" id="s7-cur" style="left: 0; top: 0"><svg><use href="#cursor" /></svg></div>
+      </section>
+
+      <!-- 08 The plan -->
+      <section id="s8" class="clip" data-start="19" data-duration="3.4" data-track-index="1">
+        <div id="s8-card">
+          <div class="plan-head"><div class="plan-title">Q3 Launch — the plan</div><div class="plan-tag"><i></i>from 4 sources</div></div>
+          <div class="row s8r"><div class="chk"><b></b></div><div>Final pricing page</div><div class="av ph">A</div><div class="who">Ava</div><div class="day">Fri</div></div>
+          <div class="row s8r"><div class="chk"><b></b></div><div>Beta invite email</div><div class="av ph">L</div><div class="who">Leo</div><div class="day">Tue</div></div>
+          <div class="row s8r"><div class="chk"><b></b></div><div>Fix onboarding step 2</div><div class="av ph">M</div><div class="who">Mia</div><div class="day">Thu</div></div>
+        </div>
+        <div id="s8-wipe"></div>
+        <div id="s8-edge"></div>
+      </section>
+
+      <!-- 09 Missed something -->
+      <section id="s9" class="clip" data-start="22.4" data-duration="2.4" data-track-index="1">
+        <div id="s9-track">
+          <div id="s9-first" class="fill">
+            <div id="s9-cardbg"></div>
+            <div id="s9-text"><span class="w" id="s9-a">Missed</span><span class="w serif-i seal" id="s9-b">something?</span></div>
+          </div>
+          <div class="s9-card" id="s9-c2"><div class="lbl">Weekly sync</div><div class="ln" style="top: 210px; width: 560px"></div><div class="ln" style="top: 262px; width: 430px"></div><div class="ln" style="top: 314px; width: 500px"></div></div>
+          <div class="s9-card" id="s9-c3"><div class="lbl">Client call · Acme</div><div class="ln" style="top: 210px; width: 600px"></div><div class="ln" style="top: 262px; width: 380px"></div><div class="ln" style="top: 314px; width: 520px"></div></div>
+          <div class="s9-card" id="s9-c4"><div class="lbl">Q3 Launch</div><div class="ln" style="top: 210px; width: 620px; background: var(--seal-tint)"></div><div class="ln" style="top: 262px; width: 540px"></div><div class="ln" style="top: 314px; width: 590px"></div></div>
+        </div>
+      </section>
+
+      <!-- 10 Mark it -->
+      <section id="s10" class="clip" data-start="24.8" data-duration="3.8" data-track-index="1">
+        <div id="s10-iris" class="fill">
+          <div class="fill" style="background: var(--paper)"></div>
+          <div id="s10-tr">
+            <div class="tr-h"><i></i>Call · 48 min — transcript</div>
+            <div class="tl-row"><span class="t"><b>Leo</b>we should email the beta list…</span></div>
+            <div class="tl-row"><span class="t"><b>Mia</b>step two is still confusing.</span></div>
+            <div class="tl-row"><span class="t"><b>Ava</b>pricing by <span id="s10-friday">Friday?<svg id="s10-circ" viewBox="0 0 160 72"><path id="s10-circ-p" d="M22 40 C18 14 120 6 146 26 C164 42 120 66 64 64 C24 62 10 46 30 22" fill="none" stroke="#e8432a" stroke-width="4" stroke-linecap="round" /></svg></span></span></div>
+            <div class="tl-row"><div id="s10-hl"></div><span class="t"><b>Leo</b>and invite the Acme team too.</span></div>
+            <div class="tl-row"><span class="t"><b>Mia</b>let's keep it simple.</span></div>
+          </div>
+          <div id="s10-plan">
+            <div class="plan-head" style="margin-bottom: 18px"><div class="plan-title">Q3 Launch</div></div>
+            <div class="row"><div class="chk"><b></b></div><div>Final pricing page</div><div class="who">Ava</div><div class="day">Fri</div></div>
+            <div class="row"><div class="chk"><b></b></div><div>Beta invite email</div><div class="who">Leo</div><div class="day">Tue</div></div>
+            <div class="row"><div class="chk"><b></b></div><div>Fix onboarding step 2</div><div class="who">Mia</div><div class="day">Thu</div></div>
+            <div id="s10-new"><div class="row"><div class="chk"><b></b></div><div>Invite Acme team<span id="s10-newdot"></span></div><div class="who">Leo</div><div class="day">Wed</div></div></div>
+            <div id="s10-scan"></div>
+          </div>
+          <div id="s10-bar" class="bar">
+            <div id="s10-type"><span class="ph0" id="s10-ph">Ask Sumi…</span><span id="s10-chars"></span><span id="s10-caret"></span></div>
+            <div style="display: flex; align-items: center; gap: 18px"><span class="chip"><svg style="color: var(--seal); --cut: var(--seal-tint)"><use href="#mark" fill="currentColor" /></svg>Sumi ✕</span><div class="send" id="s10-send"><svg viewBox="0 0 20 20"><path d="M3 2 L18 10 L3 18 Z" fill="#f5f1ea" /></svg></div></div>
+          </div>
+          <div class="cursor" id="s10-cur" style="left: 0; top: 0"><svg><use href="#cursor" /></svg></div>
+        </div>
+      </section>
+
+      <!-- 11 Less recap. More done. -->
+      <section id="s11" class="clip" data-start="28.6" data-duration="3.0" data-track-index="1">
+        <div id="s11-line"><span class="w" id="s11-w1">Less</span><span class="w" id="s11-w2">recap.</span><span class="w" id="s11-w3" style="margin-left: 26px">More</span><span class="w serif-i seal" id="s11-w4">done.</span></div>
+        <svg id="s11-ball" style="color: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
+      </section>
+
+      <!-- 12 Endcard -->
+      <section id="s12" class="clip" data-start="31.6" data-duration="3.4" data-track-index="1">
+        <div id="s12-bg" class="fill"></div>
+        <div id="s12-row">
+          <svg id="s12-mark" style="color: var(--paper); --cut: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
+          <div id="s12-word"><span class="w">s</span><span class="w">u</span><span class="w">m</span><span class="w">i</span></div>
+        </div>
+        <div id="s12-url">sumi.app</div>
+      </section>
+
+      <!-- film grain over everything -->
+      <svg id="grain" class="clip" data-start="0" data-duration="35" data-track-index="2" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
+
+      <!-- TEMP SFX (synthesized placeholders, tools/make_sfx.py) — music to be added later -->
+      <audio id="sfx-rhodes" src="assets/sfx/rhodes.wav" data-start="0" data-duration="1.2" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-tick1" src="assets/sfx/tick.wav" data-start="0.15" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick2" src="assets/sfx/tick.wav" data-start="0.5" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-blop" src="assets/sfx/blop.wav" data-start="3.3" data-duration="0.22" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-click1" src="assets/sfx/mouse_click.wav" data-start="4.72" data-duration="0.08" data-track-index="11"></audio>
+      <audio id="sfx-splat" src="assets/sfx/splat.wav" data-start="4.76" data-duration="0.35" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-wh1" src="assets/sfx/whoosh_short.wav" data-start="5.08" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-drop" src="assets/sfx/whoosh_low.wav" data-start="5.35" data-duration="0.7" data-track-index="12"></audio>
+      <audio id="sfx-thup" src="assets/sfx/thup.wav" data-start="6.3" data-duration="0.25" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-plop" src="assets/sfx/plop.wav" data-start="7.45" data-duration="0.9" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-snap1" src="assets/sfx/snap.wav" data-start="8.5" data-duration="0.05" data-track-index="11"></audio>
+      <audio id="sfx-snap2" src="assets/sfx/snap.wav" data-start="8.56" data-duration="0.05" data-track-index="12"></audio>
+      <audio id="sfx-snap3" src="assets/sfx/snap.wav" data-start="8.62" data-duration="0.05" data-track-index="11"></audio>
+      <audio id="sfx-snap4" src="assets/sfx/snap.wav" data-start="8.68" data-duration="0.05" data-track-index="12"></audio>
+      <audio id="sfx-tok1" src="assets/sfx/tok.wav" data-start="10.0" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok2" src="assets/sfx/tok.wav" data-start="10.233" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-tok3" src="assets/sfx/tok.wav" data-start="10.466" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok4" src="assets/sfx/tok.wav" data-start="10.7" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-tok5" src="assets/sfx/tok.wav" data-start="10.933" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok6" src="assets/sfx/tok.wav" data-start="11.166" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-whump" src="assets/sfx/whump.wav" data-start="11.4" data-duration="0.5" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-rustle" src="assets/sfx/rustle.wav" data-start="12.45" data-duration="0.6" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-pop1" src="assets/sfx/pop_1.wav" data-start="13.0" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop2" src="assets/sfx/pop_2.wav" data-start="13.35" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop3" src="assets/sfx/pop_3.wav" data-start="13.6" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop4" src="assets/sfx/pop_4.wav" data-start="13.85" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-zoom" src="assets/sfx/zoom_whoosh.wav" data-start="14.95" data-duration="0.55" data-track-index="12"></audio>
+      <audio id="sfx-type1" src="assets/sfx/typing_23.wav" data-start="15.9" data-duration="1.74" data-track-index="11"></audio>
+      <audio id="sfx-click2" src="assets/sfx/mouse_click.wav" data-start="18.22" data-duration="0.08" data-track-index="12"></audio>
+      <audio id="sfx-swell" src="assets/sfx/swell.wav" data-start="18.38" data-duration="0.6" data-track-index="11"></audio>
+      <audio id="sfx-scan1" src="assets/sfx/scan.wav" data-start="19.0" data-duration="0.7" data-track-index="12"></audio>
+      <audio id="sfx-tick3" src="assets/sfx/tick.wav" data-start="20.2" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick4" src="assets/sfx/tick.wav" data-start="20.3" data-duration="0.06" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-tick5" src="assets/sfx/tick.wav" data-start="20.4" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick6" src="assets/sfx/tick.wav" data-start="22.45" data-duration="0.06" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-fwip" src="assets/sfx/fwip.wav" data-start="23.4" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-swoosh" src="assets/sfx/swoosh_soft.wav" data-start="23.9" data-duration="0.45" data-track-index="12"></audio>
+      <audio id="sfx-thock" src="assets/sfx/thock.wav" data-start="24.45" data-duration="0.2" data-track-index="11"></audio>
+      <audio id="sfx-zoom2" src="assets/sfx/zoom_whoosh.wav" data-start="24.5" data-duration="0.55" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-mark1" src="assets/sfx/marker.wav" data-start="25.0" data-duration="0.5" data-track-index="11"></audio>
+      <audio id="sfx-mark2" src="assets/sfx/marker.wav" data-start="25.7" data-duration="0.5" data-track-index="12"></audio>
+      <audio id="sfx-type2" src="assets/sfx/typing_20.wav" data-start="26.3" data-duration="1.35" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-click3" src="assets/sfx/mouse_click.wav" data-start="27.65" data-duration="0.08" data-track-index="12"></audio>
+      <audio id="sfx-scan2" src="assets/sfx/scan.wav" data-start="27.75" data-duration="0.7" data-track-index="11"></audio>
+      <audio id="sfx-pop5" src="assets/sfx/pop_4.wav" data-start="28.15" data-duration="0.18" data-track-index="12"></audio>
+      <audio id="sfx-stamp1" src="assets/sfx/stamp.wav" data-start="29.0" data-duration="0.3" data-track-index="11"></audio>
+      <audio id="sfx-stamp2" src="assets/sfx/stamp.wav" data-start="29.45" data-duration="0.3" data-track-index="12"></audio>
+      <audio id="sfx-stamp3" src="assets/sfx/stamp.wav" data-start="29.9" data-duration="0.3" data-track-index="11"></audio>
+      <audio id="sfx-stamp4" src="assets/sfx/stamp.wav" data-start="30.35" data-duration="0.3" data-track-index="12"></audio>
+      <audio id="sfx-deep" src="assets/sfx/whoosh_deep.wav" data-start="31.05" data-duration="0.8" data-track-index="11"></audio>
+      <audio id="sfx-ting" src="assets/sfx/ting.wav" data-start="31.7" data-duration="2.6" data-track-index="12" data-volume="0.8"></audio>
     </div>
+
     <script>
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0);
-      window.__timelines["main"] = tl;
-      tl.seek(0);
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+        // helpers -------------------------------------------------------------
+        const blurIn = (el, at, o = {}) =>
+          tl.fromTo(el, { opacity: 0, filter: `blur(${o.blur ?? 22}px)`, scale: o.scale ?? 1.08, y: o.y ?? 0 },
+            { opacity: 1, filter: "blur(0px)", scale: 1, y: 0, duration: o.dur ?? 0.6, ease: "expo.out" }, at);
+        // layout centre of an element relative to #root (transform-independent)
+        const centre = (el) => {
+          let x = 0, y = 0, n = el;
+          while (n && n.id !== "root") { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+          return { x: x + el.offsetWidth / 2, y: y + el.offsetHeight / 2 };
+        };
+        const cursorTo = (cur, from, to, at, dur = 0.5) =>
+          tl.fromTo(cur, { x: from.x, y: from.y, opacity: 0, rotation: 14 }, { x: to.x, y: to.y, opacity: 1, rotation: 0, duration: dur, ease: "power3.out" }, at);
+        const press = (cur, at) => tl.to(cur, { scale: 0.82, duration: 0.07, ease: "power2.in", yoyo: true, repeat: 1, transformOrigin: "20% 10%" }, at);
+
+        // ambient ---------------------------------------------------------------
+        tl.fromTo("#amb-glow", { x: 0, y: 0, scale: 1 }, { x: -260, y: -120, scale: 1.25, duration: 31.6, ease: "sine.inOut" }, 0);
+        tl.fromTo("#amb-glow2", { x: 0, y: 0 }, { x: 140, y: 90, duration: 31.6, ease: "sine.inOut" }, 0);
+
+        // 01 GREAT MEETING  (0 – 2.6) -----------------------------------------
+        blurIn("#s1-a", 0.12);
+        blurIn("#s1-b", 0.45);
+        tl.to("#s1-line", { scale: 0.9, filter: "blur(14px)", opacity: 0, duration: 0.32, ease: "power2.in" }, 2.28);
+
+        // 02 WHO DOES WHAT  (2.6 – 5.4) ---------------------------------------
+        blurIn("#s2-a", 2.62, { dur: 0.55 });
+        blurIn("#s2-b", 2.76, { dur: 0.55 });
+        blurIn("#s2-c", 2.9, { dur: 0.55 });
+        tl.fromTo("#s2-cap", { width: 0, height: 0 }, { width: 168, height: 112, duration: 0.55, ease: "back.out(1.6)" }, 3.3);
+        tl.fromTo("#s2-q", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, 3.48);
+        tl.to("#s2-q", { scale: 1.12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.0);
+        // cursor + click → burst
+        const capC = { x: 1960 / 2 + 300, y: 540 }; // provisional; refined below
+        {
+          // compute capsule's final centre: lay out once at full size
+          const cap = $("#s2-cap");
+          cap.style.width = "168px"; cap.style.height = "112px";
+          const c = centre(cap);
+          cap.style.width = ""; cap.style.height = "";
+          capC.x = c.x; capC.y = c.y;
+        }
+        const s2cur = $("#s2-cur");
+        cursorTo(s2cur, { x: 1820, y: 1100 }, { x: capC.x - 6, y: capC.y + 6 }, 4.2, 0.5);
+        press(s2cur, 4.68);
+        tl.to("#s2-cap", { scale: 1.18, duration: 0.08, ease: "power2.out" }, 4.74);
+        tl.to("#s2-cap", { backgroundColor: "rgba(232,67,42,0)", duration: 0.1 }, 4.82);
+        tl.to("#s2-q", { scale: 0, opacity: 0, duration: 0.12 }, 4.78);
+        const vec = [[-170, -120], [150, -150], [210, 40], [-210, 70], [40, 170], [-40, -190]];
+        vec.forEach(([dx, dy], i) => {
+          tl.fromTo(`#d${i + 1}`, { x: 0, y: 0, scale: 1.4, opacity: 1 },
+            { x: dx, y: dy, scale: 0.25 + (i % 3) * 0.12, opacity: 0, duration: 0.55, ease: "power3.out" }, 4.8);
+        });
+        tl.to(s2cur, { x: "+=120", y: "+=160", opacity: 0, duration: 0.35, ease: "power2.in" }, 4.95);
+        tl.to("#s2-line", { x: -420, filter: "blur(24px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 5.1);
+
+        // 03 INTRODUCING  (5.4 – 7.2) -----------------------------------------
+        tl.fromTo("#s3-blob", { scale: 0.7, opacity: 0, x: 300 }, { scale: 1, opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 5.4);
+        tl.fromTo("#s3-giant", { x: 1500, filter: "blur(30px)" }, { x: -1700, filter: "blur(8px)", duration: 0.95, ease: "power2.inOut" }, 5.4);
+        tl.to("#s3-giant", { opacity: 0, duration: 0.12 }, 6.25);
+        tl.to("#s3-blob", { scale: 0.35, x: 820, y: 520, opacity: 0, duration: 0.6, ease: "expo.out" }, 6.28);
+        const small = $("#s3-small");
+        "Introducing".split("").forEach((ch) => { const s = document.createElement("span"); s.textContent = ch; small.appendChild(s); });
+        const smallL = Array.from(small.children);
+        tl.fromTo(small, { scale: 3.2, opacity: 0, filter: "blur(22px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 6.3);
+        smallL.forEach((l, i) => {
+          const r = (i % 2 ? 1 : -1) * (5 + (i * 7) % 6);
+          tl.fromTo(l, { rotation: 0, y: 0 }, { rotation: r, y: (i % 3 - 1) * 7, duration: 0.12, ease: "sine.inOut", yoyo: true, repeat: 3 }, 6.86 + i * 0.012);
+        });
+
+        // 04 SUMI  (7.2 – 10.0) ---------------------------------------------------
+        // letters of "Introducing" blow away
+        smallL.forEach((l, i) => {
+          const a = (i / smallL.length) * Math.PI * 2 + 0.4;
+          tl.to(l, { x: Math.cos(a) * 520, y: Math.sin(a) * 300 - 120, rotation: (i % 2 ? 1 : -1) * 70, opacity: 0, filter: "blur(10px)", duration: 0.55, ease: "power2.in" }, 7.2 + i * 0.015);
+        });
+        const mark4 = $("#s4-mark");
+        const L = $$(".s4-l");
+        const mC = centre(mark4);
+        const lC = L.map(centre);
+        // mark drops into the centre, spins, then glides into the wordmark slot
+        tl.fromTo(mark4, { x: 960 - mC.x, y: 540 - mC.y - 520, scale: 0.4, opacity: 0 },
+          { y: 540 - mC.y, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.8)" }, 7.3);
+        tl.to(mark4, { rotationY: 360, duration: 0.9, ease: "power2.inOut", transformPerspective: 900 }, 7.7);
+        // orbit (seek-safe: positions are a pure function of progress)
+        const R = 380, rY = 130, th0 = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
+        const orbit = { p: 0 };
+        const place = (p) => L.forEach((l, i) => {
+          const th = th0[i] + p * Math.PI * 2 * 0.9 + 0.5;
+          const z = Math.sin(th);
+          gsap.set(l, { x: 960 + Math.cos(th) * R - lC[i].x, y: 540 + z * rY - lC[i].y, scale: 0.62 + 0.28 * (z + 1) / 2, filter: `blur(${(1 - (z + 1) / 2) * 5}px)`, zIndex: z > 0 ? 3 : 1, position: "relative" });
+        });
+        tl.fromTo(L, { opacity: 0 }, { opacity: 1, duration: 0.35, stagger: 0.05 }, 7.25);
+        tl.fromTo(orbit, { p: 0 }, { p: 1, duration: 1.3, ease: "power1.inOut", onUpdate: () => place(orbit.p) }, 7.2);
+        // lock into the wordmark
+        tl.to(mark4, { x: 0, y: 0, duration: 0.6, ease: "expo.inOut" }, 8.45);
+        L.forEach((l, i) => tl.to(l, { x: 0, y: 0, scale: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.inOut" }, 8.45 + i * 0.06));
+        blurIn("#s4-sub", 8.75, { blur: 12, y: 14, scale: 1, dur: 0.5 });
+        // tuck the wordmark behind the mark
+        L.forEach((l, i) => tl.to(l, { x: mC.x - lC[i].x, opacity: 0, filter: "blur(6px)", duration: 0.3, ease: "power3.in" }, 9.66 + (3 - i) * 0.03));
+        tl.to("#s4-sub", { opacity: 0, y: 10, duration: 0.2 }, 9.8);
+        tl.to(mark4, { x: 960 - mC.x, scale: 1.25, duration: 0.34, ease: "power3.in" }, 9.66);
+
+        // 05 MARK REMIX  (10.0 – 11.4) ---------------------------------------------
+        const step = 0.2333;
+        $$(".rm").forEach((el, i) => {
+          const at = 10 + i * step;
+          tl.set(el, { opacity: 1 }, at);
+          if (i < 5) tl.set(el, { opacity: 0 }, at + step);
+          tl.fromTo(el.querySelector("svg"), { scale: 0.9 }, { scale: 1, duration: 0.2, ease: "back.out(3)" }, at);
+        });
+        tl.to("#rm6 svg", { scale: 0.07, duration: 0.28, ease: "power3.in" }, 11.17);
+
+        // 06 SOURCES  (11.4 – 15.4) ------------------------------------------------
+        tl.fromTo("#s6-bar", { scale: 0.06, opacity: 0.6, borderRadius: 400 }, { scale: 1, opacity: 1, borderRadius: 30, duration: 0.65, ease: "expo.out" }, 11.4);
+        tl.fromTo(["#s6-glow-t", "#s6-glow-b"], { opacity: 0 }, { opacity: 1, duration: 0.8 }, 11.4);
+        const tiles = ["#t4", "#t1", "#t3", "#t2"].map((s) => $(s));
+        const rot = { t1: -6, t2: 5, t3: 4, t4: -4 };
+        tiles.forEach((t, i) => {
+          tl.fromTo(t, { opacity: 0, scale: 0.6, rotation: 0, y: 30 }, { opacity: 1, scale: 1, rotation: rot[t.id], y: 0, duration: 0.6, ease: "back.out(1.6)" }, 11.65 + i * 0.08);
+        });
+        // ambient float for tiles not yet grabbed
+        tiles.slice(1).forEach((t, i) => tl.to(t, { y: i % 2 ? 10 : -10, duration: 0.32, ease: "sine.inOut", yoyo: true, repeat: 1 }, 12.3));
+        // bar grows to host the docked sources
+        tl.to("#s6-bar", { height: 244, y: -56, duration: 0.45, ease: "expo.out" }, 12.4);
+        const slot = (i) => ({ x: 500 + 28 + 32 + i * 80, y: 418 + 26 + 32 });
+        const s6cur = $("#s6-cur");
+        const t4c = centre($("#t4"));
+        cursorTo(s6cur, { x: 1900, y: 1120 }, { x: t4c.x - 4, y: t4c.y - 6 }, 11.95, 0.45);
+        press(s6cur, 12.42);
+        tiles.forEach((t, i) => {
+          const c = centre(t), s = slot(i);
+          const at = i === 0 ? 12.5 : 12.75 + i * 0.25;
+          tl.to(t, { x: s.x - c.x, y: s.y - c.y, scale: 64 / 150, rotation: 0, duration: 0.55, ease: "power3.inOut" }, at);
+          tl.fromTo(t, { rotationX: 28, transformPerspective: 600 }, { rotationX: 0, duration: 0.4, ease: "back.out(2)" }, at + 0.4);
+        });
+        tl.to(s6cur, { x: slot(0).x + 6, y: slot(0).y + 10, duration: 0.55, ease: "power3.inOut" }, 12.5);
+        tl.to(s6cur, { x: 1500, y: 1150, opacity: 0, duration: 0.6, ease: "power2.in" }, 13.2);
+        tl.to("#s6-ask", { opacity: 0.0, duration: 0.2 }, 14.6);
+        // zoom into the text field
+        tl.to("#s6-cam", { scale: 3.4, filter: "blur(12px)", transformOrigin: "760px 560px", duration: 0.4, ease: "power3.in" }, 15.0);
+        tl.to("#s6-white", { opacity: 1, duration: 0.22, ease: "power1.in" }, 15.18);
+
+        // 07 THE ASK  (15.4 – 19.0) -------------------------------------------------
+        const text7 = "Turn it into one plan.";
+        const line7 = $("#s7-line");
+        const chars7 = text7.split("").map((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "c" + (i >= 17 ? " it" : "");
+          s.textContent = ch;
+          line7.appendChild(s);
+          return s;
+        });
+        const caret = $("#s7-caret");
+        const cx = (i) => (i < 0 ? line7.offsetLeft + chars7[0].offsetLeft - 4 : line7.offsetLeft + chars7[i].offsetLeft + chars7[i].offsetWidth + 4);
+        tl.fromTo("#s7-cam", { scale: 1.12, filter: "blur(10px)" }, { scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 15.4);
+        tl.set(caret, { x: cx(-1) }, 15.4);
+        tl.fromTo(caret, { opacity: 1 }, { opacity: 0, duration: 0.01, yoyo: true, repeat: 3, repeatDelay: 0.24 }, 15.5);
+        tl.set(caret, { opacity: 1 }, 15.88);
+        const rate = 1.6 / chars7.length;
+        chars7.forEach((c, i) => {
+          const at = 15.9 + i * rate;
+          tl.set(c, { opacity: 1 }, at);
+          tl.set(caret, { x: cx(i) }, at);
+        });
+        tl.fromTo("#s7-cam", { x: 30 }, { x: -30, duration: 2.5, ease: "none", immediateRender: false }, 15.9);
+        tl.fromTo(caret, { opacity: 1 }, { opacity: 0, duration: 0.01, yoyo: true, repeat: 1, repeatDelay: 0.26 }, 17.75);
+        tl.fromTo("#s7-btn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.38, ease: "back.out(2)" }, 17.8);
+        const s7cur = $("#s7-cur");
+        cursorTo(s7cur, { x: 1880, y: 1100 }, { x: 1700, y: 545 }, 17.85, 0.38);
+        press(s7cur, 18.18);
+        tl.to("#s7-btn", { scale: 0.86, duration: 0.07, yoyo: true, repeat: 1 }, 18.2);
+        tl.to(s7cur, { opacity: 0, duration: 0.15 }, 18.35);
+        // chevron burst: three arrows bloom out of the button and swallow the frame
+        ["#ch1", "#ch2", "#ch3"].forEach((c, i) => {
+          tl.fromTo(c, { x: 0, scale: 0.4, opacity: 1 }, { x: -1250 + i * 140, scale: 9 + i * 10, duration: 0.6, ease: "power3.in", immediateRender: false }, 18.36 + i * 0.08);
+        });
+        tl.to("#s7-cam", { x: -700, filter: "blur(22px)", opacity: 0, duration: 0.45, ease: "power3.in" }, 18.45);
+
+        // 08 THE PLAN  (19.0 – 22.4) — held frame -----------------------------------
+        tl.fromTo("#s8-wipe", { clipPath: "inset(0% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 100%)", duration: 0.75, ease: "power2.inOut" }, 19.0);
+        tl.fromTo("#s8-edge", { x: -220 }, { x: 1920, duration: 0.75, ease: "power2.inOut" }, 19.0);
+        tl.fromTo("#s8-card", { scale: 0.94, y: 30 }, { scale: 1, y: 0, duration: 0.9, ease: "expo.out" }, 19.1);
+        tl.fromTo("#s8-card .plan-head", { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 19.25);
+        tl.fromTo(".s8r", { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", stagger: 0.15 }, 19.4);
+        tl.fromTo(".s8r .chk b", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.1 }, 20.2);
+        tl.to("#s8-card", { scale: 0.92, filter: "blur(10px)", opacity: 0, duration: 0.38, ease: "power2.in" }, 22.02);
+
+        // 09 MISSED SOMETHING  (22.4 – 24.8) ---------------------------------------
+        blurIn("#s9-a", 22.42);
+        blurIn("#s9-b", 22.6);
+        tl.fromTo("#s9-cardbg", { scaleX: 0.72, scaleY: 0.38, opacity: 0 }, { scaleX: 1, scaleY: 1, opacity: 1, duration: 0.5, ease: "expo.out" }, 23.38);
+        tl.to("#s9-first", { scale: 0.42, x: -620, duration: 0.6, ease: "expo.inOut" }, 23.85);
+        const slots9 = [-207, 207, 620];
+        ["#s9-c2", "#s9-c3", "#s9-c4"].forEach((c, i) => {
+          tl.fromTo(c, { x: slots9[i] + 1500, scale: 0.42 }, { x: slots9[i], scale: 0.42, duration: 0.6, ease: "expo.out" }, 23.95 + i * 0.08);
+        });
+        tl.to("#s9-track", { x: -620, duration: 0.45, ease: "expo.inOut" }, 24.1);
+        tl.to("#s9-c4", { scale: 2.6, duration: 0.3, ease: "power3.in" }, 24.52);
+        tl.to("#s9-track", { filter: "blur(10px)", opacity: 0, duration: 0.25, ease: "power2.in" }, 24.56);
+
+        // 10 MARK IT  (24.8 – 28.6) -------------------------------------------------
+        tl.fromTo("#s10-tr", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 24.8);
+        tl.fromTo("#s10-plan", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, 24.86);
+        tl.fromTo("#s10-bar", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 24.92);
+        tl.fromTo("#s10-hl", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.inOut" }, 25.0);
+        const cp = $("#s10-circ-p"), len = cp.getTotalLength();
+        tl.fromTo(cp, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, 25.7);
+        const text10 = "Add the Acme invite.";
+        const ch10 = $("#s10-chars");
+        const chars10 = text10.split("").map((ch) => { const s = document.createElement("span"); s.className = "c"; s.textContent = ch; ch10.appendChild(s); return s; });
+        tl.set("#s10-ph", { opacity: 0 }, 26.28);
+        // caret follows typed text by revealing width
+        chars10.forEach((c, i) => { tl.set(c, { opacity: 1 }, 26.3 + i * (1.3 / chars10.length)); });
+        const tot10 = ch10.offsetWidth;
+        tl.set("#s10-caret", { x: -tot10 }, 24.8);
+        chars10.forEach((c, i) => tl.set("#s10-caret", { x: c.offsetLeft + c.offsetWidth - tot10 }, 26.3 + i * (1.3 / chars10.length)));
+        tl.fromTo("#s10-caret", { opacity: 1 }, { opacity: 0, duration: 0.01, yoyo: true, repeat: 3, repeatDelay: 0.25 }, 25.0);
+        tl.set("#s10-caret", { x: -tot10 }, 27.75);
+        const s10cur = $("#s10-cur");
+        const sendC = centre($("#s10-send"));
+        cursorTo(s10cur, { x: 1880, y: 1110 }, { x: sendC.x - 4, y: sendC.y - 4 }, 27.15, 0.45);
+        press(s10cur, 27.6);
+        tl.to("#s10-send", { scale: 0.85, duration: 0.07, yoyo: true, repeat: 1 }, 27.62);
+        tl.to(s10cur, { opacity: 0, y: "+=80", duration: 0.3 }, 27.9);
+        tl.set(chars10, { opacity: 0 }, 27.75);
+        tl.set("#s10-ph", { opacity: 1 }, 27.75);
+        tl.fromTo("#s10-scan", { x: -200 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 27.75);
+        tl.fromTo("#s10-new", { height: 0 }, { height: 92, duration: 0.45, ease: "expo.out" }, 27.9);
+        tl.fromTo("#s10-newdot", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(4)" }, 28.12);
+        // iris close onto the new dot
+        const dotC = centre($("#s10-newdot"));
+        // new row is collapsed at init → its laid-out centre sits 92px*0.5 higher than final; correct
+        const irisY = dotC.y + 46, irisX = dotC.x;
+        tl.fromTo("#s10-iris", { clipPath: `circle(1400px at ${irisX}px ${irisY}px)` }, { clipPath: `circle(0px at ${irisX}px ${irisY}px)`, duration: 0.32, ease: "power3.in" }, 28.28);
+
+        // 11 LESS RECAP. MORE DONE.  (28.6 – 31.6) -------------------------------
+        const words = ["#s11-w1", "#s11-w2", "#s11-w3", "#s11-w4"].map((s) => $(s));
+        const wc = words.map(centre);
+        const ball = $("#s11-ball");
+        const land = (i) => ({ x: wc[i].x - 42, y: wc[i].y - 92 - 84 });
+        tl.set(words, { opacity: 0 }, 28.6);
+        tl.fromTo(ball, { x: irisX - 42, y: irisY - 42, scale: 0.2 }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, 28.6);
+        let prev = { x: irisX - 42, y: irisY - 42 };
+        const hops = [29.0, 29.45, 29.9, 30.35];
+        hops.forEach((tLand, i) => {
+          const p = land(i), start = tLand - 0.4;
+          const peak = Math.min(prev.y, p.y) - 190;
+          tl.to(ball, { x: p.x, duration: 0.4, ease: "none" }, start);
+          tl.to(ball, { y: peak, duration: 0.2, ease: "power2.out" }, start);
+          tl.to(ball, { y: p.y, duration: 0.2, ease: "power2.in" }, start + 0.2);
+          tl.to(ball, { scaleY: 0.78, scaleX: 1.18, duration: 0.06, yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, tLand);
+          tl.fromTo(words[i], { opacity: 0, scale: 1.35, filter: "blur(8px)", y: -10 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.35, ease: "back.out(2.4)" }, tLand);
+          prev = p;
+        });
+        // fly into camera
+        tl.to(ball, { x: 960 - 42, y: 540 - 42, scale: 34, duration: 0.42, ease: "power3.in" }, 31.18);
+        tl.to("#s11-line", { opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power2.in" }, 31.2);
+
+        // 12 ENDCARD  (31.6 – 35.0) --------------------------------------------------
+        const word12 = $("#s12-word"), mark12 = $("#s12-mark");
+        const shift = (word12.offsetWidth + 34) / 2;
+        tl.fromTo(mark12, { rotationY: 180, x: shift, transformPerspective: 900, scale: 0.8 }, { rotationY: 0, scale: 1, duration: 0.85, ease: "expo.out" }, 31.6);
+        tl.to(mark12, { x: 0, duration: 0.9, ease: "expo.inOut" }, 32.15);
+        Array.from(word12.children).forEach((l, i) => {
+          tl.fromTo(l, { x: (i - 1.5) * 110 + 60, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 1.0, ease: "expo.out" }, 32.25 + i * 0.03);
+        });
+        blurIn("#s12-url", 32.75, { blur: 10, y: 10, scale: 1, dur: 0.6 });
+
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
     </script>
   </body>
 </html>
