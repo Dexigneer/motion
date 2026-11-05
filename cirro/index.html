@@ -6,7 +6,7 @@
     <title>Cirro — promo</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
-      @font-face { font-family: "Bricolage"; src: url("assets/fonts/BricolageGrotesque.woff2") format("woff2"); font-weight: 200 800; font-stretch: 75% 100%; font-style: normal; }
+      @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; font-style: normal; }
 
       :root {
         --night: #060a12;
@@ -17,11 +17,11 @@
         --sky: #8ec5ff;
         --frost: #eef6ff;
         --mist: #7189a8;
-        --sans: "Bricolage", sans-serif;
+        --sans: "Space Grotesk", sans-serif;
         --wd: 100;
-        --wg: 600;
+        --wg: 500;
       }
-      * { margin: 0; padding: 0; box-sizing: border-box; font-variation-settings: "wdth" var(--wd), "wght" var(--wg); }
+      * { margin: 0; padding: 0; box-sizing: border-box; font-variation-settings: "wght" var(--wg); }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--night); }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--sans); color: var(--frost); background: var(--night); }
       .clip { position: absolute; inset: 0; overflow: hidden; }
@@ -45,20 +45,39 @@
       /* the spine: a pale ring */
       .ring { position: absolute; border-radius: 50%; border: 30px solid var(--ice); }
 
-      /* S1 tabs */
-      .tab { position: absolute; width: 136px; height: 44px; border-radius: 22px; background: var(--deep); border: 2px solid var(--line); display: flex; align-items: center; padding: 0 12px; gap: 9px; }
-      .tab i { width: 18px; height: 18px; border-radius: 6px; flex: none; }
-      .tab b { height: 7px; border-radius: 4px; background: #2c3e5a; flex: 1; }
-      .tab s { width: 10px; height: 10px; flex: none; position: relative; text-decoration: none; }
-      .tab s::before, .tab s::after { content: ""; position: absolute; left: 4px; top: -1px; width: 2px; height: 12px; background: #3d5272; transform: rotate(45deg); }
-      .tab s::after { transform: rotate(-45deg); }
-      #s1-row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 30px; }
-      .odo { display: flex; font-size: 300px; --wg: 800; --wd: 88; color: var(--ice); letter-spacing: -0.04em; }
-      .odc { height: 300px; overflow: hidden; line-height: 300px; text-align: center; }
+      /* shared odometer */
+      .odc { overflow: hidden; text-align: center; }
       .ods { display: flex; flex-direction: column; }
-      .ods span { display: block; height: 300px; }
-      #s1-tabs-w { font-size: 130px; --wg: 650; letter-spacing: -0.03em; margin-top: 90px; }
+      .ods span { display: block; }
 
+      /* S1 · browser tab hell */
+      #s1-stage { position: absolute; inset: 0; transform-origin: 960px 560px; }
+      .win { position: absolute; left: 250px; top: 150px; width: 1420px; height: 780px; border-radius: 30px; background: linear-gradient(180deg, #0f1a2e, #0a1222); border: 2px solid #22324b; box-shadow: 0 60px 140px rgba(0, 0, 0, 0.62); overflow: hidden; transform-origin: 50% 0%; }
+      .win.back { background: #0b1424; }
+      .tbar { height: 72px; display: flex; align-items: flex-end; padding: 0 22px; gap: 16px; background: #070e1a; border-bottom: 2px solid #1c2a42; }
+      .dots { display: flex; gap: 10px; align-self: center; flex: none; }
+      .dots i { width: 13px; height: 13px; border-radius: 50%; background: #2a3b57; display: block; }
+      .dots i:first-child { background: #4f86c6; }
+      .tabs { flex: 1; display: flex; min-width: 0; height: 56px; gap: 3px; }
+      .btab { flex: 1 1 250px; max-width: 250px; min-width: 0; height: 56px; border-radius: 14px 14px 0 0; background: #111d31; border: 1.5px solid #1e2e48; border-bottom: none; overflow: hidden; container-type: inline-size; }
+      .bi { height: 100%; display: flex; align-items: center; gap: 10px; padding: 0 12px; }
+      .bi svg { width: 21px; height: 21px; flex: none; color: var(--sky); }
+      .bi .tt { font-size: 19px; --wg: 500; color: #a9bdd6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+      .bi .x { flex: none; width: 11px; height: 11px; position: relative; }
+      .bi .x::before, .bi .x::after { content: ""; position: absolute; left: 4.5px; top: -1px; width: 2px; height: 13px; background: #45597a; transform: rotate(45deg); }
+      .bi .x::after { transform: rotate(-45deg); }
+      @container (max-width: 96px) { .bi .tt, .bi .x { display: none; } .bi { justify-content: center; padding: 0; } }
+      .plus { flex: none; align-self: center; font-size: 34px; line-height: 1; color: #45597a; --wg: 400; }
+      .abar { margin: 16px 22px 0; height: 58px; border-radius: 29px; background: #070e1a; border: 1.5px solid #1c2a42; display: flex; align-items: center; gap: 14px; padding: 0 24px; font-size: 23px; --wg: 450; color: var(--mist); white-space: nowrap; overflow: hidden; }
+      .abar svg { width: 22px; height: 22px; color: #45597a; flex: none; }
+      .abar .q { color: #b9cbe2; }
+      .skel { position: absolute; left: 60px; height: 16px; border-radius: 8px; background: #16233a; }
+      #s1-row { position: absolute; left: 0; right: 0; top: 230px; height: 460px; display: flex; align-items: center; justify-content: center; gap: 34px; }
+      #s1-num { font-size: 330px; line-height: 330px; height: 330px; --wg: 700; color: var(--ice); letter-spacing: -0.05em; display: flex; }
+      #s1-num span { display: inline-block; }
+      #s1-tabs-w { font-size: 120px; --wg: 600; letter-spacing: -0.035em; line-height: 1; }
+      #s1-word { margin-top: 110px; }
+      .badge37 { position: absolute; right: 120px; top: 92px; height: 44px; min-width: 44px; padding: 0 12px; border-radius: 22px; background: var(--ice); color: var(--night); font-size: 24px; --wg: 700; display: flex; align-items: center; justify-content: center; }
       /* S2 */
       .orbit { position: absolute; left: 960px; top: 540px; width: 0; height: 0; }
       .arm, .pos, .up { position: absolute; left: 0; top: 0; width: 0; height: 0; }
@@ -86,12 +105,12 @@
       #s4-sub { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font-size: 50px; --wg: 560; color: var(--navy); white-space: pre; }
 
       /* S5 */
-      #s5-label { position: absolute; left: 0; right: 0; top: 200px; text-align: center; font-size: 84px; --wg: 720; letter-spacing: -0.03em; }
+      #s5-label { position: absolute; left: 0; right: 0; top: 338px; text-align: center; font-size: 84px; --wg: 720; letter-spacing: -0.03em; }
       #s5-bar { position: absolute; left: 960px; top: 470px; width: 140px; height: 140px; border-radius: 70px; border: 22px solid var(--ice); background: rgba(207, 232, 255, 0.05); display: flex; align-items: center; overflow: hidden; }
       #s5-glow { position: absolute; left: 960px; top: 540px; width: 1300px; height: 260px; margin: -130px 0 0 -650px; border-radius: 130px; background: radial-gradient(closest-side, rgba(142, 197, 255, 0.28), rgba(142, 197, 255, 0)); opacity: 0; }
       #s5-in { position: absolute; left: 34px; right: 34px; top: 0; bottom: 0; display: flex; align-items: center; gap: 24px; opacity: 0; }
       #s5-spark { width: 44px; height: 44px; color: var(--sky); flex: none; }
-      #s5-type { flex: 1; font-size: 42px; --wg: 520; white-space: pre; display: flex; align-items: center; color: var(--frost); }
+      #s5-type { flex: 1; font-size: 38px; --wg: 520; white-space: pre; display: flex; align-items: center; color: var(--frost); }
       #s5-type .c { display: none; }
       #s5-caret { display: inline-block; width: 4px; height: 50px; background: var(--sky); margin-left: 3px; border-radius: 2px; }
       #s5-send { width: 84px; height: 84px; border-radius: 50%; background: var(--ice); color: var(--night); display: flex; align-items: center; justify-content: center; flex: none; }
@@ -139,7 +158,7 @@
       .face .th .pi { width: 44px; height: 44px; margin: -22px 0 0 -22px; top: 42%; }
       .face .th .pl { left: 0; right: 0; bottom: 12px; text-align: center; font-size: 17px; --wg: 600; }
       .face .rows { position: absolute; left: 46px; right: 46px; top: 252px; }
-      .it { display: flex; align-items: center; gap: 20px; height: 112px; border-top: 2px solid var(--line); font-size: 33px; --wg: 640; white-space: nowrap; }
+      .it { display: flex; align-items: center; gap: 20px; height: 112px; border-top: 2px solid var(--line); font-size: 29px; --wg: 600; white-space: nowrap; }
       .it time { width: 104px; font-size: 28px; --wg: 600; color: var(--mist); flex: none; }
       .it i { width: 64px; height: 64px; border-radius: 20px; background: rgba(142, 197, 255, 0.13); color: var(--ice); display: flex; align-items: center; justify-content: center; flex: none; }
       .it i svg { width: 32px; height: 32px; }
@@ -170,7 +189,7 @@
       .echo { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-size: 150px; line-height: 170px; --wg: 720; letter-spacing: -0.035em; white-space: nowrap; }
       .echo.o { color: transparent; -webkit-text-stroke: 2px var(--sky); }
       #s9-more { position: absolute; left: 0; right: 0; top: 520px; display: flex; justify-content: center; gap: 50px; font-size: 230px; line-height: 250px; letter-spacing: -0.04em; white-space: nowrap; }
-      #s9-more span { display: inline-block; --wd: 75; --wg: 300; }
+      #s9-more span { display: inline-block; --wg: 300; }
       #s9-shock { left: 860px; top: 545px; width: 200px; height: 200px; border-width: 6px; opacity: 0; }
       #s9-ring { left: 885px; top: 465px; width: 150px; height: 150px; }
 
@@ -211,6 +230,7 @@
         <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3l1.9 5.6L18.5 10.5l-5.6 1.9L11 18l-1.9-5.6L3.5 10.5l5.6-1.9zM19 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" /></symbol>
         <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19.5V5M5.5 11.5L12 5l6.5 6.5" /></symbol>
         <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 2.5h10v19H7zM11 18.5h2" /></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.5 17.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM15.5 15.5L21 21" /></symbol>
         <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" /></symbol>
         <filter id="noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" stitchTiles="stitch" />
@@ -228,15 +248,23 @@
         <div id="amb-g2"></div>
       </section>
 
-      <!-- 01 · 37 tabs -->
+      <!-- 01 · 37 tabs — browser tab hell -->
       <section id="s1" class="clip" data-start="0" data-duration="1.40625" data-track-index="1">
-        <div id="s1-tabs" class="fill"></div>
-        <div id="s1-row">
-          <div class="odo" id="s1-odo" data-layout-allow-occlusion></div>
-          <span class="mw"><span class="mi" id="s1-tabs-w">tabs.</span></span>
+        <div id="s1-stage">
+          <div class="win back" id="w3"></div>
+          <div class="win back" id="w2"></div>
+          <div class="win back" id="w1"></div>
+          <div class="win" id="w0">
+            <div class="tbar"><span class="dots"><i></i><i></i><i></i></span><div class="tabs" id="s1-tabs"></div><span class="plus">+</span></div>
+            <div class="abar"><svg class="isvg"><use href="#i-search" /></svg><span class="q" id="s1-url">lisbon 5 days what to do</span></div>
+            <i class="skel" style="top: 220px; width: 420px"></i><i class="skel" style="top: 260px; width: 300px"></i><i class="skel" style="top: 560px; width: 380px"></i><i class="skel" style="top: 600px; width: 250px"></i>
+            <div id="s1-row" data-layout-allow-occlusion>
+              <div id="s1-num"><span id="s1-n">1</span></div>
+              <span class="mw" id="s1-word"><span class="mi" id="s1-tabs-w">tabs open.</span></span>
+            </div>
+          </div>
         </div>
       </section>
-
       <!-- 02 · 12 apps. 0 plan. -->
       <section id="s2" class="clip" data-start="1.40625" data-duration="1.875" data-track-index="1">
         <div class="orbit" id="s2-orbit"></div>
@@ -1261,37 +1289,54 @@
         tl.to("#vig", { opacity: 1, duration: 0.2 }, 6.9);
 
         // =========================================================================
-        // 01 · 37 TABS  (0 – 1.406)
+        // 01 · 37 TABS — browser tab hell  (0 – 1.406)
         // =========================================================================
         {
+          const titles = [
+            ["i-plane", "Cheap flights to Lisbon", "cheap flights lisbon may"], ["i-bed", "Hotel Alfama – reviews", "alfama hotel reviews"], ["i-food", "Top 10 Lisbon food spots", "best food lisbon"],
+            ["i-chat", "r/lisbon · 5 day itinerary?", "reddit lisbon itinerary"], ["i-ticket", "Tram 28 timetable", "tram 28 times"], ["i-map", "Sintra – getting there", "lisbon to sintra train"],
+            ["i-sun", "Lisbon weather in May", "lisbon weather may"], ["i-bed", "Bairro Alto apartments", "bairro alto airbnb"], ["i-car", "Is Cascais worth it?", "is cascais worth it"],
+            ["i-food", "Pastéis de Belém queue", "pasteis de belem queue"], ["i-train", "CP trains · Cascais line", "cp train cascais"], ["i-ticket", "Fado show tickets", "fado tickets alfama"],
+            ["i-star", "Best rooftop bars", "rooftop bars lisbon"], ["i-card", "EUR exchange rate", "eur exchange"], ["i-car", "Uber vs Bolt Lisbon", "uber or bolt lisbon"],
+            ["i-cal", "Pena Palace opening hours", "pena palace hours"], ["i-cam", "Miradouro sunset spots", "best sunset lisbon"], ["i-chat", "Tripadvisor forum", "lisbon tips forum"],
+          ];
           const host = $("#s1-tabs");
-          const favs = ["#8ec5ff", "#cfe8ff", "#7189a8", "#4f86c6", "#eef6ff", "#2f5f95"];
-          const tabs = [];
-          for (let r = 0; r < 8; r++) for (let c = 0; c < 12; c++) {
-            const x = 52 + c * 152 + (r % 2) * 40, y = 46 + r * 128;
-            if (x > 380 && x < 1450 && y > 300 && y < 720) continue;
-            if (x > 1800) continue;
-            const t = document.createElement("div"); t.className = "tab";
-            t.style.left = x + "px"; t.style.top = y + "px";
-            t.innerHTML = `<i style="background:${favs[(r * 5 + c * 3) % favs.length]}"></i><b></b><s></s>`;
-            host.appendChild(t); tabs.push({ el: t, d: Math.hypot(x + 68 - 960, y + 22 - 540), rot: (rnd() - 0.5) * 14, fall: rnd() });
+          const N = 37;
+          const at = (k) => 0.1 + 0.8 * Math.pow((k - 1) / (N - 1), 0.62);
+          const nEl = $("#s1-n"), url = $("#s1-url");
+          for (let k = 1; k <= N; k++) {
+            const [ic, tt, q] = titles[(k - 1) % titles.length];
+            const t = document.createElement("div"); t.className = "btab";
+            t.innerHTML = `<div class="bi">${svgUse(ic)}<span class="tt">${tt}</span><i class="x"></i></div>`;
+            host.appendChild(t);
+            const ta = at(k);
+            tl.fromTo(t, { maxWidth: 0, opacity: 0 }, { maxWidth: 250, opacity: 1, duration: 0.2, ease: "power3.out" }, ta);
+            tl.fromTo(t, { backgroundColor: "#2c4d7a" }, { backgroundColor: "#111d31", duration: 0.35, ease: "power2.out", immediateRender: false }, ta);
+            if (k > 1) {
+              tl.set(nEl, { textContent: String(k) }, ta);
+              tl.set(url, { textContent: q }, ta);
+              tl.fromTo(nEl, { yPercent: -14, scaleY: 1.12 }, { yPercent: 0, scaleY: 1, duration: 0.12, ease: "power2.out", immediateRender: false }, ta);
+            }
+            // gravity: every tab drops out of the bar
+            tl.to(t, { y: 900 + rnd() * 300, rotation: (rnd() - 0.5) * 140, duration: 0.42, ease: "power2.in" }, 1.02 + rnd() * 0.1);
           }
-          tabs.forEach((t) => {
-            tl.fromTo(t.el, { scale: 0, rotation: t.rot * 3, opacity: 1 }, { scale: 1, rotation: t.rot, duration: 0.42, ease: "back.out(3.2)" }, 0.04 + (t.d / 1100) * 0.55);
-            tl.to(t.el, { y: 1250 + t.fall * 300, rotation: t.rot + (t.fall - 0.5) * 120, duration: 0.42, ease: "power2.in" }, 1.0 + t.fall * 0.12 + (1 - t.d / 1100) * 0.05);
+          // the windows behind: already drowning in favicon-only tabs, fanned like a deck
+          const fan = [{ x: -170, y: -84, r: -6.5 }, { x: 190, y: -54, r: 4.5 }, { x: -30, y: -122, r: -1.5, s: 0.95 }];
+          ["#w1", "#w2", "#w3"].forEach((id, i) => {
+            const w = $(id);
+            const ics = ["i-plane", "i-bed", "i-food", "i-map", "i-ticket", "i-sun", "i-card", "i-train"];
+            w.innerHTML = `<div class="tbar"><span class="dots"><i></i><i></i><i></i></span><div class="tabs">${Array.from({ length: 30 + i * 6 }, (_, j) => `<div class="btab"><div class="bi">${svgUse(ics[(j + i * 3) % ics.length])}</div></div>`).join("")}</div><span class="plus">+</span></div><div class="abar"><svg class="isvg"><use href="#i-search" /></svg><span>${["booking.com/lisbon…", "maps · Lisbon, Portugal", "flights LIS · 3 stops"][i]}</span></div>`;
+            const f = fan[i];
+            tl.fromTo(w, { x: 0, y: 0, rotation: 0, scale: 0.96 }, { x: f.x, y: f.y, rotation: f.r, scale: f.s || 1, duration: 0.55, ease: "back.out(2.2)" }, 0.26 + i * 0.09);
+            tl.to(w, { y: 1300, rotation: f.r * 4, duration: 0.4, ease: "power2.in" }, 1.08 + i * 0.03);
           });
-          const odo = buildOdo($("#s1-odo"), [
-            { seq: [" ", "1", "2", "3"] },
-            { seq: Array.from({ length: 37 }, (_, i) => String((i + 1) % 10)) },
-          ]);
-          $$("#s1-odo .odc")[0].style.width = "176px";
-          $$("#s1-odo .odc")[1].style.width = "176px";
-          odo.forEach((o) => tl.fromTo(o.strip, { y: 0 }, { y: -(o.n - 1) * 300, duration: 0.82, ease: "power3.inOut" }, 0.08));
-          tl.fromTo("#s1-odo", { scale: 0.4, y: 120 }, { scale: 1, y: 0, duration: 0.5, ease: "back.out(2.4)" }, 0.02);
-          pumpEl("#s1-odo", 0.9, 1.16, 0.45);
-          rise("#s1-tabs-w", 0.22, { dur: 0.45 });
-          tl.fromTo("#s1-tabs-w", { "--wd": 75 }, { "--wd": 100, duration: 0.7, ease: "power2.out" }, 0.22);
-          tl.to("#s1-row", { scaleY: 0.04, scaleX: 1.35, y: 260, opacity: 0, duration: 0.24, ease: "power3.in" }, 1.16);
+          // front window pops in, the stage keeps pushing in, and shakes when it hits 37
+          tl.fromTo("#w0", { scale: 0.82, y: 60, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 0);
+          tl.fromTo("#s1-stage", { scale: 1 }, { scale: 1.07, duration: 1.1, ease: "power1.in" }, 0);
+          tl.to("#s1-stage", { keyframes: { x: [12, -10, 7, -4, 0], rotation: [0.4, -0.35, 0.2, 0] }, duration: 0.24, ease: "none" }, at(N));
+          pumpEl("#s1-num", at(N), 1.18, 0.4);
+          rise("#s1-tabs-w", 0.2, { dur: 0.45 });
+          tl.to("#w0", { y: 1250, rotation: 7, duration: 0.38, ease: "power2.in" }, 1.12);
         }
 
         // =========================================================================
@@ -1316,8 +1361,8 @@
             tl.to(pos, { x: 0, duration: 0.26, ease: "back.in(2.2)" }, T + 0.86 + i * 0.008);
             tl.to(ic, { scale: 0, duration: 0.26, ease: "power3.in" }, T + 0.86 + i * 0.008);
           });
-          tl.fromTo("#s2-apps-in", { scale: 0.3, opacity: 0, "--wd": 75 }, { scale: 1, opacity: 1, "--wd": 75, duration: 0.42, ease: "back.out(2.6)" }, T);
-          tl.to("#s2-apps-in", { "--wd": 100, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, T + 0.2);
+          tl.fromTo("#s2-apps-in", { scale: 0.3, opacity: 0, "--wg": 300 }, { scale: 1, opacity: 1, "--wg": 700, duration: 0.42, ease: "back.out(2.6)" }, T);
+          tl.to("#s2-apps-in", { letterSpacing: "0.05em", duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, T + 0.2);
           tl.to("#s2-apps-in", { scale: 0, duration: 0.2, ease: "back.in(2)" }, T + 0.98);
           // 0 plan. slam on the beat
           const S = 5.5 * B; // 2.578
@@ -1414,7 +1459,7 @@
           tl.to("#s5-in", { opacity: 1, duration: 0.2 }, T + 0.62);
           tl.fromTo("#s5-spark", { rotation: -120, scale: 0 }, { rotation: 0, scale: 1, duration: 0.5, ease: "back.out(3)" }, T + 0.62);
           tl.fromTo("#s5-send", { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, T + 0.7);
-          const lab = maskWords($("#s5-label"), "Tell it the vibe.", { 3: "sky" });
+          const lab = maskWords($("#s5-label"), "Describe the vibe.", { 2: "sky" });
           rise(lab, T + 0.2, { stagger: 0.06 });
           // typing
           const txt = "5 days in Lisbon. Food, sun, no museums.";
@@ -1479,7 +1524,7 @@
           tl.fromTo("#s6-shade", { opacity: 0 }, { opacity: 1, duration: 0.4 }, T + 0.15);
           const head = maskWords($("#s6-head"), "It finds the spots.", { 3: "sky" });
           rise(head, T + 0.28, { stagger: 0.07, dur: 0.55 });
-          tl.fromTo("#s6-head", { "--wd": 76 }, { "--wd": 100, duration: 0.9, ease: "power2.out" }, T + 0.28);
+          tl.fromTo("#s6-head", { letterSpacing: "0.04em" }, { letterSpacing: "-0.035em", duration: 0.9, ease: "power2.out" }, T + 0.28);
           sink(head, 11.45);
           // hero card flies out of the wall
           const H = 11.55;
@@ -1642,7 +1687,7 @@
           tl.fromTo("#s9-stack", { y: 120 }, { y: 0, duration: 0.5, ease: "expo.out" }, 19.3);
           // slam on beat 42
           const S = 42 * B; // 19.6875
-          tl.fromTo("#s9-more span", { scale: 1.9, opacity: 0, "--wd": 75, "--wg": 300 }, { scale: 1, opacity: 1, "--wd": 100, "--wg": 800, duration: 0.42, ease: "expo.out", stagger: 0.08 }, S);
+          tl.fromTo("#s9-more span", { scale: 1.9, opacity: 0, letterSpacing: "0.18em", "--wg": 300 }, { scale: 1, opacity: 1, letterSpacing: "-0.04em", "--wg": 700, duration: 0.42, ease: "expo.out", stagger: 0.08 }, S);
           tl.to("#s9-cam", { keyframes: { x: [16, -12, 8, -4, 0], y: [-10, 8, -5, 2, 0] }, duration: 0.32, ease: "none" }, S + 0.1);
           tl.fromTo("#s9-shock", { scale: 0.3, opacity: 0.8 }, { scale: 9, opacity: 0, duration: 0.8, ease: "power2.out" }, S + 0.1);
           tl.to("#s9-stack .echo:not(.o)", { color: "#7189a8", duration: 0.3 }, S + 0.1);

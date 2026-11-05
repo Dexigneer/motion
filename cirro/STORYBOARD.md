@@ -6,10 +6,10 @@ tempo: 128 BPM (1 doba = 0,469 s) — každý strih sedí na dobu
 message: "Trips that plan themselves."
 arc: Chaos (tabs, appky) → Implózia do nuly → Meet cirro → Ako to funguje (vibe → spoty → itinerár → book) → Tagline → Endcard
 audience: 22–40, cestujú často, nenávidia plánovanie v 37 taboch
-version: v1
+version: v2
 ---
 
-# CIRRO — promo (storyboard + scenár) · v1
+# CIRRO — promo (storyboard + scenár) · v2
 
 ## Rozhodnutia
 
@@ -18,7 +18,7 @@ version: v1
 - **Formát:** 16:9 · 1920×1080 · **60 fps** · **24,4 s** (Sumi malo 28 s) · bez voiceoveru · vlastný syntetizovaný **128 BPM** hudobný podklad + SFX.
 - **Chrbtica (spine):** **bledo-modrý KRUH / prstenec (ring).** Narodí sa z „0“ v „0 plan.“ (02), skáče so squash & stretch (03), stane sa písmenom „o“ v logu (04), cez neho **preletíme ako cez portál** (04→05), z neho vyletí burst (05), mení sa na **map pin** (07), na **tlačidlo** (08) a na konci znova na „o“ v logu (10). Jeden objekt vedie každý prechod.
 - **Paleta (tmavá + bledo-modrá):** noc `#060A12` (pozadie) · hlboká `#0C1424` (panely) · navy `#16233A` · linka `#24344D` · **ľad `#CFE8FF` (hlavný akcent)** · **obloha `#8EC5FF`** · mráz `#EEF6FF` (text) · hmla `#7189A8` (sekundárny text). Jediný „flash“ inverzie: scéna 04 (ľadové pozadie, tmavý text) — vizuálny drop.
-- **Typografia:** jediný font **Bricolage Grotesque** (variabilný: šírka 75–100, hrúbka 200–800). Žiadne iné fonty. Font je súčasťou animácie — písmená **dýchajú šírkou a hrúbkou** (wdth/wght), slová sa „nafukujú“ a „sťahujú“.
+- **Typografia:** jediný font **Space Grotesk** (variabilná hrúbka 300–700). Žiadne iné fonty. Font je súčasťou animácie — slová sa **nafukujú hrúbkou** a „slamujú“ rozostupom písmen (tracking).
 - **Pohyb (úplne iný ako Sumi):** žiadne blur-iny, žiadne whipy doľava, žiadny atrament, žiadny kurzor-ruka, žiadny iris. Namiesto toho:
   - **pružiny a squash & stretch** (`elastic.out`, `back.out(3)`), všetko pristáva s odskokom,
   - **odometer / rolujúce čísla**, **scramble/decode text**, **maska-reveal zdola**,
@@ -51,12 +51,12 @@ version: v1
 
 ---
 
-## Frame 01 — 37 tabs
+## Frame 01 — 37 tabs open. (tab hell)
 - 0,00–1,41 · prechod in: cut zo tmy
-- **Na obrazovke:** obrovské rolujúce číslo **„37“** (260 px, 800, ľad) + „tabs.“ (mráz). Za ním mriežka 12×9 „browser tabov“ (pilulky 128×40 s favicon štvorčekom a sivou čiarkou).
-- **Pohyb:** 0,05 prvý tab vypučí v strede (`back.out(3)`), potom mriežka **vypučí zo stredu von** (stagger podľa vzdialenosti). Odometer cifier roluje 01→37 s prestrelením (každá cifra je stĺpec 0–9 vo vertikálnej maske). „tabs.“ príde maskou zdola. Číslo pri dopade **pumpne** (scale 1.15 → 1).
-- **Výstup:** 1,10–1,41 taby **padnú gravitáciou** (y +1200, rotácia ±, `power2.in`, stagger), číslo sa stlačí (scaleY 0,2) a zmizne.
-- **Zvuk:** 0,0 hudba (hi-hat + bas pulz) · pop-y pri vypučaní · 1,1 „whump“ pádu.
+- **Na obrazovke:** veľké **okno prehliadača** (tmavé, 1420×780) s lištou tabov a adresným riadkom. V tele okna obrovské číslo (330 px, ľad) + „tabs open.“
+- **Pohyb:** okno vyskočí (`back.out`). Taby pribúdajú **zrýchľujúcim sa tempom** — prvé sú čitateľné („Cheap flights to Lisbon“, „Hotel Alfama – reviews“, „r/lisbon · 5 day itinerary?“…), potom sa **sťahujú, až ostanú len ikonky** (ako v skutočnom prehliadači). Každý nový tab krátko zasvieti, **číslo sa prepne** (1 → 37) a **adresný riadok prepíše** na nové hľadanie. Od 0,26 s sa za oknom **vejárom rozložia 3 ďalšie preplnené okná**. Celá scéna sa pomaly tlačí ku kamere; pri 37 **otras**.
+- **Výstup:** 1,02–1,41 všetky taby **vypadnú z lišty gravitáciou**, okná sa zrútia dole.
+- **Zvuk:** 0,0 hudba · bliky pri taboch · 0,9 „thock“ · 1,1 „whump“ pádu.
 
 ## Frame 02 — 12 apps. 0 plan.
 - 1,41–3,28
@@ -77,9 +77,9 @@ version: v1
 - **Výstup:** 6,55–7,03 **zoom cez „o“** (scale 1 → 60, origin = stred o), vnútro „o“ je tmavé → sme v ďalšej scéne.
 - **Zvuk:** 4,69 **DROP** (kick + bas) · 4× „plop“ písmen · 5,9 „scan“ scramblu · 6,55 zoom whoosh.
 
-## Frame 05 — Tell it the vibe
+## Frame 05 — Describe the vibe
 - 7,03–9,84
-- **Na obrazovke:** label „Tell it the vibe.“ hore (64 px). V strede **sklenený bar** (1180×140, radius 70) s **rotujúcim bledo-modrým okrajom** (conic gradient), ikona iskry vľavo, tlačidlo šípky vpravo. Text: „5 days in Lisbon. Food, sun, no museums.“ Pod barom 3 čipy s ikonami: **☀ 5 days** · **🍴 Food** · **📍 Lisbon** (SVG ikony, nie emoji).
+- **Na obrazovke:** label „Describe the vibe.“ (84 px) **tesne nad barom**. V strede **sklenený bar** (1180×140, radius 70) s **rotujúcim bledo-modrým okrajom** (conic gradient), ikona iskry vľavo, tlačidlo šípky vpravo. Text: „5 days in Lisbon. Food, sun, no museums.“ Pod barom 3 čipy s ikonami: **☀ 5 days** · **🍴 Food** · **📍 Lisbon** (SVG ikony, nie emoji).
 - **Pohyb:** bar sa **roztiahne z kruhu** (šírka 140 → 1180, `elastic.out`). Písanie ~30 znakov/s s kurzorom. Čipy **vyskočia** spod baru (y 60 → 0, `back.out(3)`, rotácia ±6° → 0). 9,2 stlačenie šípky (squash), bar sa stiahne späť do kruhu.
 - **Výstup:** 9,45–9,84 kruh **vystrelí hore** + **burst** 16 bodiek do strán.
 - **Zvuk:** písanie · 3× pop čipov · klik · „fwip“ výstrelu.
@@ -122,30 +122,51 @@ version: v1
 
 ## Placeholdery obrázkov (čo doplniť)
 
-| ID | Scéna | Čo tam dať (odporúčaný záber) | Pomer |
-|---|---|---|---|
-| IMG 01 | 06 | Lisabon – Alfama, úzka ulička so žltou električkou 28 | 3:4 |
-| IMG 02 | 06 | Pastel de nata zblízka (top-down) | 3:4 |
-| IMG 03 | 06 + 07 | Miradouro (vyhliadka) nad strechami pri západe slnka – **hlavná karta** | 3:4 |
-| IMG 04 | 06 | Pláž Praia da Ursa / Cascais, more zhora | 3:4 |
-| IMG 05 | 06 | Azulejos – modré kachličky na fasáde | 3:4 |
-| IMG 06 | 06 | Time Out Market / jedlo na stole s priateľmi | 3:4 |
-| IMG 07 | 06 | LX Factory / street art | 3:4 |
-| IMG 08 | 06 | Sintra – Palácio da Pena | 3:4 |
-| IMG 09 | 06 | Belém – veža pri rieke | 3:4 |
-| IMG 10 | 06 | Rooftop bar s výhľadom | 3:4 |
-| IMG 11 | 06 | Sardinky na grile / street food | 3:4 |
-| IMG 12 | 06 | Ľudia na električke / cestovanie | 3:4 |
-| THUMB D1–D3 | 07 | malé náhľady pre každý deň (Alfama, Cascais, Sintra) | 1:1 |
+**Spoločný štýl pre všetky:** chladný, modrastý grade (zdvihnuté tiene do navy, potlačené žlté/oranžové, jemné zrno). Svetlé oblohy a more pomôžu, aby fotky ladili s bledo-modrou paletou. Žiadne logá ani čitateľné značky. Ak je na fotke človek, tak zozadu alebo z profilu.
 
-Všetky obrázky ideálne s **chladným/modrým gradingom** (alebo tmavé s modrým nádychom), aby sedeli k palete.
+### Scéna 06 — 3D stena „It finds the spots.“ (12 fotiek, pomer **3:4**, min. 900×1200 px)
+| ID | Popis v karte | Čo na fotke | Tip na záber |
+|---|---|---|---|
+| IMG 01 | Alfama · tram 28 | Žltá električka 28 v úzkej strmej uličke Alfamy | Teleobjektív zdola do kopca, električka v strede, modrá obloha |
+| IMG 02 | Pastel de nata | Pastéis de nata zblízka na tanieri, škorica | Top-down, studené svetlo z okna, tmavý stôl |
+| **IMG 03** | **Miradouro da Graça** | **Hlavná karta** (vyletí dopredu, dostane ♥ Saved): výhľad z vyhliadky na červené strechy a rieku Tejo | Modrá hodinka / tesne po západe, silueta 1–2 ľudí pri zábradlí |
+| IMG 04 | Praia da Ursa | Divoká pláž so skalami, more zhora | Dron alebo útes, tyrkysová voda, biela pena |
+| IMG 05 | Azulejo walls | Fasáda s modro-bielymi kachličkami (azulejos) | Detail vzoru + kúsok okna, ideálne aj s balkónom |
+| IMG 06 | Time Out Market | Jedlo na spoločnom stole, ruky, poháre | Uhol 45°, plytká hĺbka ostrosti, ľudia rozmazaní |
+| IMG 07 | LX Factory | Street art / farebná stena, bicykel | Frontálne, grafická kompozícia |
+| IMG 08 | Pena Palace | Palác Pena v Sintre v hmle alebo nad lesom | Ďaleký záber, hmla = mysteriózne, chladné tóny |
+| IMG 09 | Belém tower | Veža Belém pri rieke | Odraz vo vode, ranné modré svetlo |
+| IMG 10 | Rooftop bar | Strešný bar, drinky, mesto pod nimi | Pri západe, svetelné reťaze, siluety |
+| IMG 11 | Grilled sardines | Sardinky na grile, citrón, chlieb | Dym z grilu, makro, tmavé pozadie |
+| IMG 12 | Sunset tram | Električka / mesto pri západe slnka | Pohyb, rozmazané svetlá, fialovo-modrá obloha |
+
+### Scéna 07 — kocka „Day by day“ (3 malé náhľady, pomer **1:1**, min. 400×400 px)
+| ID | Deň | Čo na fotke |
+|---|---|---|
+| THUMB D1 | Day 1 · Alfama & views | Strechy Alfamy z vyhliadky (môže byť výrez z IMG 03) |
+| THUMB D2 | Day 2 · Coast day | Pobrežie Cascais / vlna / pláž zhora |
+| THUMB D3 | Day 3 · Sintra hills | Pena Palace alebo zelené kopce Sintry v hmle |
+
+### Scéna 10 — endcard
+| ID | Čo tam dať |
+|---|---|
+| BADGE iOS | Oficiálny „Download on the App Store“ badge (biela/čierna verzia) |
+| BADGE Android | Oficiálny „Get it on Google Play“ badge |
+
+**Voliteľné:** logo/ikona appky Cirro, ak vznikne. Teraz je logo čisto typografické („cirro“ s kruhom ako „o“).
 
 ## Build notes (v1)
 
 - Celé video je v `index.html` — jedna GSAP časová os, 24,4 s, **60 fps**, strihy na doby 128 BPM (konštanta `B = 60/128`).
-- Font: `assets/fonts/BricolageGrotesque.woff2` (OFL, variabilné osi `wdth` + `wght`, licencia vedľa). Šírka a hrúbka sa animujú cez CSS premenné `--wd` / `--wg`.
+- Font: `assets/fonts/SpaceGrotesk.woff2` — variabilná verzia Space Grotesk (OFL, hrúbka 300–700; dodaný rez Medium = 500 je v nej). Hrúbka sa animuje cez CSS premennú `--wg`.
 - Hudba: `assets/music/cirro_bed.wav` je **dočasný** syntetizovaný 128 BPM podklad (`tools/make_audio.py`), drop presne na 4,6875 s. Výmena = rovnaký súbor s licencovanou skladbou 128 BPM s dropom na dobe 10.
 - SFX: dočasné (`tools/make_sfx.py` zo Sumi + `boing`, `riser`, `blip`, `slam` z `tools/make_audio.py`), každý zvuk je samostatná `<audio id="sfx-*">` stopa.
 - Motion blur (shutter) je na skákajúcom kruhu (03), padajúcich písmenách loga (04), výstrele kruhu (05) a hero karte (06).
 - Badge na endcarde sú **placeholdery** (prerušovaný okraj) — nahradiť oficiálnymi App Store / Google Play badge.
-- Render: `npx hyperframes@0.9.13 render -o renders/cirro_v1.mp4 --quality delivery`.
+- Render: `npx hyperframes@0.9.13 render -o renders/cirro_v2.mp4 --quality delivery`.
+
+## Changes from v1
+
+- Font → **Space Grotesk** (jediný).
+- „Tell it the vibe.“ → **„Describe the vibe.“**, posunuté tesne nad bar.
+- Scéna 01 prerobená: namiesto mriežky rovnakých pilulek je to **okno prehliadača s množiacimi sa a sťahujúcimi sa tabmi**, meniacim sa adresným riadkom a vejárom ďalších okien.
