@@ -275,5 +275,5 @@ Riadky prepisu (fiktívne):
 
 - Všetky beaty postavené v `index.html` (jedna časová os, 35,0 s, 30 fps).
 - Zvuky sú **dočasné**, syntetizované skriptom `tools/make_sfx.py` → `assets/sfx/*.wav`. Každý je samostatná audio stopa (id `sfx-*`) — dá sa vymeniť 1:1 alebo posunúť v Studiu.
-- Hudba: zatiaľ žiadna (doplní klient). Odporúčaná hlasitosť hudby pod SFX ~ −16 LUFS, tempo ~104 BPM; strihy v beate 05 sú na 0,233 s (= 1/2 doby pri 128 BPM, resp. sa dajú dorovnať).
+- Hudba: zatiaľ žiadna (doplní klient). Odporúčaná hlasitosť hudby pod SFX ~ −16 LUFS, tempo ~104 BPM; strihy v beate 05 sú na 0,233 s; po dodaní hudby ich dorovnám na jej tempo.
 - Ťah štetca v logu: vzostupný „flick“ (pripomína odškrtnutie = hotovo).
