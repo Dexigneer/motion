@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>FLINT — promo</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-style: normal; }
+
+      :root {
+        --bg: #0b0a0d;
+        --panel: #16131a;
+        --panel-2: #1d1922;
+        --line: #2a2430;
+        --red: #ff2a3d;
+        --crim: #b0101f;
+        --ember: #ff6b4a;
+        --bone: #f5eeee;
+        --ash: #8d8592;
+        --f: "Archivo", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--f); color: var(--bone); background: var(--bg); font-variation-settings: "wdth" 100, "wght" 500; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .fill { position: absolute; inset: 0; }
+      .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .red { color: var(--red); }
+      .ib { display: inline-block; }
+      .mask { display: inline-block; overflow: hidden; vertical-align: top; }
+      .mask > span { display: inline-block; }
+      svg.ico { display: block; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* image placeholders */
+      .ph { position: absolute; overflow: hidden; background: repeating-linear-gradient(135deg, #1b171f 0 14px, #221d27 14px 28px); border: 2px dashed #3d3443; color: #6f6575; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+      .ph svg { width: 40px; height: 40px; }
+      .ph b { font-weight: 700; font-size: 20px; letter-spacing: 0.06em; font-variation-settings: "wdth" 100, "wght" 700; }
+
+      /* ambient */
+      #glow { position: absolute; left: 160px; top: 560px; width: 1600px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.34), rgba(255, 42, 61, 0)); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%); z-index: 80; pointer-events: none; }
+      #grain { position: absolute; inset: 0; z-index: 90; opacity: 0.07; mix-blend-mode: screen; pointer-events: none; }
+
+      /* S1 */
+      .s1-half { position: absolute; inset: 0; }
+      #s1-top { clip-path: polygon(0 0, 100% 0, 100% 44%, 0 56%); }
+      #s1-bot { clip-path: polygon(0 56%, 100% 44%, 100% 100%, 0 100%); }
+      .s1-l { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: flex-end; gap: 44px; font-size: 230px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; letter-spacing: -0.01em; }
+      .s1-l1 { top: 250px; }
+      .s1-l2 { top: 560px; }
+      .odo { display: inline-block; height: 230px; overflow: hidden; vertical-align: top; }
+      .odo .col { display: block; }
+      .odo .col i { display: block; font-style: normal; height: 230px; }
+      #s1-slash { position: absolute; left: -100px; top: 532px; width: 2120px; height: 8px; background: var(--red); transform-origin: 0 50%; }
+
+      /* S2 */
+      #s2-grid { position: absolute; left: 290px; top: 98px; width: 1340px; height: 884px; perspective: 1600px; }
+      .tile { position: absolute; width: 200px; height: 200px; transform-style: preserve-3d; }
+      .tile .face { position: absolute; inset: 0; border-radius: 26px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+      .tile .ph { border-radius: 26px; }
+      .tile .back { background: var(--red); transform: rotateY(180deg); }
+      #s2-red { position: absolute; inset: 0; background: var(--red); opacity: 0; }
+      #s2-pill { position: absolute; left: 0; right: 0; top: 440px; height: 200px; display: flex; justify-content: center; }
+      #s2-pillbox { display: flex; align-items: center; gap: 34px; height: 200px; padding: 0 70px 0 40px; border-radius: 100px; background: var(--bg); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7), 0 0 0 3px var(--red); }
+      #s2-clock { position: relative; width: 128px; height: 128px; border-radius: 50%; background: var(--red); flex: none; }
+      #s2-clock i { position: absolute; left: 61px; bottom: 64px; width: 6px; border-radius: 3px; background: var(--bone); transform-origin: 50% 100%; }
+      #s2-h1 { height: 30px; }
+      #s2-h2 { height: 46px; }
+      #s2-clock b { position: absolute; left: 56px; top: 56px; width: 16px; height: 16px; border-radius: 50%; background: var(--bone); }
+      #s2-txt { font-size: 110px; line-height: 1; white-space: nowrap; font-variation-settings: "wdth" 62, "wght" 800; }
+
+      /* S3 */
+      #s3-red { position: absolute; inset: 0; background: var(--red); }
+      #s3-meet { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 360px; line-height: 1; color: var(--bg); font-variation-settings: "wdth" 62, "wght" 900; }
+      #s3-meet span { display: inline-block; transform-origin: 50% 100%; }
+      .stone { position: absolute; top: 440px; width: 240px; height: 200px; }
+      #st-l { left: 720px; }
+      #st-r { left: 960px; }
+      #s3-black { position: absolute; inset: 0; background: var(--bg); clip-path: circle(0% at 50% 50%); }
+      #s3-flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      .rays { position: absolute; left: 60px; top: -360px; width: 1800px; height: 1800px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255, 42, 61, 0.16) 0deg 7deg, rgba(255, 42, 61, 0) 7deg 30deg); -webkit-mask-image: radial-gradient(circle, #000 12%, rgba(0, 0, 0, 0) 62%); mask-image: radial-gradient(circle, #000 12%, rgba(0, 0, 0, 0) 62%); }
+      .spk { position: absolute; opacity: 0; left: 955px; top: 518px; width: 10px; height: 46px; border-radius: 5px; background: var(--ember); }
+      #s3-row, #s9-row { position: absolute; left: 0; right: 0; top: 380px; height: 300px; display: flex; align-items: center; justify-content: center; gap: 40px; }
+      .logo { width: 210px; height: 210px; flex: none; color: var(--red); }
+      .logo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+      .wm { display: flex; align-items: flex-end; font-size: 260px; line-height: 1; height: 260px; font-variation-settings: "wdth" 125, "wght" 900; letter-spacing: -0.02em; }
+      .wm .lt { display: inline-block; position: relative; transform-origin: 50% 100%; }
+      .idot { position: absolute; left: 50%; top: 18px; width: 50px; height: 50px; margin-left: -25px; background: var(--red); }
+      #s3-sub { position: absolute; left: 0; right: 0; top: 740px; display: flex; justify-content: center; gap: 16px; font-size: 48px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 500; }
+
+      /* S4 */
+      #s4-red { position: absolute; inset: 0; perspective: 900px; }
+      #s4-red i { display: block; height: 135px; background: var(--red); }
+      #s4-head { position: absolute; left: 140px; top: 250px; font-size: 168px; line-height: 0.95; font-variation-settings: "wdth" 75, "wght" 900; }
+      #s4-head .w { display: inline-block; margin-right: 34px; transform-origin: 50% 100%; }
+      #s4-chip { position: absolute; left: 140px; top: 650px; height: 84px; display: flex; align-items: center; gap: 16px; padding: 0 34px 0 22px; border-radius: 42px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 34px; font-variation-settings: "wdth" 100, "wght" 700; }
+      #s4-chip .ic { width: 50px; height: 50px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; color: var(--bone); }
+      #s4-chip .ic svg { width: 28px; height: 28px; }
+      #s4-n { display: inline-block; height: 40px; overflow: hidden; vertical-align: top; color: var(--red); }
+      #s4-ncol { display: block; }
+      #s4-ncol i { display: block; height: 40px; line-height: 40px; font-style: normal; }
+      #s4-phone { position: absolute; left: 1115px; top: 110px; width: 430px; height: 860px; }
+      #s4-body { position: absolute; inset: 0; border-radius: 66px; background: var(--panel); box-shadow: inset 0 0 0 3px #352d3b, 0 40px 120px rgba(0, 0, 0, 0.8), 0 0 160px rgba(255, 42, 61, 0.18); }
+      #s4-screen { position: absolute; inset: 16px; border-radius: 52px; background: #0f0d12; overflow: hidden; }
+      #s4-notch { position: absolute; left: 155px; top: 30px; width: 120px; height: 32px; border-radius: 16px; background: #000; }
+      .ph-h { position: absolute; left: 44px; top: 92px; font-size: 40px; font-variation-settings: "wdth" 100, "wght" 800; }
+      .ph-s { position: absolute; left: 44px; top: 142px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 500; }
+      #s4-drop { position: absolute; left: 45px; top: 270px; width: 340px; height: 320px; border-radius: 30px; border: 3px dashed #3d3443; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--ash); font-size: 26px; font-variation-settings: "wdth" 100, "wght" 600; }
+      #s4-drop svg { width: 64px; height: 64px; color: var(--red); }
+      #s4-btn { position: absolute; left: 44px; right: 44px; bottom: 46px; height: 96px; border-radius: 48px; background: var(--red); display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 36px; font-variation-settings: "wdth" 110, "wght" 800; }
+      #s4-btn svg { width: 34px; height: 34px; fill: var(--bone); stroke: none; }
+      .cl { position: absolute; left: 105px; top: 355px; width: 220px; height: 150px; }
+      .cl .ph { inset: 0; border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6); }
+
+      /* S5 */
+      #s5-head { position: absolute; left: 0; right: 0; top: 110px; display: flex; justify-content: center; gap: 30px; font-size: 112px; line-height: 1.05; font-variation-settings: "wdth" 110, "wght" 800; }
+      #s5-head .w { display: inline-block; }
+      #s5-chips { position: absolute; left: 0; right: 0; top: 296px; display: flex; justify-content: center; gap: 22px; }
+      .chip { height: 76px; display: flex; align-items: center; gap: 14px; padding: 0 30px 0 18px; border-radius: 38px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 32px; font-variation-settings: "wdth" 100, "wght" 700; }
+      .chip .ic { width: 46px; height: 46px; border-radius: 50%; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; }
+      .chip .ic svg { width: 26px; height: 26px; }
+      #s5-panel { position: absolute; left: 295px; top: 430px; width: 1330px; height: 420px; border-radius: 32px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line), 0 40px 100px rgba(0, 0, 0, 0.6); }
+      #s5-row { position: absolute; left: 30px; top: 40px; width: 1270px; height: 140px; }
+      .tc { position: absolute; left: 0; top: 0; width: 200px; height: 140px; }
+      .tc .ph { inset: 0; border-radius: 16px; }
+      .tc .ph b { font-size: 20px; }
+      #s5-wave { position: absolute; left: 30px; top: 222px; width: 1270px; height: 160px; display: flex; justify-content: space-between; align-items: center; }
+      #s5-wave i { display: block; width: 14px; border-radius: 7px; background: #4a3f52; }
+      #s5-wave i.on { background: var(--red); }
+      #s5-ph { position: absolute; left: 30px; top: -30px; width: 4px; height: 450px; }
+      #s5-ph .bar { position: absolute; left: 0; top: 0; width: 4px; height: 450px; background: var(--red); border-radius: 2px; box-shadow: 0 0 20px rgba(255, 42, 61, 0.8); }
+      #s5-sc { position: absolute; left: -38px; top: -96px; width: 80px; height: 80px; color: var(--bone); }
+      #s5-sc svg { width: 80px; height: 80px; overflow: visible; }
+      .cutflash { position: absolute; top: 30px; width: 6px; height: 160px; margin-left: -3px; background: #fff; border-radius: 3px; opacity: 0; }
+
+      /* S6 */
+      .s6p { position: absolute; inset: 0; overflow: hidden; }
+      #s6a { clip-path: polygon(0% 0%, 0% 0%, -20% 100%, -20% 100%); }
+      #s6a-ph { inset: 0; border: none; }
+      #s6a-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 10, 13, 0.25), rgba(11, 10, 13, 0.1) 40%, rgba(11, 10, 13, 0.85)); }
+      #s6-wedge { position: absolute; left: -90px; top: -110px; width: 180px; height: 1300px; background: var(--red); box-shadow: 0 0 80px rgba(255, 42, 61, 0.7); }
+      .lab { position: absolute; left: 90px; top: 80px; display: flex; align-items: center; gap: 20px; font-size: 44px; font-variation-settings: "wdth" 100, "wght" 800; }
+      .lab .ic { width: 76px; height: 76px; border-radius: 22px; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; }
+      .lab .ic svg { width: 42px; height: 42px; }
+      #s6a-cap { position: absolute; left: 0; right: 0; top: 720px; display: flex; justify-content: center; gap: 30px; font-size: 120px; line-height: 1; font-variation-settings: "wdth" 90, "wght" 900; }
+      #s6a-cap .cw { position: relative; z-index: 2; display: inline-block; padding: 8px 18px 16px; }
+      #s6a-cap .cw span { position: relative; z-index: 2; display: inline-block; }
+      #s6a-box { position: absolute; left: 0; top: 0; width: 100px; height: 140px; border-radius: 18px; background: var(--red); z-index: 1; transform-origin: 0 50%; }
+      #s6b { background: var(--bg); opacity: 0; }
+      #s6b-dim { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; }
+      #s6b-dimcover { position: absolute; left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; background: rgba(11, 10, 13, 0.72); }
+      #s6b-crop { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; border-color: var(--red); clip-path: inset(0px 0px 0px 0px round 24px); }
+      #s6b-frame { position: absolute; left: 603px; top: 96px; width: 514px; height: 908px; border-radius: 28px; box-shadow: inset 0 0 0 5px var(--red), 0 0 60px rgba(255, 42, 61, 0.45); }
+      #s6b-tag { position: absolute; right: 90px; top: 98px; height: 76px; display: flex; align-items: center; gap: 16px; padding: 0 30px; border-radius: 38px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 32px; font-variation-settings: "wdth" 100, "wght" 700; }
+      #s6b-blinds { position: absolute; inset: 0; display: flex; }
+      #s6b-blinds i { display: block; flex: 1; height: 100%; background: var(--red); }
+      #s6c { background: radial-gradient(circle at 50% 70%, #3a0910 0%, var(--bg) 60%); clip-path: circle(0px at 960px 560px); }
+      #s6c-flame { position: absolute; left: 900px; top: 500px; width: 120px; height: 120px; color: var(--red); }
+      #s6c-flame svg { width: 120px; height: 120px; fill: var(--red); stroke: none; }
+      #s6c-g { position: absolute; left: 560px; top: 300px; width: 800px; height: 460px; }
+      #s6c-num { position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center; font-size: 230px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; }
+      #s6c-num .odo { height: 230px; }
+      #s6c-lab { position: absolute; left: 0; right: 0; top: 180px; display: flex; justify-content: center; align-items: center; gap: 18px; font-size: 52px; font-variation-settings: "wdth" 110, "wght" 800; }
+      #s6c-lab svg { width: 56px; height: 56px; fill: var(--red); stroke: none; }
+      
+      /* S7 */
+      #s7-stage { position: absolute; inset: 0; perspective: 1500px; }
+      .reel { position: absolute; left: 1000px; top: 200px; width: 360px; height: 640px; border-radius: 40px; overflow: hidden; background: var(--panel); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.75), inset 0 0 0 2px var(--line); }
+      .reel .ph { inset: 0; border: none; border-radius: 40px; }
+      .reel .ui { position: absolute; right: 20px; bottom: 90px; display: flex; flex-direction: column; gap: 22px; color: var(--bone); }
+      .reel .ui svg { width: 40px; height: 40px; }
+      .reel .who { position: absolute; left: 24px; bottom: 40px; font-size: 24px; font-variation-settings: "wdth" 100, "wght" 700; }
+      .reel .pb { position: absolute; left: 24px; right: 24px; bottom: 22px; height: 6px; border-radius: 3px; background: rgba(245, 238, 238, 0.2); overflow: hidden; }
+      .reel .pb i { display: block; height: 100%; background: var(--red); transform-origin: 0 50%; }
+      #s7-c { z-index: 3; }
+      .fl { position: absolute; width: 84px; height: 84px; border-radius: 50%; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); z-index: 5; }
+      .fl svg { width: 44px; height: 44px; }
+      .fl.alt { background: var(--bone); color: var(--red); }
+      .fl.h svg { fill: currentColor; stroke: none; }
+      .stat { position: absolute; left: 130px; }
+      .stat .big { display: flex; align-items: flex-end; font-size: 210px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; }
+      .stat .big .odo, .stat .big .odo .col i { height: 210px; }
+      .stat .sm { font-size: 40px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 600; margin-top: 4px; }
+      #st1 { top: 210px; }
+      #st2 { top: 560px; }
+
+      /* S8 */
+      #s8-slot { position: absolute; left: 0; right: 0; top: 410px; height: 260px; overflow: hidden; }
+      #s8-col { position: absolute; left: 0; right: 0; top: 0; }
+      .s8l { height: 260px; display: flex; justify-content: center; align-items: center; gap: 46px; font-size: 230px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; white-space: nowrap; }
+      .fire { background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.1) 0 12px, rgba(255, 255, 255, 0) 12px 26px), linear-gradient(180deg, var(--ember), var(--red) 55%, var(--crim)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .s8rule { position: absolute; left: 260px; right: 260px; height: 6px; border-radius: 3px; background: var(--red); }
+      #s8-r1 { top: 390px; }
+      #s8-r2 { top: 684px; }
+      #s8-tag { position: absolute; right: 120px; top: 720px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 600; letter-spacing: 0.06em; }
+      #s8-ball { position: absolute; left: 900px; top: 480px; width: 120px; height: 120px; border-radius: 50%; background: var(--red); }
+
+      /* S9 */
+      #s9-ball { position: absolute; left: 900px; top: 470px; width: 120px; height: 120px; border-radius: 50%; background: var(--red); transform-origin: 50% 100%; }
+      #s9-shadow { position: absolute; left: 890px; top: 586px; width: 140px; height: 18px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); }
+      #s9-wmask { overflow: hidden; height: 300px; display: flex; align-items: center; padding-right: 10px; }
+      #s9-url { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font-size: 40px; color: var(--ash); font-variation-settings: "wdth" 110, "wght" 600; letter-spacing: 0.04em; }
+      #s9-cta { position: absolute; left: 0; right: 0; top: 820px; display: flex; justify-content: center; }
+      #s9-pill { position: relative; height: 96px; display: flex; align-items: center; gap: 18px; padding: 0 44px 0 52px; border-radius: 48px; background: var(--red); font-size: 38px; font-variation-settings: "wdth" 110, "wght" 800; }
+      #s9-pill svg { width: 36px; height: 36px; }
+      .ring { position: absolute; inset: 0; border-radius: 48px; box-shadow: 0 0 0 3px var(--red); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="i-cam" viewBox="0 0 24 24"><path d="M3.5 8h3.2l1.8-2.6h7l1.8 2.6h3.2v11h-17z" /><circle cx="12" cy="13.2" r="3.6" /></symbol>
+        <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15.5V4M7 8.8 12 4l5 4.8M4.5 15v4.5h15V15" /></symbol>
+        <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 17.5V5.5l11-2v12" /><circle cx="6.2" cy="17.5" r="2.8" /><circle cx="17.2" cy="15.5" r="2.8" /></symbol>
+        <symbol id="i-scis" viewBox="0 0 24 24"><circle cx="6" cy="6.5" r="3" /><circle cx="6" cy="17.5" r="3" /><path d="M8.6 8.2 20 18M8.6 15.8 20 6" /></symbol>
+        <symbol id="i-cc" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3.5" /><path d="M10.6 10.2a2.4 2.4 0 1 0 0 3.6M17.4 10.2a2.4 2.4 0 1 0 0 3.6" /></symbol>
+        <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6.5 2.5v13a2 2 0 0 0 2 2h13M17.5 21.5v-13a2 2 0 0 0-2-2h-13" /></symbol>
+        <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12.4 2c.9 3.6 5.9 5.8 5.9 11.6A6.3 6.3 0 0 1 12 20a6.3 6.3 0 0 1-6.3-6.4c0-2.8 1.6-4.6 2.9-5.7.1 2 1.1 3.3 2.4 3.6-.4-3.6.4-6.4 1.4-9.5z" /></symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5s-8.2-4.9-8.2-11a4.6 4.6 0 0 1 8.2-2.8 4.6 4.6 0 0 1 8.2 2.8c0 6.1-8.2 11-8.2 11z" /></symbol>
+        <symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11.2H9.4L4 20.2z" /></symbol>
+        <symbol id="i-share" viewBox="0 0 24 24"><path d="M13.5 4.5 21 11.5l-7.5 7v-4c-5.2 0-8.3 1.6-11 5.2.9-6.1 4.1-10.3 11-11.2z" /></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4.5 12h15M13.5 6l6 6-6 6" /></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 1.5 14.2 9.8 22.5 12 14.2 14.2 12 22.5 9.8 14.2 1.5 12 9.8 9.8z" /></symbol>
+        <!-- FLINT mark: angular spark with a struck facet + a small kick spark -->
+        <symbol id="mark" viewBox="0 0 100 100">
+          <path d="M50 2 L59.5 40.5 L98 50 L59.5 59.5 L50 98 L40.5 59.5 L2 50 L40.5 40.5 Z" fill="currentColor" />
+          <path d="M50 2 L59.5 40.5 L50 50 Z" fill="#f5eeee" opacity="0.92" />
+          <path d="M84 6 L86.6 13.4 L94 16 L86.6 18.6 L84 26 L81.4 18.6 L74 16 L81.4 13.4 Z" fill="#f5eeee" />
+        </symbol>
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="5" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24" data-fps="60" data-width="1920" data-height="1080">
+      <!-- ambient -->
+      <section id="amb" class="clip" data-start="0" data-duration="24" data-track-index="0">
+        <div class="fill" style="background: var(--bg)"></div>
+        <div id="glow"></div>
+      </section>
+
+      <!-- 01 400 clips / 0 reels -->
+      <section id="s1" class="clip" data-start="0" data-duration="1.875" data-track-index="1">
+        <div class="s1-half" id="s1-top" data-hf-motion-blur='{"samplesPerFrame": 10}'>
+          <div class="s1-l s1-l1"><span class="num" data-to="400"></span><span class="mask"><span class="s1-w1">clips.</span></span></div>
+          <div class="s1-l s1-l2"><span class="ib s1-zero red">0</span><span class="ib s1-w2">reels.</span></div>
+        </div>
+        <div class="s1-half" id="s1-bot" data-hf-motion-blur='{"samplesPerFrame": 10}'>
+          <div class="s1-l s1-l1"><span class="num" data-to="400"></span><span class="mask"><span class="s1-w1">clips.</span></span></div>
+          <div class="s1-l s1-l2"><span class="ib s1-zero red">0</span><span class="ib s1-w2">reels.</span></div>
+        </div>
+        <div id="s1-slash"></div>
+      </section>
+
+      <!-- 02 camera-roll chaos -->
+      <section id="s2" class="clip" data-start="1.875" data-duration="1.875" data-track-index="1">
+        <div id="s2-grid"></div>
+        <div id="s2-red"></div>
+        <div id="s2-pill">
+          <div id="s2-pillbox">
+            <div id="s2-clock"><i id="s2-h1"></i><i id="s2-h2"></i><b></b></div>
+            <div id="s2-txt">Still editing?</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 Meet FLINT -->
+      <section id="s3" class="clip" data-start="3.75" data-duration="2.8125" data-track-index="1">
+        <div id="s3-red"></div>
+        <div id="s3-meet" data-layout-allow-occlusion><span>Meet</span></div>
+        <svg class="stone" id="st-l" viewBox="0 0 240 200" data-hf-motion-blur='{"samplesPerFrame": 12}'>
+          <path d="M14 70 L86 12 L196 24 L238 98 L190 186 L60 178 Z" fill="#0b0a0d" />
+          <path d="M86 12 L196 24 L150 92 Z" fill="#2a2430" />
+          <path d="M196 24 L238 98 L150 92 Z" fill="#1d1922" />
+        </svg>
+        <svg class="stone" id="st-r" viewBox="0 0 240 200" data-hf-motion-blur='{"samplesPerFrame": 12}'>
+          <path d="M226 64 L150 14 L40 30 L2 104 L58 188 L186 172 Z" fill="#0b0a0d" />
+          <path d="M150 14 L40 30 L96 96 Z" fill="#2a2430" />
+          <path d="M40 30 L2 104 L96 96 Z" fill="#1d1922" />
+        </svg>
+        <div id="s3-black">
+          <div class="rays" id="s3-rays"></div>
+        </div>
+        <div id="s3-sparks"></div>
+        <div id="s3-row">
+          <div class="logo" id="s3-icon"><svg viewBox="0 0 100 100"><use href="#mark" /></svg></div>
+          <div class="wm" id="s3-wm"><span class="lt">f</span><span class="lt">l</span><span class="lt">ı<i class="idot" id="s3-dot"></i></span><span class="lt">n</span><span class="lt">t</span></div>
+        </div>
+        <div id="s3-sub" data-layout-allow-occlusion><span class="mask"><span data-layout-allow-occlusion>AI</span></span><span class="mask"><span data-layout-allow-occlusion>that</span></span><span class="mask"><span data-layout-allow-occlusion>cuts</span></span><span class="mask"><span data-layout-allow-occlusion>your</span></span><span class="mask"><span class="red" data-layout-allow-occlusion>reels.</span></span></div>
+        <div id="s3-flash"></div>
+      </section>
+
+      <!-- 04 Drop your clips -->
+      <section id="s4" class="clip" data-start="6.5625" data-duration="2.8125" data-track-index="1">
+        <div id="s4-head"><span class="w">Drop</span><span class="w">your</span><div></div><span class="w red">clips.</span></div>
+        <div id="s4-chip"><span class="ic"><svg class="ico"><use href="#i-up" /></svg></span><span id="s4-n"><span id="s4-ncol"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></span></span><span>clips added</span></div>
+        <div id="s4-phone">
+          <div id="s4-body"></div>
+          <div id="s4-screen">
+            <div id="s4-notch"></div>
+            <div class="ph-h">New reel</div>
+            <div class="ph-s">Drop raw clips · we do the rest</div>
+            <div id="s4-drop"><svg class="ico"><use href="#i-up" /></svg><span>Drop clips here</span></div>
+            <div id="s4-btn"><svg viewBox="0 0 24 24"><use href="#i-star" /></svg><span>Cut it</span></div>
+          </div>
+          <div id="s4-clips" data-layout-allow-overlap></div>
+        </div>
+        <div id="s4-red"></div>
+      </section>
+
+      <!-- 05 Cuts on the beat -->
+      <section id="s5" class="clip" data-start="9.375" data-duration="3.75" data-track-index="1">
+        <div id="s5-head"><span class="mask"><span class="w">Cuts</span></span><span class="mask"><span class="w red">on</span></span><span class="mask"><span class="w red">the</span></span><span class="mask"><span class="w red">beat.</span></span></div>
+        <div id="s5-chips">
+          <div class="chip" id="ch1"><span class="ic"><svg class="ico"><use href="#i-music" /></svg></span>Beat sync</div>
+          <div class="chip" id="ch2"><span class="ic"><svg class="ico"><use href="#i-scis" /></svg></span>Smart cuts</div>
+          <div class="chip" id="ch3"><span class="ic"><svg class="ico"><use href="#i-cc" /></svg></span>Captions</div>
+        </div>
+        <div id="s5-panel">
+          <div id="s5-row"></div>
+          <div id="s5-wave"></div>
+          <div id="s5-ph">
+            <div class="bar"></div>
+            <div id="s5-sc">
+              <svg viewBox="0 0 80 80">
+                <g id="s5-bl1"><circle cx="20" cy="18" r="10" fill="none" stroke="#f5eeee" stroke-width="5" /><path d="M28 24 L66 64" stroke="#f5eeee" stroke-width="6" stroke-linecap="round" /></g>
+                <g id="s5-bl2"><circle cx="20" cy="62" r="10" fill="none" stroke="#f5eeee" stroke-width="5" /><path d="M28 56 L66 16" stroke="#f5eeee" stroke-width="6" stroke-linecap="round" /></g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 features -->
+      <section id="s6" class="clip" data-start="13.125" data-duration="2.8125" data-track-index="1">
+        <div class="s6p" id="s6a">
+          <div class="ph" id="s6a-ph"><svg class="ico"><use href="#i-cam" /></svg><b>CAP · talking head 16:9</b></div>
+          <div id="s6a-shade"></div>
+          <div class="lab"><span class="ic"><svg class="ico"><use href="#i-cc" /></svg></span>Auto captions</div>
+          <div id="s6a-cap"><i id="s6a-box"></i><span class="cw"><span>this</span></span><span class="cw"><span>is</span></span><span class="cw"><span>actually</span></span><span class="cw"><span>insane</span></span></div>
+        </div>
+        <div id="s6-wedge"></div>
+        <div class="s6p" id="s6b">
+          <div class="ph" id="s6b-dim" data-layout-allow-occlusion><svg class="ico"><use href="#i-cam" /></svg><b data-layout-allow-occlusion>RF · wide shot 16:9</b></div>
+          <div id="s6b-dimcover"></div>
+          <div class="ph" id="s6b-crop"><svg class="ico"><use href="#i-cam" /></svg><b>RF · wide shot 16:9</b></div>
+          <div id="s6b-frame"></div>
+          <div class="lab"><span class="ic"><svg class="ico"><use href="#i-crop" /></svg></span>Auto reframe</div>
+          <div id="s6b-tag">16:9 <svg class="ico" style="width: 30px; height: 30px; color: var(--red)"><use href="#i-arrow" /></svg> 9:16</div>
+        </div>
+        <div id="s6b-blinds"></div>
+        <div class="s6p" id="s6c">
+          <div id="s6c-lab"><svg viewBox="0 0 24 24"><use href="#i-flame" /></svg>Hook score</div>
+          <svg id="s6c-g" viewBox="0 0 800 460">
+            <path d="M80 420 A320 320 0 0 1 720 420" fill="none" stroke="#2a2430" stroke-width="34" stroke-linecap="round" />
+            <path id="s6c-arc" d="M80 420 A320 320 0 0 1 720 420" fill="none" stroke="#ff2a3d" stroke-width="34" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" />
+            <g id="s6c-needle"><path d="M394 420 L400 150 L406 420 Z" fill="#f5eeee" /><circle cx="400" cy="420" r="22" fill="#f5eeee" /></g>
+          </svg>
+          <div id="s6c-num"><span class="num" data-to="98"></span></div>
+        </div>
+        <div id="s6c-flame"><svg viewBox="0 0 24 24"><use href="#i-flame" /></svg></div>
+      </section>
+
+      <!-- 07 results -->
+      <section id="s7" class="clip" data-start="15.9375" data-duration="2.8125" data-track-index="1">
+        <div class="stat" id="st1"><div class="big"><span class="num" data-to="12"></span><span>&nbsp;s</span></div><div class="sm">from raw clips to a ready reel</div></div>
+        <div class="stat" id="st2"><div class="big"><span class="red">+</span><span class="num" data-to="34" data-dot="1"></span><span class="red">×</span></div><div class="sm">more views on average</div></div>
+        <div id="s7-stage" data-layout-allow-occlusion>
+          <div class="reel" id="s7-l"><div class="ph"><svg class="ico"><use href="#i-cam" /></svg><b>REEL-A · 9:16</b></div><div class="who" data-layout-allow-occlusion>@yourbrand</div></div>
+          <div class="reel" id="s7-r"><div class="ph"><svg class="ico"><use href="#i-cam" /></svg><b>REEL-C · 9:16</b></div><div class="who" data-layout-allow-occlusion>@yourbrand</div></div>
+          <div class="reel" id="s7-c">
+            <div class="ph"><svg class="ico"><use href="#i-cam" /></svg><b>REEL-B · 9:16</b></div>
+            <div class="ui"><svg class="ico" style="fill: var(--red); stroke: var(--red)"><use href="#i-heart" /></svg><svg class="ico"><use href="#i-msg" /></svg><svg class="ico"><use href="#i-share" /></svg></div>
+            <div class="who" data-layout-allow-occlusion>@yourbrand</div>
+            <div class="pb"><i id="s7-pb"></i></div>
+          </div>
+        </div>
+        <div id="s7-fl"></div>
+      </section>
+
+      <!-- 08 tagline slot -->
+      <section id="s8" class="clip" data-start="18.75" data-duration="1.875" data-track-index="1">
+        <div class="s8rule" id="s8-r1"></div>
+        <div class="s8rule" id="s8-r2"></div>
+        <div id="s8-slot">
+          <div id="s8-col" data-hf-motion-blur='{"samplesPerFrame": 12}'>
+            <div class="s8l"></div>
+            <div class="s8l" id="s8-a"><span>Raw</span><span>clips</span><span>in.</span></div>
+            <div class="s8l" id="s8-b"><span class="fire">Fire</span><span>reels</span><span class="ib red" id="s8-out">out.</span></div>
+          </div>
+        </div>
+        <div id="s8-tag">“FIRE” = IMAGE FILL PLACEHOLDER</div>
+        <div id="s8-ball"></div>
+      </section>
+
+      <!-- 09 endcard -->
+      <section id="s9" class="clip" data-start="20.625" data-duration="3.375" data-track-index="1">
+        <div class="rays" id="s9-rays"></div>
+        <div id="s9-shadow"></div>
+        <div id="s9-sparks"></div>
+        <div id="s9-row">
+          <div class="logo" id="s9-icon"><svg viewBox="0 0 100 100"><use href="#mark" /></svg></div>
+          <div id="s9-wmask"><div class="wm" id="s9-wm"><span class="lt">f</span><span class="lt">l</span><span class="lt">ı<i class="idot"></i></span><span class="lt">n</span><span class="lt">t</span></div></div>
+        </div>
+        <div id="s9-ball"></div>
+        <div id="s9-url">flint.video</div>
+        <div id="s9-cta"><div id="s9-pill"><i class="ring" id="rg1"></i><i class="ring" id="rg2"></i>Try it free<svg class="ico"><use href="#i-arrow" /></svg></div></div>
+      </section>
+
+      <div id="vig" class="clip" data-start="0" data-duration="24" data-track-index="2"></div>
+      <svg id="grain" class="clip" data-start="0" data-duration="24" data-track-index="3" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
+
+      <!-- music (temp) -->
+      <audio id="mus" src="assets/music/temp_beat.wav" data-start="0" data-duration="24" data-track-index="9" data-volume="0.55"></audio>
+      <!-- SFX -->
+      <audio id="sfx-00-tick" src="assets/sfx/tick.wav" data-start="0.06" data-duration="0.05" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-01-tick" src="assets/sfx/tick.wav" data-start="0.14" data-duration="0.05" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-02-tick" src="assets/sfx/tick.wav" data-start="0.22" data-duration="0.05" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-03-tick" src="assets/sfx/tick.wav" data-start="0.3" data-duration="0.05" data-track-index="10" data-volume="0.45"></audio>
+      <audio id="sfx-04-clack" src="assets/sfx/clack.wav" data-start="0.5" data-duration="0.05" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-05-thud" src="assets/sfx/thud.wav" data-start="0.94" data-duration="0.35" data-track-index="12" data-volume="1"></audio>
+      <audio id="sfx-06-pop_1" src="assets/sfx/pop_1.wav" data-start="1.41" data-duration="0.16" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-07-schwip" src="assets/sfx/schwip.wav" data-start="1.6" data-duration="0.22" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-08-cascade" src="assets/sfx/cascade.wav" data-start="1.875" data-duration="0.33" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-09-boing" src="assets/sfx/boing.wav" data-start="2.27" data-duration="0.5" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-10-tiktok" src="assets/sfx/tiktok.wav" data-start="2.6" data-duration="0.21" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-11-tiktok" src="assets/sfx/tiktok.wav" data-start="2.96" data-duration="0.21" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-12-riser" src="assets/sfx/riser.wav" data-start="3.25" data-duration="0.5" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-13-flap" src="assets/sfx/flap.wav" data-start="3.28" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-14-flap" src="assets/sfx/flap.wav" data-start="3.42" data-duration="0.32" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-15-bwamp" src="assets/sfx/bwamp.wav" data-start="3.75" data-duration="0.7" data-track-index="10" data-volume="0.9"></audio>
+      <audio id="sfx-16-thud" src="assets/sfx/thud.wav" data-start="3.91" data-duration="0.35" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-17-wub" src="assets/sfx/wub.wav" data-start="3.95" data-duration="0.55" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-18-strike" src="assets/sfx/strike.wav" data-start="4.6875" data-duration="0.7" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx-19-whomp" src="assets/sfx/whomp.wav" data-start="4.69" data-duration="0.6" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-20-tok" src="assets/sfx/tok.wav" data-start="5.11" data-duration="0.12" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-21-tok" src="assets/sfx/tok.wav" data-start="5.18" data-duration="0.12" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-22-tok" src="assets/sfx/tok.wav" data-start="5.25" data-duration="0.12" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-23-tok" src="assets/sfx/tok.wav" data-start="5.32" data-duration="0.12" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-24-tok" src="assets/sfx/tok.wav" data-start="5.39" data-duration="0.12" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-25-ping" src="assets/sfx/ping.wav" data-start="5.72" data-duration="1.0" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-26-whoosh_in" src="assets/sfx/whoosh_in.wav" data-start="6.08" data-duration="0.4" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-27-flap" src="assets/sfx/flap.wav" data-start="6.58" data-duration="0.32" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-28-boing_lo" src="assets/sfx/boing_lo.wav" data-start="6.68" data-duration="0.45" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-29-thud" src="assets/sfx/thud.wav" data-start="6.95" data-duration="0.35" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-30-fwip" src="assets/sfx/fwip.wav" data-start="7.06" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-31-fwip" src="assets/sfx/fwip.wav" data-start="7.3" data-duration="0.16" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-32-pop_1" src="assets/sfx/pop_1.wav" data-start="7.46" data-duration="0.16" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-33-fwip" src="assets/sfx/fwip.wav" data-start="7.53" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-34-pop_2" src="assets/sfx/pop_2.wav" data-start="7.7" data-duration="0.16" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-35-fwip" src="assets/sfx/fwip.wav" data-start="7.77" data-duration="0.16" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-36-pop_3" src="assets/sfx/pop_3.wav" data-start="7.93" data-duration="0.16" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-37-fwip" src="assets/sfx/fwip.wav" data-start="8.0" data-duration="0.16" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-38-pop_4" src="assets/sfx/pop_4.wav" data-start="8.17" data-duration="0.16" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-39-fwip" src="assets/sfx/fwip.wav" data-start="8.24" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-40-pop_5" src="assets/sfx/pop_5.wav" data-start="8.4" data-duration="0.16" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-41-pop_6" src="assets/sfx/pop_6.wav" data-start="8.64" data-duration="0.16" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-42-click" src="assets/sfx/click.wav" data-start="8.88" data-duration="0.06" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-43-whoosh_in" src="assets/sfx/whoosh_in.wav" data-start="9.0" data-duration="0.4" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-44-zip" src="assets/sfx/zip.wav" data-start="9.38" data-duration="0.3" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-45-snip" src="assets/sfx/snip.wav" data-start="9.84" data-duration="0.075" data-track-index="10" data-volume="0.9"></audio>
+      <audio id="sfx-46-snip" src="assets/sfx/snip.wav" data-start="10.08" data-duration="0.075" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-47-snip" src="assets/sfx/snip.wav" data-start="10.31" data-duration="0.075" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-48-pop_2" src="assets/sfx/pop_2.wav" data-start="10.33" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-49-snip" src="assets/sfx/snip.wav" data-start="10.55" data-duration="0.075" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-50-snip" src="assets/sfx/snip.wav" data-start="10.78" data-duration="0.075" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-51-pop_4" src="assets/sfx/pop_4.wav" data-start="10.8" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-52-fwip" src="assets/sfx/fwip.wav" data-start="11.25" data-duration="0.16" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-53-pop_6" src="assets/sfx/pop_6.wav" data-start="11.27" data-duration="0.16" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-54-fwip" src="assets/sfx/fwip.wav" data-start="11.3" data-duration="0.16" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-55-crunch" src="assets/sfx/crunch.wav" data-start="11.72" data-duration="0.25" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-56-slam" src="assets/sfx/slam.wav" data-start="12.8" data-duration="0.45" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-57-schwing" src="assets/sfx/schwing.wav" data-start="13.125" data-duration="0.3" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-58-tick" src="assets/sfx/tick.wav" data-start="13.3" data-duration="0.05" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-59-tick" src="assets/sfx/tick.wav" data-start="13.46" data-duration="0.05" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-60-tick" src="assets/sfx/tick.wav" data-start="13.62" data-duration="0.05" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-61-tick" src="assets/sfx/tick.wav" data-start="13.82" data-duration="0.05" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-62-flap" src="assets/sfx/flap.wav" data-start="13.92" data-duration="0.32" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-63-boing" src="assets/sfx/boing.wav" data-start="14.23" data-duration="0.5" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-64-fwip" src="assets/sfx/fwip.wav" data-start="14.76" data-duration="0.16" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-65-whomp" src="assets/sfx/whomp.wav" data-start="14.96" data-duration="0.6" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-66-wobble" src="assets/sfx/wobble.wav" data-start="15.12" data-duration="0.6" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-67-ding" src="assets/sfx/ding.wav" data-start="15.7" data-duration="1.6" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-68-whoosh" src="assets/sfx/whoosh.wav" data-start="15.94" data-duration="0.35" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-69-tick" src="assets/sfx/tick.wav" data-start="16.2" data-duration="0.05" data-track-index="10" data-volume="0.4"></audio>
+      <audio id="sfx-70-tick" src="assets/sfx/tick.wav" data-start="16.32" data-duration="0.05" data-track-index="11" data-volume="0.4"></audio>
+      <audio id="sfx-71-pop_1" src="assets/sfx/pop_1.wav" data-start="16.41" data-duration="0.16" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-72-tick" src="assets/sfx/tick.wav" data-start="16.45" data-duration="0.05" data-track-index="10" data-volume="0.4"></audio>
+      <audio id="sfx-73-pop_3" src="assets/sfx/pop_3.wav" data-start="16.64" data-duration="0.16" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-74-pop_5" src="assets/sfx/pop_5.wav" data-start="16.88" data-duration="0.16" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-75-pop_2" src="assets/sfx/pop_2.wav" data-start="17.11" data-duration="0.16" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-76-pop_4" src="assets/sfx/pop_4.wav" data-start="17.34" data-duration="0.16" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-77-pop_6" src="assets/sfx/pop_6.wav" data-start="17.58" data-duration="0.16" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-78-fwip" src="assets/sfx/fwip.wav" data-start="18.5" data-duration="0.16" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-79-kachunk" src="assets/sfx/kachunk.wav" data-start="18.77" data-duration="0.3" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-80-kachunk" src="assets/sfx/kachunk.wav" data-start="19.69" data-duration="0.3" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-81-stretch" src="assets/sfx/stretch.wav" data-start="19.9" data-duration="0.45" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-82-sup" src="assets/sfx/sup.wav" data-start="20.42" data-duration="0.25" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-83-boing_lo" src="assets/sfx/boing_lo.wav" data-start="20.63" data-duration="0.45" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-84-thud" src="assets/sfx/thud.wav" data-start="21.03" data-duration="0.35" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-85-thud" src="assets/sfx/thud.wav" data-start="21.38" data-duration="0.35" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-86-zap" src="assets/sfx/zap.wav" data-start="21.46" data-duration="0.35" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-87-strike" src="assets/sfx/strike.wav" data-start="21.46" data-duration="0.7" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-88-whoosh" src="assets/sfx/whoosh.wav" data-start="21.85" data-duration="0.35" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-89-pop_6" src="assets/sfx/pop_6.wav" data-start="22.25" data-duration="0.16" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-90-ding" src="assets/sfx/ding.wav" data-start="22.4" data-duration="1.6" data-track-index="10" data-volume="0.7"></audio>
+    </div>
+
+    <script src="assets/vendor/motion-blur.js"></script>
+    <script>
+      document.fonts.ready.then(() => {
+        const B = 0.46875;
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+        const fvs = (w, g) => `"wdth" ${w}, "wght" ${g}`;
+        let seed = 1337;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+        const ph = (code, extra = "") => `<div class="ph" ${extra}><svg class="ico"><use href="#i-cam" /></svg><b>${code}</b></div>`;
+        const relPos = (el, stop) => {
+          let x = 0, y = 0, n = el;
+          while (n && n !== stop) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+          return { x, y };
+        };
+        // Odometer: turns <span class="num" data-to="400"> into rolling columns.
+        const odo = (el) => {
+          const to = el.dataset.to;
+          const h = parseFloat(getComputedStyle(el.closest(".s1-l, #s6c-num, .big")).fontSize);
+          el.innerHTML = "";
+          const cols = [];
+          to.split("").forEach((d, i) => {
+            if (el.dataset.dot && i === to.length - 1) {
+              const dot = document.createElement("span"); dot.textContent = "."; el.appendChild(dot);
+            }
+            const w = document.createElement("span"); w.className = "odo";
+            const c = document.createElement("span"); c.className = "col";
+            for (let k = 0; k < 20; k++) { const ii = document.createElement("i"); ii.textContent = k % 10; c.appendChild(ii); }
+            w.appendChild(c); el.appendChild(w);
+            cols.push({ c, target: 10 + Number(d), h });
+          });
+          return cols;
+        };
+        const roll = (cols, at, o = {}) => cols.forEach((col, i) =>
+          tl.fromTo(col.c, { y: 0 }, { y: -col.target * col.h, duration: (o.dur ?? 0.45) + i * (o.step ?? 0.07), ease: o.ease ?? "back.out(1.6)" }, at));
+
+        // ── AMBIENT: glow breathes on the beat after the drop ───────────────
+        tl.set("#glow", { opacity: 0.25 }, 0);
+        for (let b = 8; b < 51; b++) {
+          if (b === 34) continue;
+          tl.fromTo("#glow", { opacity: 0.85, scale: 1.06 }, { opacity: 0.35, scale: 1, duration: B * 0.95, ease: "power2.out" }, b * B);
+        }
+
+        // ── 01 · 400 clips / 0 reels (0 – 1.875) ─────────────────────────────
+        $$("#s1 .num").forEach((n) => roll(odo(n), 0.04, { dur: 0.42, step: 0.08, ease: "back.out(2.4)" }));
+        tl.fromTo(".s1-w1", { yPercent: 105 }, { yPercent: 0, duration: 0.42, ease: "back.out(2)" }, 0.18);
+        tl.fromTo(".s1-l1", { y: 0 }, { y: -26, duration: 0.07, ease: "power2.out" }, 0.94);
+        tl.to(".s1-l1", { y: 0, duration: 0.5, ease: "elastic.out(1, 0.4)" }, 1.01);
+        tl.fromTo(".s1-zero", { y: -760, scaleX: 0.8, scaleY: 1.35, transformOrigin: "50% 100%" }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.2, ease: "power3.in" }, 0.74);
+        tl.fromTo(".s1-w2", { y: -760, scaleX: 0.8, scaleY: 1.35, transformOrigin: "50% 100%" }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.2, ease: "power3.in" }, 0.78);
+        tl.fromTo(".s1-zero", { scaleX: 1.4, scaleY: 0.62 }, { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1, 0.35)", immediateRender: false }, 0.94);
+        tl.fromTo(".s1-w2", { scaleX: 1.25, scaleY: 0.7 }, { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1, 0.35)", immediateRender: false }, 0.98);
+        tl.to(".s1-zero", { scale: 1.18, duration: 0.08, yoyo: true, repeat: 1, ease: "power2.out" }, 1.41);
+        // slash + split
+        tl.fromTo("#s1-slash", { scaleX: 0, rotation: -6.4, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.09, ease: "power3.in" }, 1.6);
+        tl.to("#s1-slash", { opacity: 0, duration: 0.06 }, 1.72);
+        tl.to("#s1-top", { x: 260, y: -760, rotation: -4, duration: 0.2, ease: "power4.in" }, 1.68);
+        tl.to("#s1-bot", { x: -260, y: 760, rotation: -4, duration: 0.2, ease: "power4.in" }, 1.68);
+
+        // ── 02 · camera-roll chaos (1.875 – 3.75) ───────────────────────────
+        const grid = $("#s2-grid");
+        const tiles = [];
+        for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) {
+          const i = r * 6 + c;
+          const t = document.createElement("div"); t.className = "tile";
+          t.style.left = c * 228 + "px"; t.style.top = r * 228 + "px";
+          t.innerHTML = `<div class="face">${ph("CR-" + String(i + 1).padStart(2, "0"), 'style="inset:0"')}</div><div class="face back"></div>`;
+          grid.appendChild(t);
+          const d = Math.hypot(c - 2.5, r - 1.5);
+          tiles.push({ t, d, rot: (rnd() - 0.5) * 12 });
+        }
+        tiles.forEach(({ t, d, rot }) => {
+          tl.fromTo(t, { scale: 0, rotation: rot * 3, rotationY: 0 }, { scale: 1, rotation: rot, duration: 0.42, ease: "back.out(2.6)" }, 1.875 + d * 0.05);
+        });
+        // nervous jitter on the whole grid (deterministic)
+        for (let k = 0; k < 24; k++) {
+          tl.to(grid, { x: (rnd() - 0.5) * 16, y: (rnd() - 0.5) * 12, rotation: (rnd() - 0.5) * 1.6, duration: 0.05, ease: "none" }, 2.05 + k * 0.05);
+        }
+        tl.to(grid, { x: 0, y: 0, rotation: 0, duration: 0.08 }, 3.25);
+        tl.fromTo("#s2-pillbox", { y: 520, scaleX: 0.5, scaleY: 1.4 }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.5, ease: "back.out(1.9)" }, 2.25);
+        tl.fromTo("#s2-txt", { fontVariationSettings: fvs(62, 800) }, { fontVariationSettings: fvs(112, 800), duration: 0.7, ease: "elastic.out(1, 0.4)" }, 2.42);
+        tl.fromTo("#s2-h1", { rotation: 0 }, { rotation: 1440, duration: 1.4, ease: "none" }, 1.875);
+        tl.fromTo("#s2-h2", { rotation: 90 }, { rotation: 90 + 360 * 3, duration: 1.4, ease: "none" }, 1.875);
+        tl.to("#s2-clock", { rotation: -12, duration: 0.07, yoyo: true, repeat: 7, ease: "sine.inOut" }, 2.75);
+        tl.to("#s2-pillbox", { scale: 0, duration: 0.18, ease: "back.in(2)" }, 3.2);
+        tiles.forEach(({ t, d }) => {
+          tl.to(t, { rotationY: 180, rotation: 0, duration: 0.32, ease: "power2.inOut" }, 3.28 + d * 0.035);
+          tl.to(t, { scale: 1.2, duration: 0.18, ease: "power2.in" }, 3.5 + d * 0.02);
+        });
+        tl.to("#s2-red", { opacity: 1, duration: 0.06 }, 3.69);
+
+        // ── 03 · Meet → strike → FLINT (3.75 – 6.5625) ──────────────────────
+        const T3 = 3.75;
+        tl.fromTo("#s3-meet span", { y: -820, scaleX: 0.8, scaleY: 1.3, fontVariationSettings: fvs(62, 900) }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.16, ease: "power3.in" }, T3);
+        tl.fromTo("#s3-meet span", { scaleX: 1.35, scaleY: 0.6 }, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1, 0.35)", immediateRender: false }, T3 + 0.16);
+        tl.to("#s3-meet span", { fontVariationSettings: fvs(125, 900), duration: 0.42, ease: "elastic.out(1.1, 0.35)" }, T3 + 0.2);
+        tl.to("#s3-meet span", { fontVariationSettings: fvs(62, 900), duration: 0.14, ease: "power2.in" }, T3 + 0.56);
+        tl.to("#s3-meet span", { fontVariationSettings: fvs(100, 900), y: -30, duration: 0.12, ease: "power2.out" }, T3 + 0.7);
+        tl.to("#s3-meet span", { scaleX: 0, scaleY: 1.4, y: 0, duration: 0.14, ease: "power4.in", transformOrigin: "50% 50%" }, T3 + 0.78);
+        // stones collide on beat 3 (4.6875)
+        const HIT = T3 + 2 * B;
+        tl.fromTo("#st-l", { x: -1150, rotation: -40 }, { x: -6, rotation: 0, duration: 0.24, ease: "power3.in" }, HIT - 0.24);
+        tl.fromTo("#st-r", { x: 1150, rotation: 40 }, { x: 6, rotation: 0, duration: 0.24, ease: "power3.in" }, HIT - 0.24);
+        tl.to("#st-l", { x: -520, y: 260, rotation: -70, duration: 0.5, ease: "power2.out" }, HIT);
+        tl.to("#st-r", { x: 520, y: 300, rotation: 80, duration: 0.5, ease: "power2.out" }, HIT);
+        tl.set("#s3-flash", { opacity: 0.95 }, HIT);
+        tl.to("#s3-flash", { opacity: 0, duration: 0.16, ease: "power2.out" }, HIT + 0.017);
+        tl.fromTo("#s3-black", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.42, ease: "power3.out" }, HIT);
+        tl.fromTo("#s3-rays", { rotation: 0, scale: 0.4, opacity: 0 }, { rotation: 50, scale: 1, opacity: 1, duration: 1.9, ease: "power2.out" }, HIT);
+        // sparks: ballistic keyframes
+        const spawnSparks = (host, at, n, cx, cy, sp, grav, T) => {
+          const box = $(host);
+          for (let i = 0; i < n; i++) {
+            const s = document.createElement("i"); s.className = "spk";
+            s.style.left = cx - 5 + "px"; s.style.top = cy - 23 + "px";
+            s.style.background = ["#ff6b4a", "#f5eeee", "#ff2a3d"][i % 3];
+            box.appendChild(s);
+            const a = (i / n) * Math.PI * 2 + rnd() * 0.4;
+            const v = sp * (0.6 + rnd() * 0.6);
+            const vx = Math.cos(a) * v, vy = Math.sin(a) * v - sp * 0.25;
+            const kf = [];
+            const steps = 8;
+            for (let k = 1; k <= steps; k++) {
+              const tt = (k / steps) * T;
+              const x = vx * tt * (1 - tt / (T * 2.2));
+              const y = vy * tt * (1 - tt / (T * 2.2)) + 0.5 * grav * tt * tt;
+              const dvx = vx * (1 - tt / (T * 1.1)), dvy = vy * (1 - tt / (T * 1.1)) + grav * tt;
+              kf.push({ x, y, rotation: (Math.atan2(dvy, dvx) * 180) / Math.PI + 90, scaleY: 1.4 - k / steps, opacity: k === steps ? 0 : 1, duration: T / steps, ease: "none" });
+            }
+            tl.fromTo(s, { x: 0, y: 0, rotation: (a * 180) / Math.PI + 90, scaleY: 1.6, opacity: 1 }, { keyframes: kf, immediateRender: false }, at);
+          }
+        };
+        spawnSparks("#s3-sparks", HIT, 18, 960, 540, 1500, 2400, 0.75);
+        // logo: icon pops at impact point, then slides to its slot as letters fall
+        const s3row = $("#s3-row"), s3icon = $("#s3-icon");
+        const iconOff = 960 - (s3icon.offsetLeft + s3icon.offsetWidth / 2);
+        tl.fromTo(s3icon, { x: iconOff, scale: 0, rotation: -140 }, { scale: 1.25, rotation: 0, duration: 0.55, ease: "elastic.out(1, 0.45)" }, HIT + 0.04);
+        tl.to(s3icon, { x: 0, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, HIT + 0.38);
+        const lts3 = $$("#s3-wm .lt");
+        lts3.forEach((l, i) => {
+          const at = HIT + 0.42 + i * 0.07;
+          tl.fromTo(l, { y: -900, scaleX: 0.75, scaleY: 1.35 }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.18, ease: "power2.in" }, at);
+          tl.fromTo(l, { scaleX: 1.35, scaleY: 0.62 }, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1, 0.35)", immediateRender: false }, at + 0.18);
+        });
+        tl.fromTo("#s3-dot", { y: -700, scale: 1, rotation: 45 }, { y: 0, rotation: 0, duration: 0.45, ease: "bounce.out" }, HIT + 0.92);
+        tl.fromTo("#s3-sub .mask > span", { yPercent: 110 }, { yPercent: 0, duration: 0.4, ease: "back.out(2)", stagger: 0.05 }, HIT + 0.95);
+        // zoom INTO the red dot over the i
+        const dotEl = $("#s3-dot");
+        const dp = relPos(dotEl, s3row);
+        const ox = dp.x + dotEl.offsetWidth / 2, oy = dp.y + dotEl.offsetHeight / 2;
+        tl.to("#s3-sub", { opacity: 0, y: 40, duration: 0.15, ease: "power2.in" }, 6.12);
+        tl.fromTo(s3row, { scale: 1, transformOrigin: `${ox}px ${oy}px` }, { scale: 75, duration: 0.38, ease: "power3.in" }, 6.18);
+
+        // ── 04 · Drop your clips (6.5625 – 9.375) ───────────────────────────
+        const T4 = 6.5625;
+        const red4 = $("#s4-red");
+        for (let i = 0; i < 8; i++) red4.appendChild(document.createElement("i"));
+        $$("#s4-red i").forEach((b, i) => {
+          const d = Math.abs(i - 3.5);
+          tl.fromTo(b, { rotationX: 0, scaleY: 1, transformPerspective: 900 }, { rotationX: 80, scaleY: 0, duration: 0.26, ease: "power3.in" }, T4 + 0.02 + d * 0.035);
+        });
+        tl.fromTo("#s4-phone", { y: 1000, rotation: 8 }, { y: 0, rotation: 0, duration: 0.55, ease: "back.out(1.5)" }, T4 + 0.08);
+        $$("#s4-head .w").forEach((w, i) => {
+          tl.fromTo(w, { y: -700, opacity: 1 }, { y: 0, duration: 0.55, ease: "bounce.out" }, T4 + 0.16 + i * 0.1);
+        });
+        tl.fromTo("#s4-chip", { scale: 0, transformOrigin: "0% 50%" }, { scale: 1, duration: 0.45, ease: "back.out(2.4)" }, T4 + 0.55);
+        const clipsBox = $("#s4-clips");
+        const rots = [-7, 5, -3, 8, -5, 2];
+        for (let i = 0; i < 6; i++) {
+          const c = document.createElement("div"); c.className = "cl"; c.id = "cl" + i;
+          c.innerHTML = ph("CLIP-" + (i + 1));
+          c.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+          clipsBox.appendChild(c);
+          const at = T4 + 0.5 + i * (B / 2);
+          const P0 = { x: -1500, y: 520 + i * 30 }, P1 = { x: -760, y: -760 + i * 40 }, P2 = { x: (i % 2 ? 8 : -8), y: -i * 12 };
+          const kf = [];
+          for (let k = 1; k <= 10; k++) {
+            const u = k / 10, a = (1 - u) * (1 - u), b2 = 2 * (1 - u) * u, c2 = u * u;
+            kf.push({ x: a * P0.x + b2 * P1.x + c2 * P2.x, y: a * P0.y + b2 * P1.y + c2 * P2.y, rotation: -320 * (1 - u) + rots[i] * u, duration: 0.04, ease: "none" });
+          }
+          tl.fromTo(c, { x: P0.x, y: P0.y, rotation: -320, scale: 0.9 }, { keyframes: kf }, at);
+          const land = at + 0.4;
+          tl.fromTo(c, { scaleX: 1.2, scaleY: 0.8 }, { scaleX: 1, scaleY: 1, duration: 0.4, ease: "elastic.out(1, 0.4)", immediateRender: false }, land);
+          tl.fromTo("#s4-phone", { scaleX: 1.045, scaleY: 0.955 }, { scaleX: 1, scaleY: 1, duration: 0.4, ease: "elastic.out(1, 0.35)", immediateRender: false, transformOrigin: "50% 100%" }, land);
+          tl.to("#s4-ncol", { y: -(i + 1) * 40, duration: 0.25, ease: "back.out(2.5)" }, land);
+        }
+        tl.to("#s4-drop", { opacity: 0, scale: 0.85, duration: 0.15 }, T4 + 0.9);
+        tl.to("#s4-btn", { scale: 0.88, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 8.88);
+        tl.to("#s4-btn", { boxShadow: "0 0 0 14px rgba(255,42,61,0.35)", duration: 0.12 }, 8.9);
+        tl.to(["#s4-head", "#s4-chip"], { x: -500, opacity: 0, duration: 0.2, ease: "power3.in" }, 8.98);
+        tl.to("#s4-clips", { opacity: 0, duration: 0.14 }, 9.0);
+        tl.fromTo("#s4-phone", { scale: 1 }, { scale: 10, duration: 0.36, ease: "power3.in", transformOrigin: "50% 50%", immediateRender: false }, 9.02);
+
+        // ── 05 · Cuts on the beat (9.375 – 13.125) ──────────────────────────
+        const T5 = 9.375;
+        const row = $("#s5-row");
+        const tcs = [];
+        for (let i = 0; i < 6; i++) {
+          const c = document.createElement("div"); c.className = "tc";
+          c.innerHTML = ph("CLIP-" + (i + 1));
+          row.appendChild(c); tcs.push(c);
+        }
+        const X = (j, m) => j * 200 + 14 * Math.min(j, m) + 35 - 7 * m;
+        tcs.forEach((c, j) => {
+          const d = Math.abs(j - 2.5);
+          tl.fromTo(c, { x: 600 - 100, scale: 0.2, rotation: (j - 2.5) * 10 }, { x: X(j, 0), scale: 1, rotation: 0, duration: 0.5, ease: "back.out(1.7)" }, T5 + 0.04 + d * 0.04);
+        });
+        tl.fromTo("#s5-panel", { scaleX: 0.1, scaleY: 0.6 }, { scaleX: 1, scaleY: 1, duration: 0.4, ease: "back.out(1.4)" }, T5);
+        tl.fromTo("#s5-head .w", { yPercent: 115 }, { yPercent: 0, duration: 0.42, ease: "back.out(2)", stagger: 0.06 }, T5 + 0.08);
+        // waveform
+        const wave = $("#s5-wave");
+        const amps = [];
+        for (let i = 0; i < 56; i++) {
+          const b = document.createElement("i");
+          const env = 0.35 + 0.65 * Math.abs(Math.sin(i * 0.37) * Math.cos(i * 0.11));
+          b.style.height = "150px";
+          wave.appendChild(b); amps.push(env);
+        }
+        const bars = $$("#s5-wave i");
+        tl.set(bars, { scaleY: (i) => 0.15 + amps[i] * 0.2 }, T5);
+        for (let b = 20; b < 28; b++) {
+          const at = b * B;
+          tl.fromTo(bars, { scaleY: (i) => Math.min(1, amps[i] * (0.75 + 0.25 * ((i * 7 + b * 3) % 5) / 4)) }, { scaleY: (i) => 0.12 + amps[i] * 0.18, duration: B * 0.9, ease: "power2.out" }, at);
+          // header word pump (wave through words)
+          const w = $$("#s5-head .w")[b % 4];
+          tl.fromTo(w, { fontVariationSettings: fvs(125, 900) }, { fontVariationSettings: fvs(110, 800), duration: B * 0.9, ease: "power2.out" }, at);
+        }
+        // playhead + cuts
+        const cutT = [9.84, 10.08, 10.31, 10.55, 10.78];
+        const bnd = (k) => X(k - 1, k - 1) + 200; // boundary k before its cut
+        const phKf = [];
+        tl.fromTo("#s5-ph", { x: 0, opacity: 0 }, { x: bnd(1) - 220, opacity: 1, duration: 0.2, ease: "power2.out" }, 9.64);
+        cutT.forEach((t, k) => {
+          const xk = bnd(k + 1);
+          tl.to("#s5-ph", { x: xk, duration: k === 0 ? 0.2 : t - cutT[k - 1], ease: k === 0 ? "power2.in" : "none" }, k === 0 ? 9.84 - 0.2 : cutT[k - 1]);
+          // scissors snap
+          tl.fromTo("#s5-bl1", { rotation: -22, transformOrigin: "28px 40px" }, { rotation: 0, duration: 0.07, ease: "power3.in" }, t - 0.07);
+          tl.fromTo("#s5-bl2", { rotation: 22, transformOrigin: "28px 40px" }, { rotation: 0, duration: 0.07, ease: "power3.in" }, t - 0.07);
+          tl.to(["#s5-bl1", "#s5-bl2"], { rotation: (i) => (i ? 22 : -22), duration: 0.12, ease: "power2.out" }, t + 0.02);
+          // gap opens with a spring
+          tcs.forEach((c, j) => tl.to(c, { x: X(j, k + 1), duration: 0.3, ease: "back.out(3)" }, t));
+          const fl = document.createElement("i"); fl.className = "cutflash"; fl.style.left = 30 + xk + "px"; $("#s5-panel").appendChild(fl);
+          tl.fromTo(fl, { opacity: 1, scaleY: 1.3 }, { opacity: 0, scaleY: 1, duration: 0.2, immediateRender: false }, t);
+        });
+        tl.to("#s5-ph", { x: 1290, duration: 0.4, ease: "power2.in" }, 10.85);
+        tl.to("#s5-ph", { opacity: 0, duration: 0.1 }, 11.2);
+        // swap clip 2 <-> 5 (arc jumps)
+        const SW = 11.25;
+        const arc = (el, x0, x1, hgt, at) => {
+          const kf = [];
+          for (let k = 1; k <= 8; k++) { const u = k / 8; kf.push({ x: x0 + (x1 - x0) * u, y: -4 * hgt * u * (1 - u), rotation: Math.sin(u * Math.PI) * (x1 > x0 ? 12 : -12), duration: 0.45 / 8, ease: "none" }); }
+          tl.to(el, { keyframes: kf }, at);
+        };
+        arc(tcs[1], 214, 856, 110, SW);
+        arc(tcs[4], 856, 214, -150, SW);
+        tl.set(tcs[1], { zIndex: 3 }, SW);
+        // crumple clip 4
+        tl.to(tcs[3], { scaleX: 0, scaleY: 0.3, rotation: 14, duration: 0.22, ease: "back.in(2)" }, 11.72);
+        const fin = { 0: 107, 4: 321, 2: 535, 1: 749, 5: 963 };
+        Object.entries(fin).forEach(([j, x]) => tl.to(tcs[j], { x, duration: 0.35, ease: "back.out(2.2)" }, 11.94 + (Number(j) % 3) * 0.02));
+        // feature chips
+        ["#ch1", "#ch2", "#ch3"].forEach((c, i) => tl.fromTo(c, { scale: 0, y: 40 }, { scale: 1, y: 0, duration: 0.5, ease: "elastic.out(1, 0.5)" }, 10.31 + i * B));
+        // exit: everything collapses into the centre
+        [0, 4, 2, 1, 5].forEach((j, k) => tl.to(tcs[j], { x: 535, rotation: (k - 2) * 6, scale: 0.9, duration: 0.2, ease: "power3.in" }, 12.66 + k * 0.012));
+        tl.to("#s5-chips .chip", { y: -60, scale: 0.6, opacity: 0, duration: 0.18, ease: "power3.in", stagger: 0.03 }, 12.7);
+        tl.to("#s5-head", { y: -200, duration: 0.22, ease: "power3.in" }, 12.75);
+        tl.to("#s5-wave", { scaleY: 0, duration: 0.18, ease: "power3.in" }, 12.7);
+        tl.to("#s5-panel", { scaleX: 0.2, scaleY: 0.5, rotation: -8, opacity: 0, duration: 0.24, ease: "back.in(2)" }, 12.88);
+
+        // ── 06 · feature rapid fire (13.125 – 15.9375) ──────────────────────
+        const T6 = 13.125;
+        // 6a: diagonal slice wipe with a red wedge riding the edge
+        tl.fromTo("#s6a", { clipPath: "polygon(0% 0%, 0% 0%, -20% 100%, -20% 100%)" }, { clipPath: "polygon(0% 0%, 120% 0%, 100% 100%, -20% 100%)", duration: 0.36, ease: "power3.inOut" }, T6);
+        tl.fromTo("#s6-wedge", { x: -200, skewX: -19.6 }, { x: 2140, duration: 0.36, ease: "power3.inOut" }, T6);
+        tl.fromTo("#s6a .lab", { x: -300 }, { x: 0, duration: 0.4, ease: "back.out(2)" }, T6 + 0.12);
+        const cws = $$("#s6a-cap .cw");
+        const capBox = $("#s6a-box");
+        const capT = [T6 + 0.18, T6 + 0.34, T6 + 0.5, T6 + 0.7];
+        cws.forEach((w, i) => {
+          tl.fromTo(w, { scale: 0, y: 40 }, { scale: 1, y: 0, duration: 0.3, ease: "back.out(3)" }, capT[i] - 0.04);
+          const x = w.offsetLeft, wd = w.offsetWidth;
+          if (i === 0) tl.fromTo(capBox, { x, y: w.offsetTop, scaleX: wd / 100, scaleY: 0 }, { scaleY: 1, duration: 0.2, ease: "back.out(3)" }, capT[i]);
+          else tl.to(capBox, { x, scaleX: wd / 100, duration: 0.14, ease: "back.out(2)" }, capT[i]);
+          tl.fromTo(w.firstElementChild, { scale: 1.22 }, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.4)" }, capT[i]);
+        });
+        // 6b: red blinds from the centre
+        const T6b = T6 + 2 * B; // 14.0625
+        const bl = $("#s6b-blinds");
+        for (let i = 0; i < 10; i++) bl.appendChild(document.createElement("i"));
+        $$("#s6b-blinds i").forEach((b, i) => {
+          const d = Math.abs(i - 4.5);
+          tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.12, ease: "power3.in" }, T6b - 0.16 + d * 0.012);
+          tl.to(b, { scaleY: 0, transformOrigin: "50% 100%", duration: 0.16, ease: "power3.out" }, T6b + 0.02 + d * 0.012);
+        });
+        tl.set("#s6b", { opacity: 1 }, T6b);
+        tl.fromTo("#s6b-crop", { clipPath: "inset(0px 0px 0px 0px round 24px)" }, { clipPath: "inset(0px 657px 0px 443px round 24px)", duration: 0.55, ease: "elastic.out(1, 0.55)" }, T6b + 0.16);
+        tl.fromTo("#s6b-frame", { scaleX: 1600 / 514, scaleY: 908 / 908, x: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: "elastic.out(1, 0.55)" }, T6b + 0.16);
+        tl.to("#s6b-crop", { clipPath: "inset(0px 610px 0px 490px round 24px)", duration: 0.22, ease: "power2.inOut" }, T6b + 0.7);
+        tl.to("#s6b-frame", { x: 47, duration: 0.22, ease: "power2.inOut" }, T6b + 0.7);
+        tl.fromTo("#s6b .lab", { y: -160 }, { y: 0, duration: 0.4, ease: "back.out(2.2)" }, T6b + 0.1);
+        tl.fromTo("#s6b-tag", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(2.6)" }, T6b + 0.36);
+        // 6c: iris out of the flame
+        const T6c = T6 + 4 * B; // 15.0
+        tl.fromTo("#s6c-flame", { scale: 0, rotation: -30 }, { scale: 1.3, rotation: 0, duration: 0.14, ease: "back.out(3)" }, T6c - 0.14);
+        tl.fromTo("#s6c", { clipPath: "circle(0px at 960px 560px)" }, { clipPath: "circle(1250px at 960px 560px)", duration: 0.32, ease: "power3.in" }, T6c - 0.04);
+        tl.to("#s6c-flame", { scale: 0, duration: 0.12, ease: "power2.in" }, T6c + 0.04);
+        tl.fromTo("#s6c-lab", { y: -120, scale: 0.6 }, { y: 0, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, T6c + 0.1);
+        tl.fromTo("#s6c-needle", { rotation: -88, svgOrigin: "400 420" }, { rotation: 84, svgOrigin: "400 420", duration: 0.75, ease: "elastic.out(1, 0.3)" }, T6c + 0.12);
+        tl.fromTo("#s6c-arc", { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 2 }, duration: 0.45, ease: "power3.out" }, T6c + 0.12);
+        roll(odo($("#s6c-num .num")), T6c + 0.1, { dur: 0.5, step: 0.1, ease: "back.out(1.4)" });
+        tl.to("#s6c-num", { scale: 1.12, duration: 0.07, yoyo: true, repeat: 1 }, T6c + 0.72);
+        tl.to("#s6c", { scale: 0.86, opacity: 0, duration: 0.14, ease: "power3.in" }, 15.82);
+
+        // ── 07 · results (15.9375 – 18.75) ──────────────────────────────────
+        const T7 = 15.9375;
+        const fan = [["#s7-l", -380, 26, 0.84], ["#s7-c", 0, 0, 1], ["#s7-r", 380, -26, 0.84]];
+        fan.forEach(([id, x, ry, s], i) => {
+          tl.fromTo(id, { x: 0, y: 120, scale: 0.15, rotationY: 0, rotation: (i - 1) * 30 }, { x, y: 0, scale: s, rotationY: ry, rotation: 0, duration: 0.6, ease: "back.out(1.5)" }, T7 + 0.02 + Math.abs(i - 1) * 0.06);
+        });
+        tl.fromTo("#s7-pb", { scaleX: 0 }, { scaleX: 1, duration: 2.5, ease: "none" }, T7 + 0.2);
+        tl.fromTo(".stat", { x: -620 }, { x: 0, duration: 0.5, ease: "back.out(1.6)", stagger: 0.1 }, T7 + 0.12);
+        roll(odo($("#st1 .num")), T7 + 0.2, { dur: 0.7, step: 0.12 });
+        roll(odo($("#st2 .num")), T7 + 0.35, { dur: 0.7, step: 0.12 });
+        // floating reactions in rhythm
+        const flBox = $("#s7-fl");
+        const flSpec = [["i-heart", "h", 1310, 640], ["i-msg", "alt", 1010, 520], ["i-heart", "h alt", 1250, 380], ["i-share", "", 1020, 760], ["i-heart", "h", 1380, 470], ["i-star", "alt h", 980, 330]];
+        flSpec.forEach(([ic, cls, x, y], i) => {
+          const f = document.createElement("div"); f.className = "fl " + cls;
+          f.style.left = x + "px"; f.style.top = y + "px";
+          f.innerHTML = `<svg class="ico"><use href="#${ic}" /></svg>`;
+          flBox.appendChild(f);
+          const at = T7 + B + i * (B / 2);
+          tl.fromTo(f, { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(3)" }, at);
+          const kf = [];
+          for (let k = 1; k <= 8; k++) kf.push({ y: -40 * k, x: Math.sin(k * 0.9 + i) * 26, duration: 0.14, ease: "none" });
+          tl.to(f, { keyframes: kf }, at + 0.1);
+          tl.to(f, { opacity: 0, scale: 0.4, duration: 0.25 }, at + 1.0);
+        });
+        // fold the fan
+        tl.to(["#s7-l", "#s7-r"], { x: 0, rotationY: 0, scale: 0.9, duration: 0.18, ease: "power3.in" }, 18.42);
+        tl.to("#s7-stage", { scaleY: 0.01, scaleX: 1.6, duration: 0.14, ease: "power4.in" }, 18.6);
+        tl.to(".stat", { x: -700, duration: 0.25, ease: "power3.in" }, 18.45);
+
+        // ── 08 · tagline slot (18.75 – 20.625) ──────────────────────────────
+        const T8 = 18.75;
+        tl.fromTo(".s8rule", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "expo.out", stagger: 0.04 }, T8);
+        tl.fromTo("#s8-col", { y: 0 }, { y: -260, duration: 0.3, ease: "back.out(1.8)" }, T8 + 0.02);
+        tl.to("#s8-col", { y: -520, duration: 0.3, ease: "back.out(1.8)" }, T8 + 2 * B);
+        tl.fromTo("#s8-tag", { opacity: 0 }, { opacity: 1, duration: 0.2 }, T8 + 2 * B);
+        tl.fromTo("#s8-out", { fontVariationSettings: fvs(62, 900) }, { fontVariationSettings: fvs(125, 900), duration: 0.55, ease: "elastic.out(1, 0.4)" }, T8 + 2 * B + 0.22);
+        [T8 + B, T8 + 3 * B].forEach((t) => tl.fromTo("#s8-slot", { scale: 1.05 }, { scale: 1, duration: 0.3, ease: "power2.out" }, t));
+        tl.to(["#s8-slot", ".s8rule", "#s8-tag"], { scale: 0, duration: 0.17, ease: "power4.in", transformOrigin: "50% 50%" }, 20.42);
+        tl.fromTo("#s8-ball", { scale: 0 }, { scale: 1, duration: 0.12, ease: "back.out(3)" }, 20.5);
+
+        // ── 09 · endcard (20.625 – 24) ──────────────────────────────────────
+        const T9 = 20.625;
+        const ball = "#s9-ball";
+        tl.fromTo(ball, { y: 0, scaleX: 1.3, scaleY: 0.7 }, { y: -330, scaleX: 0.85, scaleY: 1.2, duration: 0.2, ease: "power2.out" }, T9);
+        tl.to(ball, { y: 0, scaleX: 0.85, scaleY: 1.2, duration: 0.2, ease: "power2.in" }, T9 + 0.2);
+        tl.to(ball, { scaleX: 1.4, scaleY: 0.6, duration: 0.05, ease: "power2.out" }, T9 + 0.4);
+        tl.to(ball, { y: -150, scaleX: 0.9, scaleY: 1.12, duration: 0.15, ease: "power2.out" }, T9 + 0.45);
+        tl.to(ball, { y: 0, scaleX: 0.9, scaleY: 1.12, duration: 0.15, ease: "power2.in" }, T9 + 0.6);
+        tl.to(ball, { scaleX: 1.3, scaleY: 0.7, duration: 0.05, ease: "power2.out" }, T9 + 0.75);
+        tl.to(ball, { scale: 0, duration: 0.1, ease: "power3.in" }, T9 + 0.82);
+        tl.fromTo("#s9-shadow", { scaleX: 1, opacity: 1 }, { scaleX: 0.5, opacity: 0.3, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1 }, T9);
+        tl.to("#s9-shadow", { scaleX: 0.75, opacity: 0.5, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1 }, T9 + 0.45);
+        tl.to("#s9-shadow", { opacity: 0, duration: 0.2 }, T9 + 0.8);
+        const s9icon = $("#s9-icon");
+        const iconOff9 = 960 - (s9icon.offsetLeft + s9icon.offsetWidth / 2);
+        const POP = T9 + 0.84;
+        spawnSparks("#s9-sparks", POP, 12, 960, 535, 1100, 2000, 0.6);
+        tl.fromTo(s9icon, { x: iconOff9, scale: 0, rotation: -180 }, { scale: 1.2, rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" }, POP);
+        tl.fromTo("#s9-rays", { scale: 0.3, opacity: 0, rotation: 0 }, { scale: 1, opacity: 1, rotation: 70, duration: 3, ease: "power2.out" }, POP);
+        tl.to(s9icon, { x: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, POP + 0.36);
+        const wmW = $("#s9-wmask").offsetWidth + 40;
+        tl.fromTo("#s9-wm .lt", { x: -wmW }, { x: 0, duration: 0.5, ease: "back.out(1.6)", stagger: { each: 0.045, from: "end" } }, POP + 0.4);
+        tl.fromTo("#s9-wm", { fontVariationSettings: fvs(62, 900) }, { fontVariationSettings: fvs(125, 900), duration: 0.8, ease: "elastic.out(1, 0.45)" }, POP + 0.42);
+        tl.fromTo("#s9-url", { yPercent: 80, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, POP + 0.75);
+        tl.fromTo("#s9-pill", { scale: 0, rotation: -6 }, { scale: 1, rotation: 0, duration: 0.55, ease: "elastic.out(1, 0.5)" }, POP + 0.85);
+        [0, 1, 2].forEach((k) => {
+          tl.fromTo(k % 2 ? "#rg2" : "#rg1", { scale: 1, opacity: 0.8 }, { scale: 1.45, opacity: 0, duration: 0.9, ease: "power2.out" }, POP + 1.2 + k * 0.6);
+        });
+        tl.to("#s9-pill", { scale: 1.05, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, POP + 1.9);
+
+        tl.set({}, {}, 24);
+        window.__timelines["main"] = tl;
+      });
+    </script>
+  </body>
+</html>

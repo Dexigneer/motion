@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FLINT storyboard</title>
+<style>
+@font-face{font-family:"Archivo";src:url("assets/fonts/Archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%}
+:root{--bg:#0B0A0D;--panel:#16131A;--line:#2A2430;--red:#FF2A3D;--ember:#FF6B4A;--bone:#F5EEEE;--ash:#8D8592;--sheet:#121014}
+*{box-sizing:border-box;margin:0}
+body{background:var(--sheet);color:var(--bone);font-family:"Archivo",sans-serif;padding:40px 16px 64px}
+header{max-width:1400px;margin:0 auto 28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:baseline}
+h1{font-size:46px;font-variation-settings:"wdth" 125,"wght" 900;letter-spacing:-.02em}
+h1 i{font-style:normal;color:var(--red)}
+.dek{color:var(--ash);font-size:16px;flex:1 1 320px;line-height:1.5}
+.tag{font-size:12px;background:var(--red);color:var(--bone);padding:6px 12px;border-radius:99px;font-variation-settings:"wdth" 100,"wght" 700}
+.act{max-width:1400px;margin:28px auto 12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);border-top:1px solid var(--line);padding-top:10px;font-variation-settings:"wdth" 110,"wght" 700}
+.grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border-radius:14px;padding:10px;box-shadow:inset 0 0 0 1px var(--line)}
+.f{aspect-ratio:16/9;container-type:inline-size;border-radius:8px;overflow:hidden;position:relative;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.lbl{display:flex;justify-content:space-between;font-size:11px;margin:10px 2px 4px;color:var(--ash);font-variation-settings:"wdth" 100,"wght" 600}
+.lbl b{color:var(--bone)}
+.note{font-size:13px;line-height:1.5;margin:0 2px;color:#c9c1c6}
+.chip{display:inline-block;margin:8px 4px 2px 0;font-size:10.5px;border:1px solid var(--red);color:var(--red);border-radius:99px;padding:2px 8px;font-variation-settings:"wdth" 100,"wght" 700}
+.k{font-variation-settings:"wdth" 62,"wght" 900;line-height:1}
+.x{font-variation-settings:"wdth" 125,"wght" 900;line-height:1}
+.r{color:var(--red)}
+.arw{position:absolute;color:var(--red);font-size:4cqw;font-variation-settings:"wdth" 100,"wght" 800}
+.ph{position:absolute;background:repeating-linear-gradient(135deg,#1b171f 0 .5cqw,#241e29 .5cqw 1cqw);border:1px dashed #4a3f52;border-radius:1.2cqw;display:flex;align-items:flex-end;justify-content:center;font-size:1.3cqw;color:#7d7383;padding:.4cqw}
+.dash{position:absolute;border:1px dashed var(--red);border-radius:1cqw}
+.dot{position:absolute;border-radius:50%;background:var(--red)}
+.star{position:absolute;background:var(--red);clip-path:polygon(50% 0,59.5% 40.5%,100% 50%,59.5% 59.5%,50% 100%,40.5% 59.5%,0 50%,40.5% 40.5%)}
+.strip{max-width:1400px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px;font-size:11px}
+.strip span{background:var(--panel);border-radius:6px;padding:6px 8px;box-shadow:inset 0 0 0 1px var(--line)}
+.strip em{font-style:normal;color:var(--red)}
+.sw{display:inline-block;width:22px;height:22px;border-radius:6px;vertical-align:middle;margin-right:6px;box-shadow:inset 0 0 0 1px #fff2}
+</style>
+</head>
+<body>
+<header>
+<h1>flint<i>.</i> — promo náčrt</h1>
+<span class="tag">24 s · 60 fps · 128 BPM</span>
+<p class="dek">Raw clips in. Fire reels out. Tmavé pozadie, žeravá červená, jediný font Archivo (osi šírky a hrúbky). Pohyb: squash &amp; stretch, elastické prestrely, masky, vertikálny smer. Šípky = smer pohybu, prerušovaná čiara = cieľová poloha.</p>
+</header>
+
+<div class="act">Paleta</div>
+<div class="strip">
+<span><i class="sw" style="background:#0B0A0D"></i>uhoľ #0B0A0D</span>
+<span><i class="sw" style="background:#16131A"></i>grafit #16131A</span>
+<span><i class="sw" style="background:#FF2A3D"></i>žeravá #FF2A3D</span>
+<span><i class="sw" style="background:#B0101F"></i>karmín #B0101F</span>
+<span><i class="sw" style="background:#FF6B4A"></i>pahreba #FF6B4A (iskry)</span>
+<span><i class="sw" style="background:#F5EEEE"></i>kosť #F5EEEE</span>
+</div>
+
+<div class="act">Akt 1 — Bolesť</div>
+<div class="grid">
+ <div class="card"><div class="f">
+  <div class="k" style="font-size:11cqw;position:absolute;top:18%">4<span class="r">↕</span>00 clips.</div>
+  <div class="k" style="font-size:11cqw;position:absolute;top:52%"><span class="r">0</span> reels.</div>
+  <div class="arw" style="top:38%;right:24%">↓</div>
+  <div style="position:absolute;left:-5%;right:-5%;top:50%;height:.5cqw;background:var(--red);transform:rotate(-6deg)"></div>
+ </div><div class="lbl"><b>01 · Hook</b><span>0,00–1,88</span></div>
+ <p class="note">Odometer roluje na 400, „0 reels.“ padne zhora a sploští sa. Červená čiara rozsekne obraz šikmo — polovice odletia hore/dole.</p><span class="chip">odometer</span><span class="chip">slice</span></div>
+
+ <div class="card"><div class="f">
+  <div style="position:absolute;inset:8% 15%;display:grid;grid-template-columns:repeat(6,1fr);gap:1cqw">
+   <div class="ph" style="position:relative;transform:rotate(-4deg)">CR</div><div class="ph" style="position:relative">CR</div><div class="ph" style="position:relative;transform:rotate(5deg)">CR</div><div class="ph" style="position:relative">CR</div><div class="ph" style="position:relative;transform:rotate(-3deg)">CR</div><div class="ph" style="position:relative">CR</div>
+   <div class="ph" style="position:relative">CR</div><div class="ph" style="position:relative;background:var(--red)"></div><div class="ph" style="position:relative;background:var(--red)"></div><div class="ph" style="position:relative">CR</div><div class="ph" style="position:relative;transform:rotate(4deg)">CR</div><div class="ph" style="position:relative">CR</div>
+  </div>
+  <div style="position:absolute;background:var(--bg);border:.3cqw solid var(--red);border-radius:99px;padding:1.5cqw 3cqw;display:flex;gap:1.5cqw;align-items:center"><i class="dot" style="position:relative;width:5cqw;height:5cqw"></i><span class="x" style="font-size:5cqw">Still editing?</span></div>
+ </div><div class="lbl"><b>02 · Chaos</b><span>1,88–3,75</span></div>
+ <p class="note">24 dlaždíc galérie vyskočí od stredu, trasú sa. Pill s hodinami (ručičky sa točia). Dlaždice sa 3D otočia na červenú → súvislá červená.</p><span class="chip">domino pop</span><span class="chip">3D tile flip</span></div>
+
+ <div class="card"><div class="f" style="background:var(--red)">
+  <div class="k" style="font-size:17cqw;color:var(--bg)">M<span style="font-variation-settings:'wdth' 125,'wght' 900">ee</span>t</div>
+  <div class="arw" style="left:6%;top:42%;color:var(--bg)">→◆</div><div class="arw" style="right:6%;top:42%;color:var(--bg)">◆←</div>
+ </div><div class="lbl"><b>03a · Meet</b><span>3,75–4,69</span></div>
+ <p class="note">DROP. „Meet“ dopadne a naťahuje sa ako guma (šírka 62→125). Potom sa stiahne a z boku letia dva kamene.</p><span class="chip">variable-font stretch</span></div>
+</div>
+
+<div class="act">Akt 2 — Úder a značka</div>
+<div class="grid">
+ <div class="card"><div class="f" style="background:var(--red)">
+  <div style="position:absolute;width:60%;aspect-ratio:1;border-radius:50%;background:var(--bg)"></div>
+  <i class="star" style="width:10cqw;height:10cqw"></i>
+  <i class="dot" style="width:1cqw;height:3cqw;left:38%;top:30%;background:var(--ember);border-radius:1cqw;transform:rotate(-40deg)"></i>
+  <i class="dot" style="width:1cqw;height:3cqw;left:60%;top:28%;background:var(--bone);border-radius:1cqw;transform:rotate(30deg)"></i>
+  <i class="dot" style="width:1cqw;height:3cqw;left:64%;top:62%;background:var(--ember);border-radius:1cqw;transform:rotate(-60deg)"></i>
+  <i class="dot" style="width:1cqw;height:3cqw;left:33%;top:64%;background:var(--bone);border-radius:1cqw;transform:rotate(50deg)"></i>
+ </div><div class="lbl"><b>03b · Iskra</b><span>4,69</span></div>
+ <p class="note">Zrážka na dobu: biely záblesk, 18 iskier po balistických dráhach, čierny kruh zaleje obraz. Z bodu nárazu vyskočí ikona iskry.</p><span class="chip">collision</span><span class="chip">circle wipe</span></div>
+
+ <div class="card"><div class="f">
+  <div style="position:absolute;inset:-20%;background:repeating-conic-gradient(rgba(255,42,61,.16) 0 7deg,transparent 7deg 30deg);-webkit-mask-image:radial-gradient(circle,#000 10%,transparent 55%)"></div>
+  <i class="star" style="position:relative;width:11cqw;height:11cqw;margin-right:2cqw"></i>
+  <span class="x" style="font-size:13cqw;position:relative">flınt</span>
+  <i class="dot" style="border-radius:0;width:2.4cqw;height:2.4cqw;left:62.5%;top:33%"></i>
+  <div style="position:absolute;bottom:14%;font-size:2.6cqw;color:var(--ash)">AI that cuts your <span class="r">reels.</span></div>
+ </div><div class="lbl"><b>03c · flint</b><span>5,0–6,56</span></div>
+ <p class="note">Písmená padajú a sploštia sa, bodka nad „i“ (štvorček) dopadne s odrazom. Kamera vletí do bodky → celá obrazovka červená.</p><span class="chip">squash landing</span><span class="chip">zoom into dot</span></div>
+
+ <div class="card"><div class="f">
+  <div class="k" style="position:absolute;left:7%;top:24%;font-size:8.5cqw;font-variation-settings:'wdth' 75,'wght' 900">Drop your<br><span class="r">clips.</span></div>
+  <div style="position:absolute;right:16%;top:6%;width:22%;height:88%;border-radius:3cqw;background:var(--panel);box-shadow:inset 0 0 0 .3cqw #352d3b">
+   <div class="ph" style="left:18%;width:64%;top:38%;height:18%">CLIP</div>
+   <div style="position:absolute;left:10%;right:10%;bottom:6%;height:9%;border-radius:99px;background:var(--red)"></div>
+  </div>
+  <div class="ph" style="left:42%;top:12%;width:12%;height:13%;transform:rotate(-30deg)">CLIP</div>
+  <div class="arw" style="left:50%;top:20%">⤵</div>
+  <div style="position:absolute;left:7%;bottom:14%;font-size:2.2cqw;background:var(--panel);border-radius:99px;padding:.6cqw 1.6cqw"><span class="r">6</span> clips added</div>
+ </div><div class="lbl"><b>04 · Drop</b><span>6,56–9,38</span></div>
+ <p class="note">Červené žalúzie sa preklopia. Telefón vyskočí zdola, 6 klipov priletí po oblúkoch, telefón sa pri každom „chytení“ zatrasie ako želé. Prelet cez displej.</p><span class="chip">blinds</span><span class="chip">arc throw</span><span class="chip">jelly</span></div>
+</div>
+
+<div class="act">Akt 3 — Ako to funguje</div>
+<div class="grid">
+ <div class="card"><div class="f">
+  <div class="x" style="position:absolute;top:10%;font-size:5.5cqw;font-variation-settings:'wdth' 110,'wght' 800">Cuts <span class="r">on the beat.</span></div>
+  <div style="position:absolute;top:30%;display:flex;gap:1cqw;font-size:1.6cqw"><span class="chip" style="margin:0">♪ Beat sync</span><span class="chip" style="margin:0">✂ Smart cuts</span><span class="chip" style="margin:0">CC Captions</span></div>
+  <div style="position:absolute;left:15%;right:15%;top:42%;height:40%;background:var(--panel);border-radius:1.6cqw">
+   <div style="position:absolute;left:4%;right:4%;top:10%;height:38%;display:flex;gap:1%"><div class="ph" style="position:relative;flex:1">1</div><div class="ph" style="position:relative;flex:1">5</div><div class="ph" style="position:relative;flex:1">3</div><div class="ph" style="position:relative;flex:1;opacity:.3">✕</div><div class="ph" style="position:relative;flex:1">2</div><div class="ph" style="position:relative;flex:1">6</div></div>
+   <div style="position:absolute;left:4%;right:4%;bottom:12%;height:28%;background:repeating-linear-gradient(90deg,#4a3f52 0 .7cqw,transparent .7cqw 1.2cqw)"></div>
+   <div style="position:absolute;left:38%;top:-12%;bottom:-6%;width:.3cqw;background:var(--red)"></div>
+  </div>
+ </div><div class="lbl"><b>05 · Cut</b><span>9,38–13,13</span></div>
+ <p class="note">Timeline sa rozbalí ako harmonika. Playhead + nožnice strihajú na každú dobu, medzery sa otvárajú s pružinou. Klipy 2↔5 si vymenia miesto skokom, klip 4 sa zmačká. Waveform skáče na beat.</p><span class="chip">snip on beat</span><span class="chip">FLIP swap</span></div>
+
+ <div class="card"><div class="f">
+  <div class="ph" style="inset:0;border:none;border-radius:0">CAP</div>
+  <div style="position:absolute;left:-10%;top:-10%;width:8%;height:130%;background:var(--red);transform:skewX(-20deg) translateX(30cqw)"></div>
+  <div class="x" style="position:absolute;bottom:14%;font-size:5.5cqw;font-variation-settings:'wdth' 90,'wght' 900">this is <span style="background:var(--red);border-radius:1cqw;padding:0 1cqw">actually</span> insane</div>
+ </div><div class="lbl"><b>06a · Captions</b><span>13,13–14,06</span></div>
+ <p class="note">Diagonálny rez s červeným klinom. Slová vyskakujú, červený box skáče zo slova na slovo.</p><span class="chip">diagonal slice</span><span class="chip">karaoke box</span></div>
+
+ <div class="card"><div class="f">
+  <div class="ph" style="left:8%;right:8%;top:8%;bottom:8%;opacity:.35">RF</div>
+  <div class="ph" style="left:37%;width:26%;top:8%;bottom:8%;border:.35cqw solid var(--red)">RF</div>
+  <div class="arw" style="left:24%;top:44%">→</div><div class="arw" style="right:24%;top:44%">←</div>
+  <div style="position:absolute;right:4%;top:6%;font-size:1.8cqw;background:var(--panel);border-radius:99px;padding:.4cqw 1.2cqw">16:9 <span class="r">→</span> 9:16</div>
+ </div><div class="lbl"><b>06b · Reframe</b><span>14,06–15,00</span></div>
+ <p class="note">Červené žalúzie zo stredu. Rámik 16:9 sa elasticky stiahne na 9:16 a dorovná sa na osobu.</p><span class="chip">center blinds</span><span class="chip">elastic crop</span></div>
+</div>
+
+<div class="act">Akt 4 — Dôkaz a payoff</div>
+<div class="grid">
+ <div class="card"><div class="f" style="background:radial-gradient(circle at 50% 70%,#3a0910,var(--bg) 60%)">
+  <div style="position:absolute;top:12%;font-size:3cqw;font-variation-settings:'wdth' 110,'wght' 800"><span class="r">▲</span> Hook score</div>
+  <div style="position:absolute;top:30%;width:44%;aspect-ratio:2;border:2.4cqw solid var(--red);border-bottom:none;border-radius:50cqw 50cqw 0 0"></div>
+  <div class="k" style="position:absolute;top:52%;font-size:13cqw">98</div>
+ </div><div class="lbl"><b>06c · Hook score</b><span>15,00–15,94</span></div>
+ <p class="note">Iris sa otvorí z ikony plamienka. Ručička sa rozkýve a zastaví, oblúk sa naplní, číslo odometrom na 98.</p><span class="chip">iris</span><span class="chip">gauge</span></div>
+
+ <div class="card"><div class="f">
+  <div style="position:absolute;left:7%;top:18%"><div class="k" style="font-size:11cqw">12 s</div><div style="font-size:2cqw;color:var(--ash)">from raw clips to a ready reel</div></div>
+  <div style="position:absolute;left:7%;top:58%"><div class="k" style="font-size:11cqw"><span class="r">+</span>3.4<span class="r">×</span></div></div>
+  <div class="ph" style="left:46%;top:20%;width:15%;height:60%;transform:perspective(40cqw) rotateY(26deg)">REEL-A</div>
+  <div class="ph" style="left:61%;top:16%;width:18%;height:68%;z-index:2">REEL-B</div>
+  <div class="ph" style="left:80%;top:20%;width:15%;height:60%;transform:perspective(40cqw) rotateY(-26deg)">REEL-C</div>
+  <i class="dot" style="width:4cqw;height:4cqw;left:76%;top:14%;z-index:3"></i><i class="dot" style="width:4cqw;height:4cqw;left:58%;top:44%;background:var(--bone);z-index:3"></i>
+ </div><div class="lbl"><b>07 · Výsledok</b><span>15,94–18,75</span></div>
+ <p class="note">Break v hudbe. Tri reels sa rozletia do 3D vejára, srdiečka a komentáre praskajú v rytme a stúpajú. Čísla rolujú.</p><span class="chip">3D fan</span><span class="chip">reaction pops</span></div>
+
+ <div class="card"><div class="f">
+  <div style="position:absolute;left:14%;right:14%;top:30%;height:.4cqw;background:var(--red)"></div>
+  <div style="position:absolute;left:14%;right:14%;bottom:30%;height:.4cqw;background:var(--red)"></div>
+  <div class="k" style="font-size:11cqw"><span style="background:linear-gradient(180deg,var(--ember),var(--red));-webkit-background-clip:text;background-clip:text;color:transparent">Fire</span> reels <span class="r" style="font-variation-settings:'wdth' 125,'wght' 900">out.</span></div>
+  <div class="arw" style="top:12%">↑ slot</div>
+ </div><div class="lbl"><b>08 · Tagline</b><span>18,75–20,63</span></div>
+ <p class="note">Slot machine: „Raw clips in.“ sa pretočí na „Fire reels out.“ — „Fire“ je vyplnené obrázkom, „out.“ sa natiahne do šírky. Všetko sa zrúti do červenej loptičky.</p><span class="chip">slot roll</span><span class="chip">image-in-text</span></div>
+</div>
+
+<div class="act">Endcard</div>
+<div class="grid">
+ <div class="card"><div class="f">
+  <i class="dot" style="width:6cqw;height:4.5cqw;left:47%;top:20%;border-radius:50%"></i>
+  <div class="arw" style="left:47%;top:32%">↓↑</div>
+  <i class="star" style="width:9cqw;height:9cqw;left:20%;top:38%"></i>
+  <span class="x" style="position:absolute;left:32%;top:38%;font-size:11cqw">flınt</span>
+  <div style="position:absolute;top:66%;font-size:2.2cqw;color:var(--ash)">flint.video</div>
+  <div style="position:absolute;top:76%;font-size:2.2cqw;background:var(--red);border-radius:99px;padding:.8cqw 2.4cqw;font-variation-settings:'wdth' 110,'wght' 800;box-shadow:0 0 0 .8cqw rgba(255,42,61,.25)">Try it free →</div>
+ </div><div class="lbl"><b>09 · Endcard</b><span>20,63–24,00</span></div>
+ <p class="note">Loptička 2× skočí (squash/stretch, tieň), pri dopade vystrelí iskru a zmení sa na logo. Wordmark sa vysunie spoza ikony a roztiahne sa. URL + CTA s pulzujúcimi kruhmi, 1,4 s pokoj.</p><span class="chip">bounce</span><span class="chip">morph to logo</span></div>
+</div>
+</body>
+</html>
