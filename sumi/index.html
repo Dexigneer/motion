@@ -48,6 +48,13 @@
       #amb-glow2 { position: absolute; width: 760px; height: 760px; left: -260px; top: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 67, 42, 0.12), rgba(232, 67, 42, 0) 65%); }
       #grain { position: absolute; inset: 0; z-index: 90; opacity: 0.11; mix-blend-mode: multiply; pointer-events: none; }
 
+      .ch { display: inline-block; will-change: transform, opacity, filter; }
+      #s2-flood { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: var(--seal); opacity: 0; z-index: 5; }
+      #s8-ul { position: absolute; left: 60px; top: 122px; width: 660px; height: 24px; overflow: visible; }
+      .chk.s8c { border-color: #e9ded2; background: transparent; }
+      .chk.s8c svg { width: 30px; height: 30px; }
+      .ring { position: absolute; width: 200px; height: 200px; border-radius: 50%; border: 3px solid rgba(245, 241, 234, 0.7); opacity: 0; }
+
       /* S1 + S2 */
       .line { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 26px; font-size: 104px; font-weight: 500; letter-spacing: -0.02em; }
       
@@ -190,34 +197,36 @@
       </defs>
     </svg>
 
-    <div id="root" data-composition-id="main" data-start="0" data-duration="35" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="28" data-fps="60" data-width="1920" data-height="1080">
       <!-- ambient paper layer -->
-      <section id="amb" class="clip" data-start="0" data-duration="31.6" data-track-index="0">
+      <section id="amb" class="clip" data-start="0" data-duration="25.28" data-track-index="0">
         <div class="fill" style="background: var(--paper)"></div>
         <div id="amb-glow"></div>
         <div id="amb-glow2"></div>
       </section>
 
       <!-- 01 Great meeting -->
-      <section id="s1" class="clip" data-start="0" data-duration="2.6" data-track-index="1">
+      <section id="s1" class="clip" data-start="0" data-duration="2.08" data-track-index="1">
         <div class="line" id="s1-line"><span class="w" id="s1-a">Great</span><span class="w serif-i" id="s1-b">meeting.</span></div>
       </section>
 
       <!-- 02 Who does what -->
-      <section id="s2" class="clip" data-start="2.6" data-duration="2.8" data-track-index="1">
+      <section id="s2" class="clip" data-start="2.08" data-duration="2.24" data-track-index="1">
         <div class="line" id="s2-line">
           <span class="w" id="s2-a">So…</span><span class="w" id="s2-b">who</span><span class="w" id="s2-c">does</span>
           <span id="s2-cap"><span id="s2-q">?</span>
             <i class="drip" id="d1"></i><i class="drip ink" id="d2"></i><i class="drip" id="d3"></i><i class="drip ink" id="d4"></i><i class="drip" id="d5"></i><i class="drip" id="d6"></i>
           </span>
         </div>
-        <div class="cursor" id="s2-cur"><svg><use href="#cursor" /></svg></div>
+        <div id="s2-flood"></div>
+        <div class="cursor" id="s2-cur" data-hf-motion-blur='{"samplesPerFrame": 8}'><svg><use href="#cursor" /></svg></div>
       </section>
 
       <!-- 03+04 Introducing → Sumi -->
-      <section id="s3" class="clip" data-start="5.4" data-duration="4.6" data-track-index="1">
+      <section id="s3" class="clip" data-start="4.32" data-duration="3.68" data-track-index="1">
+        <div id="s3-flood" class="fill" style="background: var(--seal)"></div>
         <div id="s3-blob"></div>
-        <div id="s3-giant">Introducing</div>
+        <div id="s3-giant" data-hf-motion-blur='{"samplesPerFrame": 8}'>Introducing</div>
         <div id="s3-small"></div>
         <div id="s4-row">
           <span class="s4-l">s</span><span class="s4-l">u</span><span class="s4-l">m</span><span class="s4-l">i</span>
@@ -226,7 +235,7 @@
       </section>
 
       <!-- 05 Mark remix -->
-      <section id="s5" class="clip" data-start="10" data-duration="1.4" data-track-index="1">
+      <section id="s5" class="clip" data-start="8" data-duration="1.12" data-track-index="1">
         <div class="rm" id="rm1" style="background: var(--seal)"><svg style="--cut: var(--seal); filter: url(#rough)"><use href="#mark" fill="#f5f1ea" /></svg></div>
         <div class="rm" id="rm2" style="background: var(--paper)"><svg style="--cut: var(--ink)"><use href="#mark" fill="none" stroke="#17161b" stroke-width="1.6" /></svg></div>
         <div class="rm" id="rm3" style="background: var(--apricot)"><svg style="--cut: var(--apricot); filter: drop-shadow(14px 18px 0 rgba(23, 22, 27, 0.22))"><use href="#mark" fill="#17161b" /></svg></div>
@@ -236,7 +245,7 @@
       </section>
 
       <!-- 06 Sources -->
-      <section id="s6" class="clip" data-start="11.4" data-duration="4.0" data-track-index="1">
+      <section id="s6" class="clip" data-start="9.12" data-duration="3.2" data-track-index="1">
         <div id="s6-cam" class="fill">
           <div id="s6-glow-t"></div>
           <div id="s6-glow-b"></div>
@@ -257,33 +266,34 @@
       </section>
 
       <!-- 07 The ask -->
-      <section id="s7" class="clip" data-start="15.4" data-duration="3.6" data-track-index="1">
+      <section id="s7" class="clip" data-start="12.32" data-duration="2.88" data-track-index="1">
         <div id="s7-bg" class="fill"></div>
         <div id="s7-cam" class="fill">
           <div id="s7-line"></div>
           <div id="s7-caret"></div>
           <div id="s7-btn"><svg viewBox="0 0 20 20"><path d="M4 2 L18 10 L4 18 Z" fill="#f5f1ea" /></svg></div>
         </div>
-        <div class="chev" id="ch1"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#17161b" /></svg></div>
-        <div class="chev" id="ch2"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#f4b183" /></svg></div>
-        <div class="chev" id="ch3"><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#e8432a" /></svg></div>
+        <div class="chev" id="ch1" data-hf-motion-blur='{"samplesPerFrame": 8}'><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#17161b" /></svg></div>
+        <div class="chev" id="ch2" data-hf-motion-blur='{"samplesPerFrame": 8}'><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#f4b183" /></svg></div>
+        <div class="chev" id="ch3" data-hf-motion-blur='{"samplesPerFrame": 8}'><svg viewBox="0 0 100 100"><path d="M8 4 L96 50 L8 96 L30 50 Z" fill="#e8432a" /></svg></div>
         <div class="cursor" id="s7-cur" style="left: 0; top: 0"><svg><use href="#cursor" /></svg></div>
       </section>
 
       <!-- 08 The plan -->
-      <section id="s8" class="clip" data-start="19" data-duration="3.4" data-track-index="1">
+      <section id="s8" class="clip" data-start="15.2" data-duration="2.72" data-track-index="1">
         <div id="s8-card">
+          <svg id="s8-ul" viewBox="0 0 660 24"><path id="s8-ul-p" d="M4 14 C120 6 260 18 420 10 S600 8 656 12" fill="none" stroke="#e8432a" stroke-width="7" stroke-linecap="round" /></svg>
           <div class="plan-head"><div class="plan-title">Q3 Launch — the plan</div><div class="plan-tag"><i></i>from 4 sources</div></div>
-          <div class="row s8r"><div class="chk"><b></b></div><div>Final pricing page</div><div class="av ph">A</div><div class="who">Ava</div><div class="day">Fri</div></div>
-          <div class="row s8r"><div class="chk"><b></b></div><div>Beta invite email</div><div class="av ph">L</div><div class="who">Leo</div><div class="day">Tue</div></div>
-          <div class="row s8r"><div class="chk"><b></b></div><div>Fix onboarding step 2</div><div class="av ph">M</div><div class="who">Mia</div><div class="day">Thu</div></div>
+          <div class="row s8r"><div class="chk s8c"><svg viewBox="0 0 34 34"><path d="M9 17.5 L14.5 23 L25 11.5" fill="none" stroke="#e8432a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div>Final pricing page</div><div class="av ph">A</div><div class="who">Ava</div><div class="day">Fri</div></div>
+          <div class="row s8r"><div class="chk s8c"><svg viewBox="0 0 34 34"><path d="M9 17.5 L14.5 23 L25 11.5" fill="none" stroke="#e8432a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div>Beta invite email</div><div class="av ph">L</div><div class="who">Leo</div><div class="day">Tue</div></div>
+          <div class="row s8r"><div class="chk s8c"><svg viewBox="0 0 34 34"><path d="M9 17.5 L14.5 23 L25 11.5" fill="none" stroke="#e8432a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div>Fix onboarding step 2</div><div class="av ph">M</div><div class="who">Mia</div><div class="day">Thu</div></div>
         </div>
         <div id="s8-wipe"></div>
         <div id="s8-edge"></div>
       </section>
 
       <!-- 09 Missed something -->
-      <section id="s9" class="clip" data-start="22.4" data-duration="2.4" data-track-index="1">
+      <section id="s9" class="clip" data-start="17.92" data-duration="1.92" data-track-index="1">
         <div id="s9-track">
           <div id="s9-first" class="fill">
             <div id="s9-cardbg"></div>
@@ -296,7 +306,7 @@
       </section>
 
       <!-- 10 Mark it -->
-      <section id="s10" class="clip" data-start="24.8" data-duration="3.8" data-track-index="1">
+      <section id="s10" class="clip" data-start="19.84" data-duration="3.04" data-track-index="1">
         <div id="s10-iris" class="fill">
           <div class="fill" style="background: var(--paper)"></div>
           <div id="s10-tr">
@@ -324,14 +334,15 @@
       </section>
 
       <!-- 11 Less recap. More done. -->
-      <section id="s11" class="clip" data-start="28.6" data-duration="3.0" data-track-index="1">
+      <section id="s11" class="clip" data-start="22.88" data-duration="2.4" data-track-index="1">
         <div id="s11-line"><span class="w" id="s11-w1">Less</span><span class="w" id="s11-w2">recap.</span><span class="w" id="s11-w3" style="margin-left: 26px">More</span><span class="w serif-i seal" id="s11-w4">done.</span></div>
-        <svg id="s11-ball" style="color: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
+        <svg id="s11-ball" data-hf-motion-blur='{"samplesPerFrame": 8}' style="color: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
       </section>
 
       <!-- 12 Endcard -->
-      <section id="s12" class="clip" data-start="31.6" data-duration="3.4" data-track-index="1">
+      <section id="s12" class="clip" data-start="25.28" data-duration="2.72" data-track-index="1">
         <div id="s12-bg" class="fill"></div>
+        <div class="ring" id="rg1"></div><div class="ring" id="rg2"></div><div class="ring" id="rg3"></div>
         <div id="s12-row">
           <svg id="s12-mark" style="color: var(--paper); --cut: var(--ink)"><use href="#mark" fill="currentColor" /></svg>
           <div id="s12-word"><span class="w">s</span><span class="w">u</span><span class="w">m</span><span class="w">i</span></div>
@@ -340,65 +351,838 @@
       </section>
 
       <!-- film grain over everything -->
-      <svg id="grain" class="clip" data-start="0" data-duration="35" data-track-index="2" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
+      <svg id="grain" class="clip" data-start="0" data-duration="28" data-track-index="2" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
 
       <!-- TEMP SFX (synthesized placeholders, tools/make_sfx.py) — music to be added later -->
       <audio id="sfx-rhodes" src="assets/sfx/rhodes.wav" data-start="0" data-duration="1.2" data-track-index="10" data-volume="0.5"></audio>
-      <audio id="sfx-tick1" src="assets/sfx/tick.wav" data-start="0.15" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="sfx-tick2" src="assets/sfx/tick.wav" data-start="0.5" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="sfx-blop" src="assets/sfx/blop.wav" data-start="3.3" data-duration="0.22" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-click1" src="assets/sfx/mouse_click.wav" data-start="4.72" data-duration="0.08" data-track-index="11"></audio>
-      <audio id="sfx-splat" src="assets/sfx/splat.wav" data-start="4.76" data-duration="0.35" data-track-index="12" data-volume="0.8"></audio>
-      <audio id="sfx-wh1" src="assets/sfx/whoosh_short.wav" data-start="5.08" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-drop" src="assets/sfx/whoosh_low.wav" data-start="5.35" data-duration="0.7" data-track-index="12"></audio>
-      <audio id="sfx-thup" src="assets/sfx/thup.wav" data-start="6.3" data-duration="0.25" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-plop" src="assets/sfx/plop.wav" data-start="7.45" data-duration="0.9" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-snap1" src="assets/sfx/snap.wav" data-start="8.5" data-duration="0.05" data-track-index="11"></audio>
-      <audio id="sfx-snap2" src="assets/sfx/snap.wav" data-start="8.56" data-duration="0.05" data-track-index="12"></audio>
-      <audio id="sfx-snap3" src="assets/sfx/snap.wav" data-start="8.62" data-duration="0.05" data-track-index="11"></audio>
-      <audio id="sfx-snap4" src="assets/sfx/snap.wav" data-start="8.68" data-duration="0.05" data-track-index="12"></audio>
-      <audio id="sfx-tok1" src="assets/sfx/tok.wav" data-start="10.0" data-duration="0.12" data-track-index="11"></audio>
-      <audio id="sfx-tok2" src="assets/sfx/tok.wav" data-start="10.233" data-duration="0.12" data-track-index="12"></audio>
-      <audio id="sfx-tok3" src="assets/sfx/tok.wav" data-start="10.466" data-duration="0.12" data-track-index="11"></audio>
-      <audio id="sfx-tok4" src="assets/sfx/tok.wav" data-start="10.7" data-duration="0.12" data-track-index="12"></audio>
-      <audio id="sfx-tok5" src="assets/sfx/tok.wav" data-start="10.933" data-duration="0.12" data-track-index="11"></audio>
-      <audio id="sfx-tok6" src="assets/sfx/tok.wav" data-start="11.166" data-duration="0.12" data-track-index="12"></audio>
-      <audio id="sfx-whump" src="assets/sfx/whump.wav" data-start="11.4" data-duration="0.5" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-rustle" src="assets/sfx/rustle.wav" data-start="12.45" data-duration="0.6" data-track-index="12" data-volume="0.8"></audio>
-      <audio id="sfx-pop1" src="assets/sfx/pop_1.wav" data-start="13.0" data-duration="0.18" data-track-index="11"></audio>
-      <audio id="sfx-pop2" src="assets/sfx/pop_2.wav" data-start="13.35" data-duration="0.18" data-track-index="11"></audio>
-      <audio id="sfx-pop3" src="assets/sfx/pop_3.wav" data-start="13.6" data-duration="0.18" data-track-index="11"></audio>
-      <audio id="sfx-pop4" src="assets/sfx/pop_4.wav" data-start="13.85" data-duration="0.18" data-track-index="11"></audio>
-      <audio id="sfx-zoom" src="assets/sfx/zoom_whoosh.wav" data-start="14.95" data-duration="0.55" data-track-index="12"></audio>
-      <audio id="sfx-type1" src="assets/sfx/typing_23.wav" data-start="15.9" data-duration="1.74" data-track-index="11"></audio>
-      <audio id="sfx-click2" src="assets/sfx/mouse_click.wav" data-start="18.22" data-duration="0.08" data-track-index="12"></audio>
-      <audio id="sfx-swell" src="assets/sfx/swell.wav" data-start="18.38" data-duration="0.6" data-track-index="11"></audio>
-      <audio id="sfx-scan1" src="assets/sfx/scan.wav" data-start="19.0" data-duration="0.7" data-track-index="12"></audio>
-      <audio id="sfx-tick3" src="assets/sfx/tick.wav" data-start="20.2" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="sfx-tick4" src="assets/sfx/tick.wav" data-start="20.3" data-duration="0.06" data-track-index="12" data-volume="0.7"></audio>
-      <audio id="sfx-tick5" src="assets/sfx/tick.wav" data-start="20.4" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
-      <audio id="sfx-tick6" src="assets/sfx/tick.wav" data-start="22.45" data-duration="0.06" data-track-index="11" data-volume="0.6"></audio>
-      <audio id="sfx-fwip" src="assets/sfx/fwip.wav" data-start="23.4" data-duration="0.18" data-track-index="11"></audio>
-      <audio id="sfx-swoosh" src="assets/sfx/swoosh_soft.wav" data-start="23.9" data-duration="0.45" data-track-index="12"></audio>
-      <audio id="sfx-thock" src="assets/sfx/thock.wav" data-start="24.45" data-duration="0.2" data-track-index="11"></audio>
-      <audio id="sfx-zoom2" src="assets/sfx/zoom_whoosh.wav" data-start="24.5" data-duration="0.55" data-track-index="12" data-volume="0.6"></audio>
-      <audio id="sfx-mark1" src="assets/sfx/marker.wav" data-start="25.0" data-duration="0.5" data-track-index="11"></audio>
-      <audio id="sfx-mark2" src="assets/sfx/marker.wav" data-start="25.7" data-duration="0.5" data-track-index="12"></audio>
-      <audio id="sfx-type2" src="assets/sfx/typing_20.wav" data-start="26.3" data-duration="1.35" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-click3" src="assets/sfx/mouse_click.wav" data-start="27.65" data-duration="0.08" data-track-index="12"></audio>
-      <audio id="sfx-scan2" src="assets/sfx/scan.wav" data-start="27.75" data-duration="0.7" data-track-index="11"></audio>
-      <audio id="sfx-pop5" src="assets/sfx/pop_4.wav" data-start="28.15" data-duration="0.18" data-track-index="12"></audio>
-      <audio id="sfx-stamp1" src="assets/sfx/stamp.wav" data-start="29.0" data-duration="0.3" data-track-index="11"></audio>
-      <audio id="sfx-stamp2" src="assets/sfx/stamp.wav" data-start="29.45" data-duration="0.3" data-track-index="12"></audio>
-      <audio id="sfx-stamp3" src="assets/sfx/stamp.wav" data-start="29.9" data-duration="0.3" data-track-index="11"></audio>
-      <audio id="sfx-stamp4" src="assets/sfx/stamp.wav" data-start="30.35" data-duration="0.3" data-track-index="12"></audio>
-      <audio id="sfx-deep" src="assets/sfx/whoosh_deep.wav" data-start="31.05" data-duration="0.8" data-track-index="11"></audio>
-      <audio id="sfx-ting" src="assets/sfx/ting.wav" data-start="31.7" data-duration="2.6" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-tick1" src="assets/sfx/tick.wav" data-start="0.12" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick2" src="assets/sfx/tick.wav" data-start="0.4" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-blop" src="assets/sfx/blop.wav" data-start="2.64" data-duration="0.22" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-click1" src="assets/sfx/mouse_click.wav" data-start="3.776" data-duration="0.08" data-track-index="11"></audio>
+      <audio id="sfx-splat" src="assets/sfx/splat.wav" data-start="3.808" data-duration="0.35" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-flood" src="assets/sfx/swell.wav" data-start="3.856" data-duration="0.6" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-wh1" src="assets/sfx/whoosh_short.wav" data-start="4.064" data-duration="0.32" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-drop" src="assets/sfx/whoosh_low.wav" data-start="4.28" data-duration="0.7" data-track-index="12"></audio>
+      <audio id="sfx-thup" src="assets/sfx/thup.wav" data-start="5.04" data-duration="0.25" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-plop" src="assets/sfx/plop.wav" data-start="5.96" data-duration="0.9" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-snap1" src="assets/sfx/snap.wav" data-start="6.8" data-duration="0.05" data-track-index="11"></audio>
+      <audio id="sfx-snap2" src="assets/sfx/snap.wav" data-start="6.848" data-duration="0.05" data-track-index="12"></audio>
+      <audio id="sfx-snap3" src="assets/sfx/snap.wav" data-start="6.896" data-duration="0.05" data-track-index="11"></audio>
+      <audio id="sfx-snap4" src="assets/sfx/snap.wav" data-start="6.944" data-duration="0.05" data-track-index="12"></audio>
+      <audio id="sfx-tok1" src="assets/sfx/tok.wav" data-start="8" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok2" src="assets/sfx/tok.wav" data-start="8.186" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-tok3" src="assets/sfx/tok.wav" data-start="8.373" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok4" src="assets/sfx/tok.wav" data-start="8.56" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-tok5" src="assets/sfx/tok.wav" data-start="8.746" data-duration="0.12" data-track-index="11"></audio>
+      <audio id="sfx-tok6" src="assets/sfx/tok.wav" data-start="8.933" data-duration="0.12" data-track-index="12"></audio>
+      <audio id="sfx-whump" src="assets/sfx/whump.wav" data-start="9.12" data-duration="0.5" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-rustle" src="assets/sfx/rustle.wav" data-start="9.96" data-duration="0.6" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-pop1" src="assets/sfx/pop_1.wav" data-start="10.4" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop2" src="assets/sfx/pop_2.wav" data-start="10.68" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop3" src="assets/sfx/pop_3.wav" data-start="10.88" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-pop4" src="assets/sfx/pop_4.wav" data-start="11.08" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-zoom" src="assets/sfx/zoom_whoosh.wav" data-start="11.96" data-duration="0.55" data-track-index="12"></audio>
+      <audio id="sfx-type1" src="assets/sfx/typing_23.wav" data-start="12.72" data-duration="1.74" data-track-index="11"></audio>
+      <audio id="sfx-click2" src="assets/sfx/mouse_click.wav" data-start="14.576" data-duration="0.08" data-track-index="12"></audio>
+      <audio id="sfx-swell" src="assets/sfx/swell.wav" data-start="14.704" data-duration="0.6" data-track-index="11"></audio>
+      <audio id="sfx-scan1" src="assets/sfx/scan.wav" data-start="15.2" data-duration="0.7" data-track-index="12"></audio>
+      <audio id="sfx-tick3" src="assets/sfx/tick.wav" data-start="16.16" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick4" src="assets/sfx/tick.wav" data-start="16.24" data-duration="0.06" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-tick5" src="assets/sfx/tick.wav" data-start="16.32" data-duration="0.06" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-tick6" src="assets/sfx/tick.wav" data-start="17.96" data-duration="0.06" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-fwip" src="assets/sfx/fwip.wav" data-start="18.72" data-duration="0.18" data-track-index="11"></audio>
+      <audio id="sfx-swoosh" src="assets/sfx/swoosh_soft.wav" data-start="19.12" data-duration="0.45" data-track-index="12"></audio>
+      <audio id="sfx-thock" src="assets/sfx/thock.wav" data-start="19.56" data-duration="0.2" data-track-index="11"></audio>
+      <audio id="sfx-zoom2" src="assets/sfx/zoom_whoosh.wav" data-start="19.6" data-duration="0.55" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-mark1" src="assets/sfx/marker.wav" data-start="20" data-duration="0.5" data-track-index="11"></audio>
+      <audio id="sfx-mark2" src="assets/sfx/marker.wav" data-start="20.56" data-duration="0.5" data-track-index="12"></audio>
+      <audio id="sfx-type2" src="assets/sfx/typing_20.wav" data-start="21.04" data-duration="1.35" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-click3" src="assets/sfx/mouse_click.wav" data-start="22.12" data-duration="0.08" data-track-index="12"></audio>
+      <audio id="sfx-scan2" src="assets/sfx/scan.wav" data-start="22.2" data-duration="0.7" data-track-index="11"></audio>
+      <audio id="sfx-pop5" src="assets/sfx/pop_4.wav" data-start="22.52" data-duration="0.18" data-track-index="12"></audio>
+      <audio id="sfx-stamp1" src="assets/sfx/stamp.wav" data-start="23.2" data-duration="0.3" data-track-index="11"></audio>
+      <audio id="sfx-stamp2" src="assets/sfx/stamp.wav" data-start="23.56" data-duration="0.3" data-track-index="12"></audio>
+      <audio id="sfx-stamp3" src="assets/sfx/stamp.wav" data-start="23.92" data-duration="0.3" data-track-index="11"></audio>
+      <audio id="sfx-stamp4" src="assets/sfx/stamp.wav" data-start="24.28" data-duration="0.3" data-track-index="12"></audio>
+      <audio id="sfx-deep" src="assets/sfx/whoosh_deep.wav" data-start="24.84" data-duration="0.8" data-track-index="11"></audio>
+      <audio id="sfx-ripple" src="assets/sfx/plop.wav" data-start="25.296" data-duration="0.9" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-ting" src="assets/sfx/ting.wav" data-start="25.36" data-duration="2.6" data-track-index="12" data-volume="0.8"></audio>
     </div>
+
+<!--
+  Motion Blur — After Effects-style shutter-based motion blur.
+
+  Usage: paste this snippet into your composition, then put
+  data-hf-motion-blur on any element your GSAP timeline animates.
+  Nothing else to call, and no order to get wrong.
+
+  How it works — the same model After Effects uses for the layer Motion Blur
+  switch (temporal supersampling), synthesised inside the page because the
+  renderer captures one instant per frame with no shutter:
+
+    1. After every timeline update (each rendered frame), the snippet seeks
+       the timeline to `samplesPerFrame` sub-frame times spread evenly across
+       the shutter window, reads each target's RESOLVED `transform` at every
+       sample, then restores the frame time. Seeks run with events suppressed,
+       so no user callbacks fire and the DOM ends up exactly where the frame
+       left it. Reading the resolved matrix rather than a list of named GSAP
+       properties is what makes every driver work: translation, scale,
+       rotation, 3D rotation and skew arrive in the same one value, and a
+       driver nobody thought of needs no change here.
+    2. One copy of the element per sample is stacked in an isolated group,
+       each carrying its sample's transform, each at 1/N opacity with
+       `mix-blend-mode: plus-lighter`. plus-lighter adds premultiplied colour,
+       so N+1 copies at 1/N sum to the average — the shutter integral. The
+       isolation is load-bearing: without a transparent backdrop of its own
+       the first copy would add onto the page and blow a light background out
+       to white. Result: a smear along the actual trajectory whose extent is
+       speed × shutter time, with no decaying one-sided trail. The tails —
+       where fewer copies overlap — step down evenly at 1/N per copy; wherever
+       the element travels less than its own size the copies pile up past 1
+       and clamp, so the middle of the smear is solid rather than a plateau.
+    3. The element itself paints over that group, sharp and at full opacity.
+       No single copy ever exceeds 1/N, so a moving edge resolves as a
+       staircase of ghosts behind a solid frame-time instance. The group
+       carries the element's own opacity, so a beat that moves and fades at
+       once fades its smear with it. With `sharp: 0` the element is hidden
+       while it moves instead, leaving only the shutter average.
+    4. When every sampled transform collapses to the current one (element at
+       rest), the group is hidden so the element renders sharp.
+
+  Shutter window (AE semantics, per frame at time t, frame interval 1/fps):
+    shutterTime = shutterAngle / 360 / fps
+    windowStart = t + shutterPhase / 360 / fps
+    copy k      = windowStart + k / N × shutterTime,   k = 0..N  (N+1 copies)
+  N counts sub-intervals, so both ends of the window carry a copy.
+  Defaults (shutterAngle 720, shutterPhase -360) integrate [t - 1/fps, t + 1/fps]:
+  a solid moving at 2000 px/s at 30 fps smears 133 px, centred on its position.
+
+  These defaults are measured, not assumed. On a 1920×1080 / 30 fps After Effects
+  export of translating text, the outermost duplicate on the trailing side sits
+  exactly at the previous frame's position and the outermost leading duplicate
+  exactly at the next frame's, with 8 evenly spaced duplicates in between on each
+  side (window = 2 frames = 720°, phase -360°, 16 sub-intervals). Reading the ghost
+  staircase across a stroke gives steps of 0.063 ± 0.002 of the sharp text
+  intensity — a flat 1/16 per duplicate, with no taper toward the window edges
+  (triangle weighting scores 1.6 dB worse against the same export). The sharp
+  instance on top is what keeps total ink above the unblurred frame's.
+
+  Requirements:
+  - Elements must be animated via `transform` (GSAP x/y/scale/rotation and the
+    3D and skew properties all qualify), not left/top. Transformed ancestors
+    are still not compensated.
+  - A 3D beat reads its perspective off the element's parent and applies it per
+    copy, so the vanishing point follows each copy's transform-origin rather
+    than the parent's perspective-origin. Those agree when the element is
+    centred in its perspective parent, which is how a 3D beat is authored.
+  - A copy drops the element's id but keeps its classes, because a class rule is
+    the only thing that can still style a copy's pseudo-elements. So a selector
+    written against a class matches the copies too: after attaching, address the
+    element by id or by reference, never by a class a copy also carries.
+  - A target is blurred once: a second attachMotionBlur() call naming the same
+    element leaves the first call's copies in place rather than stacking a
+    second set over them.
+  - Cost is N + 1 copies of the target's whole subtree, restyled on attach and
+    on resize and re-transformed every frame. Point it at the element that
+    moves, not at a container holding it.
+  - The host must render the timeline for the blur to update — HyperFrames
+    seeks every frame. A fresh paused timeline that is never seeked shows no
+    blur on its first frame.
+  - A declarative target is attached as soon as its composition's timeline is
+    registered, and the registry is also polled for about eight seconds after
+    load, so a composition that mounts asynchronously is picked up too. A
+    target added to the document after that window needs attachMotionBlur().
+  - GSAP must be loaded before this snippet executes.
+
+  API:
+    data-hf-motion-blur on the element that moves. Empty for defaults, else a
+      JSON OBJECT of the options below (double quotes on the keys). The
+      element's timeline is the one registered under the data-composition-id of
+      its nearest ancestor carrying that attribute, so a sub-composition's
+      targets follow that sub-composition.
+      Three things warn rather than rendering sharp in silence: a target no
+      composition ever registers a timeline for, a value that is not JSON, and
+      a value that parses but is not an object (null, a number, a string).
+      A second timeline registered under the same key also warns: the copies
+      keep following the first one.
+    attachMotionBlur(selector, timeline, options?) — the imperative form, for a
+      target built after the polling window. Call it AFTER defining all tweens,
+      so the timeline's final duration is known.
+      Either form blurs a given element once, whichever names it first.
+
+  Options:
+    shutterAngle     — degrees of the frame interval the shutter is open
+                       (default 720 = two frames, as measured off the AE
+                       reference; 360 = one frame, 0 disables)
+    shutterPhase     — degrees offset of the window start from the frame
+                       time (default -360 = centred on the frame, one frame
+                       back, like the AE reference)
+    samplesPerFrame  — sub-intervals of the shutter window, so N+1 duplicates
+                       each at 1/N opacity (default 16, max 64)
+    fps              — composition frame rate (default: the data-fps of the
+                       target's own composition root, else 30). Pass it
+                       explicitly when rendering with an fps override
+                       (`hyperframes render --fps`).
+    sharp            — 1 (default) paints the element itself, crisp, over its
+                       smear; 0 hides it while it moves, leaving only the
+                       shutter average: a soft blur with no frame-time edge.
+                       It hides through a marker attribute, never the
+                       element's own visibility, so autoAlpha still works
+                       (an inline visibility !important on it wins).
+
+  A key that is none of the five, or a value that is not a finite number, is
+  refused by name rather than read as defaults. Both halves matter: a
+  non-numeric angle hides the smear, and a non-numeric phase seeks every copy
+  to NaN, which parks them at the timeline's start.
+-->
+
+<script>
+  (function () {
+    /* SHUTTER_SNIPPET_START */
+    if (!window._hfMbUid) window._hfMbUid = 0;
+    if (!window._hfMbAttached) window._hfMbAttached = new WeakSet();
+    if (!window._hfMbSkipped) window._hfMbSkipped = new WeakSet();
+    if (!window._hfMbProxies) window._hfMbProxies = new WeakSet();
+    if (!window._hfMbTimeline) window._hfMbTimeline = new WeakMap();
+    if (!window._hfMbWarned) window._hfMbWarned = new WeakSet();
+
+    // The declarative form. A copy of a target must not carry it, or the copy is swept
+    // as a target of its own; the group's own marker is `data-hf-motion-blur-group`.
+    var SWEEP_ATTR = "data-hf-motion-blur";
+    // About eight seconds. Long enough for an asynchronously mounted sub-composition, short
+    // enough that a page with a genuine mistake in it reports before anyone stops watching.
+    var POLL_MS = 32;
+    var POLL_TICKS = 250;
+    var SWEEP_SELECTOR = "[" + SWEEP_ATTR + "]";
+    var OPTION_KEYS = ["shutterAngle", "shutterPhase", "samplesPerFrame", "fps", "sharp"];
+
+    // A copy is a deep clone, so the attribute rides along on the root AND on every marked
+    // descendant. Any one left behind is swept as a target of its own, which clones again.
+    var COPY_STRIP = [SWEEP_ATTR, "data-composition-id", "data-fps"];
+
+    // sharp 0 hides a moving target through this marker rather than its own visibility,
+    // which the author's timeline (autoAlpha) may be writing too.
+    var HIDE_ATTR = "data-hf-motion-blur-hiding";
+
+    function installHideRule() {
+      if (document.getElementById("hf-mb-hide")) return;
+      var rule = document.createElement("style");
+      rule.id = "hf-mb-hide";
+      rule.textContent = "[" + HIDE_ATTR + "]{visibility:hidden!important}";
+      (document.head || document.documentElement).appendChild(rule);
+    }
+
+    function stripAttrs(el) {
+      for (var a = 0; a < COPY_STRIP.length; a++) el.removeAttribute(COPY_STRIP[a]);
+    }
+
+    function stripCopyAttrs(root) {
+      stripAttrs(root);
+      var inner = root.querySelectorAll("[" + COPY_STRIP.join("],[") + "]");
+      for (var i = 0; i < inner.length; i++) stripAttrs(inner[i]);
+    }
+
+    // Shutter length is measured in frames, so the snippet must know the composition
+    // frame rate: explicit option, else the target's OWN root, else the first root in
+    // the document, else 30. The target's root is what makes two compositions on one
+    // page read their own data-fps instead of sharing the first one written.
+    function resolveFps(optionFps, target) {
+      var explicit = Number(optionFps);
+      if (explicit > 0) return explicit;
+
+      var scoped = target ? target.closest("[data-composition-id][data-fps]") : null;
+      var root = scoped || document.querySelector("[data-composition-id][data-fps]");
+      var rootFps = root ? Number(root.getAttribute("data-fps")) : 0;
+      if (rootFps > 0) return rootFps;
+
+      return 30;
+    }
+
+    function numOption(value, fallback) {
+      return value !== undefined ? Number(value) : fallback;
+    }
+
+    // A resolved `transform` is either "none", a 2D matrix(a,b,c,d,e,f) or a 3D
+    // matrix3d of 16. Splitting the numbers into the linear part and the
+    // translation is what lets the deadband below use a pixel tolerance on the
+    // one and an angle/ratio tolerance on the other.
+    function parseTransform(value) {
+      if (!value || value === "none") return { linear: [1, 0, 0, 1], translate: [0, 0, 0] };
+      var nums = value
+        .slice(value.indexOf("(") + 1, -1)
+        .split(",")
+        .map(parseFloat);
+      if (nums.length === 16) {
+        return {
+          linear: [
+            nums[0],
+            nums[1],
+            nums[2],
+            nums[4],
+            nums[5],
+            nums[6],
+            nums[8],
+            nums[9],
+            nums[10],
+            nums[3],
+            nums[7],
+            nums[11],
+            nums[15],
+          ],
+          translate: [nums[12], nums[13], nums[14]],
+        };
+      }
+      return {
+        linear: [nums[0], nums[1], nums[2], nums[3]],
+        translate: [nums[4], nums[5], 0],
+      };
+    }
+
+    // Deadband: half a pixel of travel, a thousandth of a unit of linear change,
+    // about 0.06 degrees or 0.1% of scale. Below it the average is the source.
+    // The 2D and 3D forms have different arities, so a change of form counts as
+    // movement rather than being compared component by component.
+    function differs(a, b) {
+      if (a.linear.length !== b.linear.length) return true;
+      for (var i = 0; i < a.linear.length; i++) {
+        if (Math.abs(a.linear[i] - b.linear[i]) > 0.001) return true;
+      }
+      for (var j = 0; j < 3; j++) {
+        if (Math.abs(a.translate[j] - b.translate[j]) > 0.5) return true;
+      }
+      return false;
+    }
+
+    window.attachMotionBlur = function (selector, tl, opts) {
+      opts = opts || {};
+      var shutterAngle = numOption(opts.shutterAngle, 720);
+      var shutterPhase = numOption(opts.shutterPhase, -360);
+      var requestedSamples = numOption(opts.samplesPerFrame, 16);
+      var sharp = opts.sharp !== 0;
+      if (!sharp) installHideRule();
+      var samples = Number.isFinite(requestedSamples)
+        ? Math.max(2, Math.min(64, Math.round(requestedSamples)))
+        : 16;
+      var items = Array.isArray(selector) ? selector : [selector];
+      var targets = items.reduce(function (acc, s) {
+        if (typeof s === "string") {
+          document.querySelectorAll(s).forEach(function (el) {
+            acc.push(el);
+          });
+        } else if (s instanceof Element) {
+          acc.push(s);
+        }
+        return acc;
+      }, []);
+
+      // `samples` counts sub-intervals of the shutter window, so there is one copy at
+      // every interval boundary — both ends of the window included — and each carries
+      // 1/samples of the source. That is what the reference export shows: the outermost
+      // copy sits exactly one frame away from the frame time, not half a step short.
+      var copies = samples + 1;
+      var alpha = String(1 / samples);
+
+      // A copy loses the `#id` rules that styled the original, so it carries its resolved style inline
+      // (enumerated: Chrome returns "" for a computed cssText). Visibility is not frozen: the root
+      // follows the group each frame, so a target hidden at attach still smears.
+      function resolvedStyles(source, out, parentVisibility) {
+        var cs = getComputedStyle(source);
+        var text = "";
+        for (var i = 0; i < cs.length; i++) {
+          var value = cs.getPropertyValue(cs[i]);
+          var inherited = parentVisibility === undefined || value === parentVisibility;
+          if (cs[i] === "visibility" && inherited) continue;
+          text += cs[i] + ":" + value + ";";
+        }
+        // A copy is a still of one instant. Left live, an inherited transition or
+        // keyframe animation would carry it somewhere the timeline never sampled.
+        out.push(text + "transition:none;animation:none;");
+        for (var c = 0; c < source.children.length; c++) {
+          resolvedStyles(source.children[c], out, cs.getPropertyValue("visibility"));
+        }
+        return out;
+      }
+
+      function paintResolvedStyles(copy, styles, cursor) {
+        copy.style.cssText = styles[cursor.i++];
+        for (var c = 0; c < copy.children.length; c++) {
+          paintResolvedStyles(copy.children[c], styles, cursor);
+        }
+      }
+
+      // Perspective applies to a parent's children only, and a copy is a grandchild.
+      // Sharing the parent's 3D context would need preserve-3d on the group, which
+      // mix-blend-mode flattens, so each copy carries the perspective itself. See the
+      // header for what that does to the vanishing point.
+      function parentPerspective(el) {
+        var value = el.parentNode ? getComputedStyle(el.parentNode).perspective : "none";
+        return value && value !== "none" ? "perspective(" + value + ") " : "";
+      }
+
+      function attachOne(el) {
+        var group = document.createElement("div");
+        group.setAttribute("data-hf-motion-blur-group", "hf-mb-" + window._hfMbUid++);
+        group.style.cssText =
+          "position:absolute;left:0;top:0;width:0;height:0;isolation:isolate;pointer-events:none;display:none;";
+
+        var clones = [];
+        for (var k = 0; k < copies; k++) {
+          var clone = el.cloneNode(true);
+          clone.removeAttribute("id");
+          stripCopyAttrs(clone);
+          clones.push(clone);
+          group.appendChild(clone);
+        }
+        var s = {
+          el: el,
+          group: group,
+          clones: clones,
+          samples: [],
+          perspective: "",
+          watch: null,
+        };
+
+        // Resolved styles and the parent's perspective are px once read, so a
+        // container-relative element needs them again when its box changes. Per frame
+        // that would walk the whole subtree once per copy; on resize it costs nothing
+        // on a fixed-size render and keeps a live preview honest.
+        function snapshot() {
+          // Read a target hidden right now (an autoAlpha entrance) as shown, so a descendant
+          // hidden by its own rule still differs from it; the inline value goes back exactly.
+          var hidden = getComputedStyle(el).visibility !== "visible";
+          var inline = el.style.getPropertyValue("visibility");
+          var priority = el.style.getPropertyPriority("visibility");
+          if (hidden) el.style.setProperty("visibility", "visible", "important");
+          var styles;
+          try {
+            styles = resolvedStyles(el, []);
+          } finally {
+            if (hidden) el.style.setProperty("visibility", inline, priority);
+          }
+          s.perspective = parentPerspective(el);
+          for (var c = 0; c < clones.length; c++) {
+            paintResolvedStyles(clones[c], styles, { i: 0 });
+            clones[c].style.position = "absolute";
+            clones[c].style.margin = "0";
+            clones[c].style.opacity = alpha;
+            clones[c].style.mixBlendMode = "plus-lighter";
+          }
+        }
+
+        // Snapshot BEFORE the group enters the page, so a throw in the style walk leaves
+        // nothing behind: the record the rollback needs does not exist until it returns.
+        snapshot();
+        el.parentNode.insertBefore(group, el);
+        if (typeof ResizeObserver === "function") {
+          s.watch = new ResizeObserver(snapshot);
+          s.watch.observe(el);
+        }
+        return s;
+      }
+
+      var state = [];
+      // Every element this call marked. A throw inside `attachOne` never returns its
+      // record, so `state` alone cannot give the marks back.
+      var claimed = [];
+      try {
+        for (var q = 0; q < targets.length; q++) {
+          var candidate = targets[q];
+          // One group per element, whether a second call names it or one call names it
+          // twice: a second set of copies over the first would double the ink. Marked
+          // BEFORE the copies go in: inserting them runs custom-element reactions
+          // synchronously, and one that registers a timeline re-enters the write trap.
+          if (window._hfMbAttached.has(candidate)) continue;
+          window._hfMbAttached.add(candidate);
+          window._hfMbTimeline.set(candidate, tl);
+          claimed.push(candidate);
+          state.push(attachOne(candidate));
+        }
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+      // Nothing to blur means nothing to seek: a tracker here would run the whole sample
+      // loop every frame over an empty set.
+      if (state.length === 0) return;
+
+      // One seek loop drives the whole call, so the window is ONE length, and it belongs
+      // to the composition of an element this call actually attached.
+      var fps = resolveFps(opts.fps, state[0].el);
+      for (var d = 1; d < state.length; d++) {
+        if (resolveFps(opts.fps, state[d].el) === fps) continue;
+        var line = "one call cannot blur compositions at different frame rates; using ";
+        console.warn("[motion-blur] " + line + fps, state[d].el);
+        break;
+      }
+
+      function readTransform(el) {
+        var cs = getComputedStyle(el);
+        return {
+          css: cs.transform,
+          origin: cs.transformOrigin,
+          opacity: cs.opacity,
+          visibility: cs.visibility,
+          parsed: parseTransform(cs.transform),
+        };
+      }
+
+      var scheduled = false;
+
+      function applyShutter() {
+        var shutterTime = shutterAngle / 360 / fps;
+        if (!(shutterTime > 0)) {
+          state.forEach(function (s) {
+            s.group.style.display = "none";
+          });
+          return;
+        }
+
+        var t0 = tl.time();
+        var duration = tl.duration();
+        var windowStart = t0 + shutterPhase / 360 / fps;
+
+        // Sample the real trajectory: seek to each sub-frame time with events
+        // suppressed (so no tween callbacks, including this tracker's, fire),
+        // read the resolved transform, then restore the frame time.
+        try {
+          for (var k = 0; k < copies; k++) {
+            var tk = windowStart + (k / samples) * shutterTime;
+            tl.time(Math.min(duration, Math.max(0, tk)), true);
+            state.forEach(function (s) {
+              s.samples[k] = readTransform(s.el);
+            });
+          }
+        } finally {
+          tl.time(t0, true);
+        }
+
+        state.forEach(function (s) {
+          // Read the element as the timeline left it: the marker is this snippet's own.
+          if (!sharp) s.el.removeAttribute(HIDE_ATTR);
+          var current = readTransform(s.el);
+          var moved = false;
+          for (var i = 0; i < copies; i++) {
+            if (differs(s.samples[i].parsed, current.parsed)) {
+              moved = true;
+              break;
+            }
+          }
+          if (!moved) {
+            s.group.style.display = "none";
+            return;
+          }
+
+          // The copies are absolutely positioned inside the group, and the group sits at
+          // the origin of the element's own containing block, so the element's offset box
+          // places them. Re-read every frame: a beat is free to move the box itself.
+          var left = s.el.offsetLeft + "px";
+          var top = s.el.offsetTop + "px";
+          var width = s.el.offsetWidth + "px";
+          var height = s.el.offsetHeight + "px";
+          for (var j = 0; j < copies; j++) {
+            var clone = s.clones[j];
+            clone.style.left = left;
+            clone.style.top = top;
+            clone.style.width = width;
+            clone.style.height = height;
+            clone.style.transformOrigin = s.samples[j].origin;
+            clone.style.transform =
+              s.perspective + (s.samples[j].css === "none" ? "" : s.samples[j].css);
+          }
+          // The copies are the element's own ink, so they carry its opacity and visibility:
+          // a beat that moves and fades at once would otherwise leave a full-strength
+          // smear behind a vanishing element. It rides the group, not the copies, whose
+          // own opacity is the 1/N shutter weight.
+          s.group.style.opacity = current.opacity;
+          // Set only where the element differs from its parent: an explicit value would
+          // outlive an ancestor that hides later, like a clip that has ended.
+          var shared = getComputedStyle(s.el.parentNode).visibility;
+          s.group.style.visibility = current.visibility === shared ? "" : current.visibility;
+          s.group.style.display = "";
+          if (!sharp) s.el.setAttribute(HIDE_ATTR, "");
+        });
+      }
+
+      // tl.eventCallback("onUpdate") is unavailable under the HyperFrames runtime proxy, so a
+      // tracker tween's onUpdate fires on every seek. Sampling is deferred to a microtask:
+      // seeking GSAP from inside its own render reads stale tween state, while the microtask
+      // runs after the seek returns and before the frame is captured or painted.
+      var _proxy = { t: 0 };
+      try {
+        tl.to(
+          _proxy,
+          {
+            t: 1,
+            duration: Math.max(tl.duration(), 0.1),
+            ease: "none",
+            onUpdate: function () {
+              if (scheduled) return;
+              scheduled = true;
+              Promise.resolve().then(function () {
+                scheduled = false;
+                applyShutter();
+              });
+            },
+          },
+          0,
+        );
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+    };
+
+    // An empty attribute means defaults; anything else is a JSON options object. A value that
+    // is not an options object is skipped loudly rather than read as defaults, because a typo
+    // in it would otherwise render as a silently unblurred element.
+    function sweepOptions(el) {
+      var text = (el.getAttribute(SWEEP_ATTR) || "").trim();
+      if (text === "") return {};
+      var parsed = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch (e) {
+        return refuse(el, "is not JSON: " + text);
+      }
+      // `null`, a number and a string all parse. None of them is a set of options.
+      if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+        return refuse(el, "is not a JSON object: " + text);
+      }
+      var bad = unknownKey(parsed);
+      if (bad !== null) return refuse(el, "names no such option: " + bad);
+      var wrong = nonNumber(parsed);
+      if (wrong !== null) return refuse(el, "needs a number for " + wrong);
+      if (parsed.sharp !== undefined && parsed.sharp !== 0 && parsed.sharp !== 1) {
+        return refuse(el, "needs 0 or 1 for sharp");
+      }
+      return parsed;
+    }
+
+    // A misspelled key is the likeliest typo in a JSON object, and reading it as
+    // defaults is the silent no-op this attribute exists to remove.
+    function unknownKey(parsed) {
+      for (var key in parsed) {
+        if (OPTION_KEYS.indexOf(key) < 0) return key;
+      }
+      return null;
+    }
+
+    // A key with a value the shutter cannot use is the same silent no-op as a key it does
+    // not know: a non-numeric angle hides the smear, a non-numeric phase parks every copy
+    // at the timeline's start. JSON gives real numbers, so anything else is a typo.
+    function nonNumber(parsed) {
+      for (var i = 0; i < OPTION_KEYS.length; i++) {
+        var held = parsed[OPTION_KEYS[i]];
+        if (held === undefined) continue;
+        if (typeof held !== "number" || !Number.isFinite(held)) return OPTION_KEYS[i];
+      }
+      return null;
+    }
+
+    // A throw partway through an attach leaves an element blurred by nothing, so the copies
+    // go too, along with the observer that would otherwise keep walking a detached subtree
+    // on every resize of an element nothing blurs.
+    // The mark is what a second trigger reads, so it is the first thing to give back.
+    function unmark(els) {
+      for (var i = 0; i < els.length; i++) {
+        window._hfMbAttached.delete(els[i]);
+        window._hfMbTimeline.delete(els[i]);
+      }
+    }
+
+    function discard(state) {
+      for (var i = 0; i < state.length; i++) {
+        var s = state[i];
+        if (s.watch !== null) s.watch.disconnect();
+        if (s.group.parentNode !== null) s.group.parentNode.removeChild(s.group);
+      }
+    }
+
+    function refuse(el, why) {
+      window._hfMbSkipped.add(el);
+      console.warn("[motion-blur] " + SWEEP_ATTR + " " + why, el);
+      return null;
+    }
+
+    // An element belongs to the nearest composition above it, so a sub-composition's
+    // targets follow that sub-composition's own timeline.
+    function compositionOf(el) {
+      var host = el.closest("[data-composition-id]");
+      return host ? host.getAttribute("data-composition-id") : null;
+    }
+
+    // Anything else registered on the container is somebody else's bookkeeping: a
+    // timeline is the thing this snippet can seek and extend.
+    function isTimeline(value) {
+      return !!value && typeof value.time === "function" && typeof value.to === "function";
+    }
+
+    // Attached, or skipped as unparseable. Both are terminal, so a later trigger must not
+    // report or attach the element twice.
+    function handled(el) {
+      return window._hfMbAttached.has(el) || window._hfMbSkipped.has(el);
+    }
+
+    // The timeline registered for an element's own composition, or null. Read from the
+    // registry rather than taken from whoever wrote it, so every trigger agrees.
+    function timelineFor(el) {
+      var id = compositionOf(el);
+      if (id === null) return null;
+      var registry = window.__timelines;
+      var found = registry ? registry[id] : null;
+      return isTimeline(found) ? found : null;
+    }
+
+    // A marked element whose parent is not an Element has no target above it: the parent
+    // of a root is the Document, which has no `closest`.
+    function nestedInTarget(el) {
+      var parent = el.parentNode;
+      if (parent === null || typeof parent.closest !== "function") return false;
+      return parent.closest(SWEEP_SELECTOR) !== null;
+    }
+
+    // One owner of attaching one element. Answers whether the element still needs a trigger.
+    function claim(el) {
+      var tl = timelineFor(el);
+      if (handled(el)) {
+        var owner = window._hfMbTimeline.get(el);
+        // Re-registering a key with a DIFFERENT timeline leaves the copies driven by the one
+        // nobody seeks, which renders sharp and says nothing. Report it rather than guess.
+        var changed = tl !== null && owner !== undefined && owner !== tl;
+        if (changed && !window._hfMbWarned.has(el)) {
+          window._hfMbWarned.add(el);
+          console.warn(
+            "[motion-blur] a second timeline registered for this element; the copies still follow the first",
+            el,
+          );
+        }
+        return true;
+      }
+      // Its group would be inserted into the live outer element, so the outer target's
+      // style replay would walk a subtree its cursor no longer matches.
+      if (nestedInTarget(el)) {
+        refuse(el, "cannot blur a target inside another target; blur one of them");
+        return true;
+      }
+      var opts = sweepOptions(el);
+      if (opts === null) return true;
+      if (tl === null) return false;
+      window.attachMotionBlur(el, tl, opts);
+      return true;
+    }
+
+    // Returns the elements still waiting for their composition to register a timeline.
+    // The trap below runs this INSIDE the author's registration statement, so one bad
+    // target must not abort the rest of their composition script.
+    function sweep() {
+      var pending = [];
+      document.querySelectorAll(SWEEP_SELECTOR).forEach(function (el) {
+        try {
+          if (!claim(el)) pending.push(el);
+        } catch (e) {
+          window._hfMbSkipped.add(el);
+          console.warn("[motion-blur] could not blur this element: " + e, el);
+        }
+      });
+      return pending;
+    }
+
+    // Registering a timeline is the moment the author has finished building it, so trapping
+    // the write attaches before the renderer captures a frame. A microtask would be too
+    // early: it runs before the next `<script>` tag.
+    function registrationProxy(container) {
+      var proxy = new Proxy(container, {
+        set: function (target, key, value) {
+          target[key] = value;
+          if (typeof key === "string") sweep();
+          return true;
+        },
+      });
+      window._hfMbProxies.add(proxy);
+      return proxy;
+    }
+
+    function hookRegistration() {
+      var held = window.__timelines;
+      Object.defineProperty(window, "__timelines", {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return held;
+        },
+        set: function (value) {
+          var container = !!value && typeof value === "object";
+          var fresh = container && !window._hfMbProxies.has(value);
+          held = fresh ? registrationProxy(value) : value;
+          if (fresh) sweep();
+        },
+      });
+      // A container assigned before this snippet ran is replayed through the setter, so a
+      // timeline already registered on it is swept too.
+      if (held !== undefined) window.__timelines = held;
+    }
+
+    // The trap above cannot see every registration: the runtime owns the registry object,
+    // wraps it per sub-composition, and mounts nested compositions asynchronously. So the
+    // registry is also POLLED, which needs no cooperation from whoever writes it.
+    function poll(ticks) {
+      var pending = sweep();
+      // The WHOLE budget, every time. Stopping the first tick nothing is pending kills the
+      // poll one tick into an ordinary page, which is before a late composition arrives.
+      if (ticks > 0) {
+        setTimeout(function () {
+          poll(ticks - 1);
+        }, POLL_MS);
+        return;
+      }
+      if (pending.length === 0) return;
+      var count = pending.length + " element(s) carry " + SWEEP_ATTR;
+      console.warn(
+        "[motion-blur] " + count + ", and no composition registered a timeline for them",
+        pending,
+      );
+    }
+
+    if (!window._hfMbHooked) {
+      window._hfMbHooked = true;
+      hookRegistration();
+      poll(POLL_TICKS);
+    }
+    /* SHUTTER_SNIPPET_END */
+  })();
+</script>
+
+<!--
+  Timeline integration example:
+
+  <div id="root" data-composition-id="my-composition" data-duration="6" data-fps="30">
+    <div id="my-box" data-hf-motion-blur></div>
+    <div id="my-title" data-hf-motion-blur='{"shutterAngle": 360}'></div>
+  </div>
+
+  const tl = gsap.timeline({ paused: true });
+
+  tl.fromTo("#my-box", { x: -100 }, { x: 1700, duration: 1.2, ease: "power3.inOut" }, 0.5);
+
+  // Extend to data-duration so seeks past the last tween reach the blur callback.
+  tl.set(document.body, {}, DATA_DURATION);
+
+  // The registration below is what attaches both targets, in that order.
+  window.__timelines = window.__timelines || {};
+  window.__timelines["my-composition"] = tl;
+
+  // Only for an element created later than the polling window above:
+  attachMotionBlur("#late-box", tl, { shutterAngle: 720, samplesPerFrame: 16 });
+-->
 
     <script>
       document.fonts.ready.then(() => {
-        const tl = gsap.timeline({ paused: true });
+        // master plays the authored (35 s) timeline at 1/K speed → 28 s film
+        const SPEED = 1.25;
+        const master = gsap.timeline({ paused: true });
+        const tl = gsap.timeline();
         const $ = (s) => document.querySelector(s);
         const $$ = (s) => Array.from(document.querySelectorAll(s));
 
@@ -406,6 +1190,17 @@
         const blurIn = (el, at, o = {}) =>
           tl.fromTo(el, { opacity: 0, filter: `blur(${o.blur ?? 22}px)`, scale: o.scale ?? 1.08, y: o.y ?? 0 },
             { opacity: 1, filter: "blur(0px)", scale: 1, y: 0, duration: o.dur ?? 0.6, ease: "expo.out" }, at);
+        // per-character 3D rise (kinetic type)
+        const charRise = (el, at, o = {}) => {
+          el = typeof el === "string" ? $(el) : el;
+          if (!el.dataset.split) {
+            const txt = el.textContent; el.textContent = "";
+            txt.split("").forEach((c) => { const sp = document.createElement("span"); sp.className = "ch"; sp.textContent = c === " " ? "\u00a0" : c; el.appendChild(sp); });
+            el.dataset.split = "1";
+          }
+          tl.fromTo(el.children, { opacity: 0, y: o.y ?? 70, rotationX: -85, filter: "blur(10px)", transformPerspective: 700, transformOrigin: "50% 100%" },
+            { opacity: 1, y: 0, rotationX: 0, filter: "blur(0px)", duration: o.dur ?? 0.7, ease: "expo.out", stagger: o.stagger ?? 0.03 }, at);
+        };
         // layout centre of an element relative to #root (transform-independent)
         const centre = (el) => {
           let x = 0, y = 0, n = el;
@@ -421,14 +1216,14 @@
         tl.fromTo("#amb-glow2", { x: 0, y: 0 }, { x: 140, y: 90, duration: 31.6, ease: "sine.inOut" }, 0);
 
         // 01 GREAT MEETING  (0 – 2.6) -----------------------------------------
-        blurIn("#s1-a", 0.12);
-        blurIn("#s1-b", 0.45);
+        charRise("#s1-a", 0.05);
+        charRise("#s1-b", 0.3);
         tl.to("#s1-line", { scale: 0.9, filter: "blur(14px)", opacity: 0, duration: 0.32, ease: "power2.in" }, 2.28);
 
         // 02 WHO DOES WHAT  (2.6 – 5.4) ---------------------------------------
-        blurIn("#s2-a", 2.62, { dur: 0.55 });
-        blurIn("#s2-b", 2.76, { dur: 0.55 });
-        blurIn("#s2-c", 2.9, { dur: 0.55 });
+        charRise("#s2-a", 2.62, { stagger: 0.025 });
+        charRise("#s2-b", 2.74, { stagger: 0.025 });
+        charRise("#s2-c", 2.86, { stagger: 0.025 });
         tl.fromTo("#s2-cap", { width: 0, height: 0 }, { width: 168, height: 112, duration: 0.55, ease: "back.out(1.6)" }, 3.3);
         tl.fromTo("#s2-q", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, 3.48);
         tl.to("#s2-q", { scale: 1.12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.0);
@@ -454,10 +1249,14 @@
             { x: dx, y: dy, scale: 0.25 + (i % 3) * 0.12, opacity: 0, duration: 0.55, ease: "power3.out" }, 4.8);
         });
         tl.to(s2cur, { x: "+=120", y: "+=160", opacity: 0, duration: 0.35, ease: "power2.in" }, 4.95);
-        tl.to("#s2-line", { x: -420, filter: "blur(24px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 5.1);
+        tl.to("#s2-line", { x: -420, filter: "blur(24px)", opacity: 0, duration: 0.3, ease: "power3.in" }, 5.0);
+        const flood = $("#s2-flood");
+        flood.style.left = capC.x - 20 + "px"; flood.style.top = capC.y - 20 + "px";
+        tl.fromTo(flood, { scale: 0.2, opacity: 1 }, { scale: 120, duration: 0.55, ease: "power3.in" }, 4.85);
 
         // 03 INTRODUCING  (5.4 – 7.2) -----------------------------------------
-        tl.fromTo("#s3-blob", { scale: 0.7, opacity: 0, x: 300 }, { scale: 1, opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 5.4);
+        tl.fromTo("#s3-flood", { opacity: 1 }, { opacity: 0, duration: 0.6, ease: "power2.out" }, 5.45);
+        tl.fromTo("#s3-blob", { scale: 1.7, opacity: 1, x: 0 }, { scale: 1, opacity: 1, x: 0, duration: 0.9, ease: "expo.out" }, 5.4);
         tl.fromTo("#s3-giant", { x: 1500, filter: "blur(30px)" }, { x: -1700, filter: "blur(8px)", duration: 0.95, ease: "power2.inOut" }, 5.4);
         tl.to("#s3-giant", { opacity: 0, duration: 0.12 }, 6.25);
         tl.to("#s3-blob", { scale: 0.35, x: 820, y: 520, opacity: 0, duration: 0.6, ease: "expo.out" }, 6.28);
@@ -580,12 +1379,18 @@
         tl.fromTo("#s8-card", { scale: 0.94, y: 30 }, { scale: 1, y: 0, duration: 0.9, ease: "expo.out" }, 19.1);
         tl.fromTo("#s8-card .plan-head", { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 19.25);
         tl.fromTo(".s8r", { opacity: 0, y: 14, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out", stagger: 0.15 }, 19.4);
-        tl.fromTo(".s8r .chk b", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.1 }, 20.2);
+        const ul = $("#s8-ul-p"), ulLen = ul.getTotalLength();
+        tl.fromTo(ul, { strokeDasharray: ulLen, strokeDashoffset: ulLen }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, 19.55);
+        $$(".s8c path").forEach((pth, i) => {
+          const l = pth.getTotalLength();
+          tl.fromTo(pth, { strokeDasharray: l, strokeDashoffset: l }, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 20.15 + i * 0.12);
+          tl.fromTo(pth.parentNode.parentNode, { scale: 1 }, { scale: 1.18, duration: 0.1, yoyo: true, repeat: 1, ease: "power2.out" }, 20.15 + i * 0.12);
+        });
         tl.to("#s8-card", { scale: 0.92, filter: "blur(10px)", opacity: 0, duration: 0.38, ease: "power2.in" }, 22.02);
 
         // 09 MISSED SOMETHING  (22.4 – 24.8) ---------------------------------------
-        blurIn("#s9-a", 22.42);
-        blurIn("#s9-b", 22.6);
+        charRise("#s9-a", 22.42, { stagger: 0.025 });
+        charRise("#s9-b", 22.56, { stagger: 0.022 });
         tl.fromTo("#s9-cardbg", { scaleX: 0.72, scaleY: 0.38, opacity: 0 }, { scaleX: 1, scaleY: 1, opacity: 1, duration: 0.5, ease: "expo.out" }, 23.38);
         tl.to("#s9-first", { scale: 0.42, x: -620, duration: 0.42, ease: "power3.inOut" }, 23.8);
         const slots9 = [-207, 207, 620];
@@ -647,6 +1452,7 @@
           tl.to(ball, { y: peak, duration: 0.2, ease: "power2.out" }, start);
           tl.to(ball, { y: p.y, duration: 0.2, ease: "power2.in" }, start + 0.2);
           tl.to(ball, { scaleY: 0.78, scaleX: 1.18, duration: 0.06, yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, tLand);
+          tl.fromTo("#s11-line", { scale: 1 }, { scale: 1.025, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tLand);
           tl.fromTo(words[i], { opacity: 0, scale: 1.35, filter: "blur(8px)", y: -10 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.35, ease: "back.out(2.4)" }, tLand);
           prev = p;
         });
@@ -656,7 +1462,13 @@
 
         // 12 ENDCARD  (31.6 – 35.0) --------------------------------------------------
         const word12 = $("#s12-word"), mark12 = $("#s12-mark");
-        const shift = (word12.offsetWidth + 34) / 2;
+        const shift = (word12.offsetWidth + 34) / 2; // mark starts centred
+        const wC = centre(word12);
+        const m12 = { x: wC.x - word12.offsetWidth / 2 - 34 - 75, y: wC.y }; // svg has no offsetLeft
+        ["#rg1", "#rg2", "#rg3"].forEach((r, i) => {
+          const el = $(r); el.style.left = m12.x + shift - 100 + "px"; el.style.top = m12.y - 100 + "px";
+          tl.fromTo(el, { scale: 0.3, opacity: 0.8 }, { scale: 3.2 + i, opacity: 0, duration: 1.3, ease: "power2.out" }, 31.62 + i * 0.14);
+        });
         tl.fromTo(mark12, { rotationY: 180, x: shift, transformPerspective: 900, scale: 0.8 }, { rotationY: 0, scale: 1, duration: 0.85, ease: "expo.out" }, 31.6);
         tl.to(mark12, { x: 0, duration: 0.9, ease: "expo.inOut" }, 32.15);
         Array.from(word12.children).forEach((l, i) => {
@@ -664,7 +1476,9 @@
         });
         blurIn("#s12-url", 32.75, { blur: 10, y: 10, scale: 1, dur: 0.6 });
 
-        window.__timelines["main"] = tl;
+        master.add(tl, 0);
+        tl.timeScale(SPEED);
+        window.__timelines["main"] = master;
         if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
       });
     </script>
