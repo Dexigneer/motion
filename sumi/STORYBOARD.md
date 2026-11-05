@@ -17,7 +17,7 @@ version: v1
 - **Formát:** 16:9 · 1920×1080 · 30 fps · ~35 s · **bez voiceoveru**, hudba + SFX. Text na obrazovke v angličtine (zmena na slovenčinu = len výmena textov).
 - **Chrbtica (spine):** **atramentová kvapka/pečať** Sumi. Je to bodka, z ktorej vyrastie kapsula (01–02), logo (04), kurzorový „klik“ (06–07), sken odhalenia (08), zvýrazňovač (10) a nakoniec odrážajúce sa logo (11–12). Jeden objekt, ktorý vedie každý prechod.
 - **Paleta:** papier `#F5F1EA` · atrament `#17161B` · pečatná červená (akcent) `#E8432A` · tieňový sivý `#8C877F` · jemný teplý gradient (červená → marhuľová → papier) iba v úsekoch 03 a 06 namiesto fialovej aurory.
-- **Typografia:** display serif *Instrument Serif* (akcentové slová, kurzíva) + grotesk *Inter Tight* (všetko ostatné), mono *JetBrains Mono* iba v UI. Nadpisy ≥ 72 px, UI ≥ 22 px.
+- **Typografia:** jediný font *Inter Tight* (400–650). Zvýraznenie = hrubší rez + pečatná červená. Nadpisy ≥ 72 px, UI ≥ 22 px.
 - **Pohyb:** všetky prechody s rozmazaním v smere pohybu; vstupy `expo.out` 0,5–0,7 s, odchody `power3.in` 0,3 s. **Jeden smer: doľava** (whipy, karusel, posun kamery).
 - **Čitateľnosť:** každý text stojí hotový min. **1,2 s**; max. 5 slov na obrazovke naraz.
 - **Statický záber (held frame):** 08, plán je hotový a 1 s sa nehýbe nič okrem jemného dýchania pozadia.
@@ -277,3 +277,9 @@ Riadky prepisu (fiktívne):
 - Zvuky sú **dočasné**, syntetizované skriptom `tools/make_sfx.py` → `assets/sfx/*.wav`. Každý je samostatná audio stopa (id `sfx-*`) — dá sa vymeniť 1:1 alebo posunúť v Studiu.
 - Hudba: zatiaľ žiadna (doplní klient). Odporúčaná hlasitosť hudby pod SFX ~ −16 LUFS, tempo ~104 BPM; strihy v beate 05 sú na 0,233 s; po dodaní hudby ich dorovnám na jej tempo.
 - Ťah štetca v logu: vzostupný „flick“ (pripomína odškrtnutie = hotovo).
+
+## Changes from v1 (spätná väzba)
+
+- „Nepoužívaj dva fonty… iba ten sans serif“ → celé video len Inter Tight; serif aj mono odstránené.
+- „Scéna sumi… odstráň obrázkové logo“ → písmená s-u-m-i obiehajú prázdny stred a zložia sa do slova; odchod = zbiehajú sa do jedného bodu.
+- „Search bar… lepšie vyladená poloha“ → pole na mriežke 28/24 px: riadok zdrojov · placeholder · ovládanie; ikonky ako SVG, okrúhle tlačidlá +/⇄.
