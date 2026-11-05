@@ -1,0 +1,1698 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Cirro — promo</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Bricolage"; src: url("assets/fonts/BricolageGrotesque.woff2") format("woff2"); font-weight: 200 800; font-stretch: 75% 100%; font-style: normal; }
+
+      :root {
+        --night: #060a12;
+        --deep: #0c1424;
+        --navy: #16233a;
+        --line: #24344d;
+        --ice: #cfe8ff;
+        --sky: #8ec5ff;
+        --frost: #eef6ff;
+        --mist: #7189a8;
+        --sans: "Bricolage", sans-serif;
+        --wd: 100;
+        --wg: 600;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; font-variation-settings: "wdth" var(--wd), "wght" var(--wg); }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--night); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--sans); color: var(--frost); background: var(--night); }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .fill { position: absolute; inset: 0; }
+      .row-c { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .sky { color: var(--sky); }
+      .ice { color: var(--ice); }
+      .isvg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; }
+      /* masked words: outer clips, inner rises */
+      .mw { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.02em 0.04em 0.14em; margin: -0.02em -0.04em -0.14em; }
+      .mi { display: inline-block; will-change: transform; }
+      .ch { display: inline-block; }
+
+      /* ambient */
+      #amb-dots { position: absolute; inset: -40px; background: radial-gradient(circle, rgba(142, 197, 255, 0.075) 1.6px, transparent 2px) 0 0 / 44px 44px; }
+      #amb-g1 { position: absolute; width: 1200px; height: 1200px; left: 1020px; top: -520px; border-radius: 50%; background: radial-gradient(closest-side, rgba(142, 197, 255, 0.16), rgba(142, 197, 255, 0)); }
+      #amb-g2 { position: absolute; width: 1400px; height: 1400px; left: -560px; top: 360px; border-radius: 50%; background: radial-gradient(closest-side, rgba(58, 110, 168, 0.22), rgba(58, 110, 168, 0)); }
+      #vig { pointer-events: none; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.5) 100%); z-index: 80; }
+      #grain { position: absolute; inset: 0; z-index: 90; opacity: 0.07; mix-blend-mode: overlay; pointer-events: none; }
+
+      /* the spine: a pale ring */
+      .ring { position: absolute; border-radius: 50%; border: 30px solid var(--ice); }
+
+      /* S1 tabs */
+      .tab { position: absolute; width: 136px; height: 44px; border-radius: 22px; background: var(--deep); border: 2px solid var(--line); display: flex; align-items: center; padding: 0 12px; gap: 9px; }
+      .tab i { width: 18px; height: 18px; border-radius: 6px; flex: none; }
+      .tab b { height: 7px; border-radius: 4px; background: #2c3e5a; flex: 1; }
+      .tab s { width: 10px; height: 10px; flex: none; position: relative; text-decoration: none; }
+      .tab s::before, .tab s::after { content: ""; position: absolute; left: 4px; top: -1px; width: 2px; height: 12px; background: #3d5272; transform: rotate(45deg); }
+      .tab s::after { transform: rotate(-45deg); }
+      #s1-row { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 30px; }
+      .odo { display: flex; font-size: 300px; --wg: 800; --wd: 88; color: var(--ice); letter-spacing: -0.04em; }
+      .odc { height: 300px; overflow: hidden; line-height: 300px; text-align: center; }
+      .ods { display: flex; flex-direction: column; }
+      .ods span { display: block; height: 300px; }
+      #s1-tabs-w { font-size: 130px; --wg: 650; letter-spacing: -0.03em; margin-top: 90px; }
+
+      /* S2 */
+      .orbit { position: absolute; left: 960px; top: 540px; width: 0; height: 0; }
+      .arm, .pos, .up { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      .ic { position: absolute; width: 112px; height: 112px; left: -56px; top: -56px; border-radius: 32px; background: var(--navy); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ice); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
+      .ic svg { width: 50px; height: 50px; }
+      #s2-apps { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 200px; --wg: 750; letter-spacing: -0.035em; }
+      #s2-zero { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 40px; font-size: 220px; --wg: 800; letter-spacing: -0.035em; }
+      #s2-0 { color: var(--ice); display: inline-block; }
+      #s2-plan { display: inline-block; }
+
+      /* S3 */
+      #s3-floor { position: absolute; left: 200px; top: 640px; width: 1520px; height: 3px; border-radius: 2px; background: rgba(142, 197, 255, 0.35); transform-origin: 50% 50%; }
+      #s3-meet { position: absolute; left: 700px; top: 330px; height: 310px; overflow: hidden; font-size: 300px; line-height: 300px; --wg: 800; --wd: 90; letter-spacing: -0.04em; white-space: nowrap; }
+      #s3-meet .ch { transform-origin: 50% 100%; }
+      .ballx, .bally { position: absolute; left: 0; top: 0; }
+      .slice { position: absolute; left: 0; width: 1920px; height: 91px; background: var(--ice); }
+
+      /* S4 */
+      #s4-bg { background: var(--ice); }
+      #s4-zoom { position: absolute; inset: 0; }
+      #s4-word { position: absolute; left: 0; right: 0; top: 330px; display: flex; justify-content: center; align-items: baseline; font-size: 320px; line-height: 320px; --wg: 800; --wd: 86; letter-spacing: -0.045em; color: var(--night); }
+      #s4-word .lt { display: inline-block; transform-origin: 50% 100%; }
+      #s4-o { display: inline-block; position: relative; width: 172px; height: 172px; border-radius: 50%; border: 42px solid var(--night); margin-left: 10px; vertical-align: baseline; }
+      #s4-hole { position: absolute; left: -42px; top: -42px; width: 172px; height: 172px; border-radius: 50%; background: var(--night); }
+      #s4-sub { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font-size: 50px; --wg: 560; color: var(--navy); white-space: pre; }
+
+      /* S5 */
+      #s5-label { position: absolute; left: 0; right: 0; top: 200px; text-align: center; font-size: 84px; --wg: 720; letter-spacing: -0.03em; }
+      #s5-bar { position: absolute; left: 960px; top: 470px; width: 140px; height: 140px; border-radius: 70px; border: 22px solid var(--ice); background: rgba(207, 232, 255, 0.05); display: flex; align-items: center; overflow: hidden; }
+      #s5-glow { position: absolute; left: 960px; top: 540px; width: 1300px; height: 260px; margin: -130px 0 0 -650px; border-radius: 130px; background: radial-gradient(closest-side, rgba(142, 197, 255, 0.28), rgba(142, 197, 255, 0)); opacity: 0; }
+      #s5-in { position: absolute; left: 34px; right: 34px; top: 0; bottom: 0; display: flex; align-items: center; gap: 24px; opacity: 0; }
+      #s5-spark { width: 44px; height: 44px; color: var(--sky); flex: none; }
+      #s5-type { flex: 1; font-size: 42px; --wg: 520; white-space: pre; display: flex; align-items: center; color: var(--frost); }
+      #s5-type .c { display: none; }
+      #s5-caret { display: inline-block; width: 4px; height: 50px; background: var(--sky); margin-left: 3px; border-radius: 2px; }
+      #s5-send { width: 84px; height: 84px; border-radius: 50%; background: var(--ice); color: var(--night); display: flex; align-items: center; justify-content: center; flex: none; }
+      #s5-send svg { width: 38px; height: 38px; stroke-width: 2.6; }
+      #s5-chips { position: absolute; left: 0; right: 0; top: 660px; display: flex; justify-content: center; gap: 22px; }
+      .chip { display: inline-flex; align-items: center; gap: 12px; height: 70px; padding: 0 30px 0 22px; border-radius: 35px; background: rgba(142, 197, 255, 0.13); border: 2px solid rgba(142, 197, 255, 0.35); color: var(--ice); font-size: 32px; --wg: 640; }
+      .chip svg { width: 30px; height: 30px; }
+      #s5-shot { position: absolute; left: 890px; top: 470px; width: 140px; height: 140px; border-width: 22px; opacity: 0; }
+      .spark-dot { position: absolute; left: 951px; top: 531px; width: 18px; height: 18px; border-radius: 50%; background: var(--ice); opacity: 0; }
+
+      /* S6 */
+      #s6-persp { position: absolute; inset: 0; perspective: 1700px; }
+      #s6-wall { position: absolute; left: -380px; top: -620px; width: 2680px; height: 2320px; display: flex; gap: 40px; justify-content: center; transform-style: preserve-3d; }
+      .col { display: flex; flex-direction: column; gap: 40px; width: 400px; flex: none; }
+      .ph { position: relative; flex: none; border-radius: 30px; overflow: hidden; background-color: #0f1b2e; background-image: repeating-linear-gradient(45deg, rgba(142, 197, 255, 0.07) 0 12px, rgba(142, 197, 255, 0) 12px 24px); border: 2px dashed rgba(142, 197, 255, 0.38); color: var(--sky); }
+      .ph .pi { position: absolute; left: 50%; top: 44%; width: 76px; height: 76px; margin: -38px 0 0 -38px; opacity: 0.85; }
+      .ph .pl { position: absolute; left: 26px; right: 26px; bottom: 22px; font-size: 26px; --wg: 640; color: var(--ice); line-height: 1.15; }
+      .ph .pl small { display: block; font-size: 19px; --wg: 500; color: var(--mist); letter-spacing: 0.06em; }
+      .col .ph { width: 400px; height: 533px; }
+      #s6-shade { background: radial-gradient(ellipse 58% 46% at 50% 50%, rgba(6, 10, 18, 0.9), rgba(6, 10, 18, 0.6) 55%, rgba(6, 10, 18, 0) 100%); }
+      #s6-dim { background: var(--night); opacity: 0; }
+      #s6-head { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 34px; font-size: 140px; --wg: 760; letter-spacing: -0.035em; }
+      #s6-hero { position: absolute; left: 740px; top: 250px; width: 440px; height: 586px; box-shadow: 0 50px 120px rgba(0, 0, 0, 0.6); background-color: #13223a; }
+      #s6-hero .pi { width: 96px; height: 96px; margin: -48px 0 0 -48px; }
+      #s6-hero .pl { font-size: 34px; }
+      #s6-hero .pl small { font-size: 22px; }
+      #s6-saved { position: absolute; left: 1060px; top: 218px; height: 70px; padding: 0 28px 0 20px; border-radius: 35px; background: var(--ice); color: var(--night); display: flex; align-items: center; gap: 10px; font-size: 32px; --wg: 760; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); }
+      #s6-saved svg { width: 32px; height: 32px; fill: var(--night); stroke: var(--night); }
+
+      /* S7 */
+      #s7-all { position: absolute; inset: 0; transform-origin: 960px 540px; }
+      #s7-head { position: absolute; left: 110px; top: 84px; font-size: 104px; --wg: 760; letter-spacing: -0.035em; }
+      #s7-map { position: absolute; left: 80px; top: 250px; width: 980px; height: 780px; border-radius: 40px; overflow: hidden; background: radial-gradient(circle, rgba(142, 197, 255, 0.09) 1.6px, transparent 2px) 0 0 / 28px 28px, #0a1220; border: 2px solid var(--line); }
+      #s7-map svg { position: absolute; inset: 0; }
+      .pin { position: absolute; width: 66px; height: 84px; transform-origin: 50% 100%; }
+      .pin svg { width: 100%; height: 100%; display: block; overflow: visible; }
+      .pin span { position: absolute; left: 0; right: 0; top: 13px; text-align: center; font-size: 30px; line-height: 40px; --wg: 800; color: var(--night); }
+      #s7-runner { position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--frost); box-shadow: 0 0 0 8px rgba(142, 197, 255, 0.3); opacity: 0; }
+      #s7-persp { position: absolute; left: 1130px; top: 250px; width: 680px; height: 640px; perspective: 2200px; }
+      #s7-cube { position: absolute; left: 30px; top: 0; width: 620px; height: 640px; transform-style: preserve-3d; }
+      .face { position: absolute; inset: 0; border-radius: 40px; background: #0e1a2d; border: 2px solid var(--line); padding: 46px 46px; backface-visibility: hidden; box-shadow: inset 0 1px 0 rgba(207, 232, 255, 0.08); }
+      .face h3 { font-size: 78px; line-height: 1; --wg: 800; letter-spacing: -0.03em; font-weight: normal; }
+      .face h4 { font-size: 30px; --wg: 520; color: var(--mist); margin-top: 10px; font-weight: normal; }
+      .face .th { position: absolute; right: 46px; top: 46px; width: 150px; height: 150px; border-radius: 24px; }
+      .face .th .pi { width: 44px; height: 44px; margin: -22px 0 0 -22px; top: 42%; }
+      .face .th .pl { left: 0; right: 0; bottom: 12px; text-align: center; font-size: 17px; --wg: 600; }
+      .face .rows { position: absolute; left: 46px; right: 46px; top: 252px; }
+      .it { display: flex; align-items: center; gap: 20px; height: 112px; border-top: 2px solid var(--line); font-size: 33px; --wg: 640; white-space: nowrap; }
+      .it time { width: 104px; font-size: 28px; --wg: 600; color: var(--mist); flex: none; }
+      .it i { width: 64px; height: 64px; border-radius: 20px; background: rgba(142, 197, 255, 0.13); color: var(--ice); display: flex; align-items: center; justify-content: center; flex: none; }
+      .it i svg { width: 32px; height: 32px; }
+      #s7-ring { left: 880px; top: 460px; width: 160px; height: 160px; }
+
+      /* S8 */
+      #s8-label { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-size: 112px; --wg: 760; letter-spacing: -0.035em; }
+      #s8-btn { position: absolute; left: 960px; top: 465px; width: 150px; height: 150px; border-radius: 75px; border: 30px solid var(--ice); background: rgba(207, 232, 255, 0); color: var(--night); overflow: hidden; }
+      #s8-slot { position: absolute; left: 0; right: 0; top: 0; }
+      #s8-slot div { height: 150px; display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 64px; --wg: 800; letter-spacing: -0.03em; white-space: nowrap; }
+      #s8-slot svg { width: 56px; height: 56px; stroke-width: 2.6; }
+      .tap { position: absolute; left: 1100px; top: 500px; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 4px solid var(--night); opacity: 0; }
+      .rip { position: absolute; left: 960px; top: 540px; width: 600px; height: 160px; margin: -80px 0 0 -300px; border-radius: 80px; border: 3px solid var(--ice); opacity: 0; }
+      #s8-price { position: absolute; left: 0; right: 0; top: 720px; display: flex; justify-content: center; align-items: center; gap: 26px; }
+      #s8-price .lab { font-size: 40px; --wg: 520; color: var(--mist); }
+      #s8-odo { display: flex; font-size: 96px; --wg: 800; letter-spacing: -0.03em; color: var(--frost); }
+      #s8-odo .odc { height: 110px; line-height: 110px; }
+      #s8-odo .ods span { height: 110px; }
+      #s8-odo .sp { display: inline-block; width: 0.18em; }
+      #s8-odo .cur { display: inline-block; line-height: 110px; color: var(--sky); }
+      #s8-saved { position: absolute; left: 0; right: 0; top: 870px; display: flex; justify-content: center; }
+      .tile { position: absolute; width: 121px; height: 121px; background: var(--ice); backface-visibility: hidden; }
+      .tiles { position: absolute; inset: 0; }
+
+      /* S9 */
+      #s9-cam { position: absolute; inset: 0; }
+      #s9-stack { position: absolute; left: 0; right: 0; top: 330px; height: 170px; }
+      .echo { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-size: 150px; line-height: 170px; --wg: 720; letter-spacing: -0.035em; white-space: nowrap; }
+      .echo.o { color: transparent; -webkit-text-stroke: 2px var(--sky); }
+      #s9-more { position: absolute; left: 0; right: 0; top: 520px; display: flex; justify-content: center; gap: 50px; font-size: 230px; line-height: 250px; letter-spacing: -0.04em; white-space: nowrap; }
+      #s9-more span { display: inline-block; --wd: 75; --wg: 300; }
+      #s9-shock { left: 860px; top: 545px; width: 200px; height: 200px; border-width: 6px; opacity: 0; }
+      #s9-ring { left: 885px; top: 465px; width: 150px; height: 150px; }
+
+      /* S10 */
+      #s10-word { position: absolute; left: 0; right: 0; top: 330px; display: flex; justify-content: center; align-items: baseline; font-size: 260px; line-height: 260px; --wg: 800; --wd: 86; letter-spacing: -0.045em; color: var(--frost); }
+      #s10-word .lt { display: inline-block; }
+      #s10-o { display: inline-block; position: relative; width: 140px; height: 140px; border-radius: 50%; border: 34px solid var(--ice); margin-left: 8px; vertical-align: baseline; }
+      #s10-oo { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      .odot { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--sky); }
+      #s10-ring { left: 885px; top: 465px; width: 150px; height: 150px; }
+      #s10-url { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-size: 52px; --wg: 600; color: var(--mist); letter-spacing: 0.01em; }
+      #s10-badges { position: absolute; left: 0; right: 0; top: 820px; display: flex; justify-content: center; gap: 24px; }
+      .badge { display: inline-flex; align-items: center; gap: 14px; height: 80px; padding: 0 34px 0 26px; border-radius: 22px; border: 2px dashed rgba(142, 197, 255, 0.45); background: var(--deep); font-size: 30px; --wg: 640; color: var(--ice); }
+      .badge svg { width: 34px; height: 34px; }
+      .badge small { display: block; font-size: 17px; --wg: 500; color: var(--mist); letter-spacing: 0.05em; line-height: 1; }
+      .badge b { font-weight: normal; display: block; line-height: 1.1; }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <symbol id="i-plane" viewBox="0 0 24 24"><path d="M12 2.5c.9 0 1.6.8 1.6 1.8v5.2l7.4 4.3v2.1l-7.4-2.3v4.5l2.2 1.6v1.7L12 20.4l-3.8 1v-1.7l2.2-1.6v-4.5L3 15.9v-2.1l7.4-4.3V4.3c0-1 .7-1.8 1.6-1.8z" /></symbol>
+        <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 19V6M3 15h18v4M21 15v-2a3 3 0 0 0-3-3h-7v5M7 12.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z" /></symbol>
+        <symbol id="i-food" viewBox="0 0 24 24"><path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17.5 21V3c-2.2 1.6-3.2 4.4-3.2 8h3.2" /></symbol>
+        <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6.5l6-3 6 3 6-3v14l-6 3-6-3-6 3zM9 3.5v14M15 6.5v14" /></symbol>
+        <symbol id="i-cal" viewBox="0 0 24 24"><path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v4M15.5 3.5v4" /></symbol>
+        <symbol id="i-card" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 10h18M7 14.5h4" /></symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z" /></symbol>
+        <symbol id="i-cam" viewBox="0 0 24 24"><path d="M3.5 8h4l2-3h5l2 3h4v11h-17zM12 16.5a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6z" /></symbol>
+        <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4zM15 7v10" /></symbol>
+        <symbol id="i-train" viewBox="0 0 24 24"><path d="M6 3.5h12v12H6zM6 10h12M9 15.5l-2.5 4.5M15 15.5l2.5 4.5M9 13h.01M15 13h.01" /></symbol>
+        <symbol id="i-car" viewBox="0 0 24 24"><path d="M3 16v-3l2-5h14l2 5v3zM3 16v3h3v-3M18 16v3h3v-3M7 13h.01M17 13h.01" /></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" /></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5s-7-6.3-7-12a7 7 0 0 1 14 0c0 5.7-7 12-7 12zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" /></symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8.2-5-8.2-11A4.6 4.6 0 0 1 12 6.2 4.6 4.6 0 0 1 20.2 9c0 6-8.2 11-8.2 11z" /></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7" /></symbol>
+        <symbol id="i-img" viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 16l5-5 4.5 4.5 3-3L21 18M15.5 9.5h.01" /></symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3l1.9 5.6L18.5 10.5l-5.6 1.9L11 18l-1.9-5.6L3.5 10.5l5.6-1.9zM19 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" /></symbol>
+        <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19.5V5M5.5 11.5L12 5l6.5 6.5" /></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 2.5h10v19H7zM11 18.5h2" /></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" /></symbol>
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.4" data-fps="60" data-width="1920" data-height="1080">
+      <!-- ambient night layer -->
+      <section id="amb" class="clip" data-start="0" data-duration="24.4" data-track-index="0">
+        <div class="fill" style="background: var(--night)"></div>
+        <div id="amb-dots"></div>
+        <div id="amb-g1"></div>
+        <div id="amb-g2"></div>
+      </section>
+
+      <!-- 01 · 37 tabs -->
+      <section id="s1" class="clip" data-start="0" data-duration="1.40625" data-track-index="1">
+        <div id="s1-tabs" class="fill"></div>
+        <div id="s1-row">
+          <div class="odo" id="s1-odo" data-layout-allow-occlusion></div>
+          <span class="mw"><span class="mi" id="s1-tabs-w">tabs.</span></span>
+        </div>
+      </section>
+
+      <!-- 02 · 12 apps. 0 plan. -->
+      <section id="s2" class="clip" data-start="1.40625" data-duration="1.875" data-track-index="1">
+        <div class="orbit" id="s2-orbit"></div>
+        <div id="s2-apps"><span id="s2-apps-in">12 apps.</span></div>
+        <div id="s2-zero"><span id="s2-0">0</span><span id="s2-plan">plan.</span></div>
+        <div class="ring" id="s2-ring" style="width: 150px; height: 150px; opacity: 0"></div>
+      </section>
+
+      <!-- 03 · bounce → Meet -->
+      <section id="s3" class="clip" data-start="3.28125" data-duration="1.40625" data-track-index="1">
+        <div id="s3-floor"></div>
+        <div id="s3-meet"><span class="ch">M</span><span class="ch">e</span><span class="ch">e</span><span class="ch">t</span></div>
+        <div class="ballx" id="s3-x"><div class="bally" id="s3-y"><div class="ring" id="s3-ball" data-hf-motion-blur='{"samplesPerFrame": 12}' style="left: -75px; top: -75px; width: 150px; height: 150px"></div></div></div>
+        <div id="s3-slices" class="fill"></div>
+      </section>
+
+      <!-- 04 · cirro (drop) -->
+      <section id="s4" class="clip" data-start="4.6875" data-duration="2.34375" data-track-index="1">
+        <div id="s4-bg" class="fill"></div>
+        <div id="s4-zoom">
+          <div id="s4-word">
+            <span class="lt" data-hf-motion-blur='{"samplesPerFrame": 10}'>c</span><span class="lt" data-hf-motion-blur='{"samplesPerFrame": 10}'>i</span><span class="lt" data-hf-motion-blur='{"samplesPerFrame": 10}'>r</span><span class="lt" data-hf-motion-blur='{"samplesPerFrame": 10}'>r</span><span id="s4-o"><i id="s4-hole"></i></span>
+          </div>
+          <div id="s4-sub"></div>
+        </div>
+      </section>
+
+      <!-- 05 · Tell it the vibe -->
+      <section id="s5" class="clip" data-start="7.03125" data-duration="2.8125" data-track-index="1">
+        <div id="s5-label"></div>
+        <div id="s5-glow"></div>
+        <div id="s5-bar">
+          <div id="s5-in">
+            <svg id="s5-spark" class="isvg"><use href="#i-spark" /></svg>
+            <div id="s5-type"><span id="s5-chars"></span><span id="s5-caret"></span></div>
+            <div id="s5-send"><svg class="isvg"><use href="#i-up" /></svg></div>
+          </div>
+        </div>
+        <div id="s5-chips">
+          <span class="chip" id="chip1"><svg class="isvg"><use href="#i-sun" /></svg>5 days</span>
+          <span class="chip" id="chip2"><svg class="isvg"><use href="#i-pin" /></svg>Lisbon</span>
+          <span class="chip" id="chip3"><svg class="isvg"><use href="#i-food" /></svg>Food first</span>
+        </div>
+        <div class="ring" id="s5-shot" data-hf-motion-blur='{"samplesPerFrame": 12}'></div>
+        <div id="s5-burst"></div>
+      </section>
+
+      <!-- 06 · It finds the spots -->
+      <section id="s6" class="clip" data-start="9.84375" data-duration="2.8125" data-track-index="1">
+        <div id="s6-persp"><div id="s6-wall" data-layout-allow-occlusion></div></div>
+        <div id="s6-shade" class="fill"></div>
+        <div id="s6-dim" class="fill" data-layout-allow-occlusion></div>
+        <div id="s6-head"></div>
+        <div class="ph" id="s6-hero" data-hf-motion-blur='{"samplesPerFrame": 10}'>
+          <svg class="isvg pi"><use href="#i-img" /></svg>
+          <div class="pl"><small>IMG 03</small>Miradouro da Graça</div>
+        </div>
+        <div id="s6-saved"><svg class="isvg"><use href="#i-heart" /></svg>Saved</div>
+      </section>
+
+      <!-- 07 · Day by day -->
+      <section id="s7" class="clip" data-start="12.65625" data-duration="3.28125" data-track-index="1">
+        <div id="s7-all">
+          <div id="s7-head"></div>
+          <div id="s7-map">
+            <svg viewBox="0 0 980 780" width="980" height="780">
+              <path d="M0 560 C180 520 320 610 520 566 S860 470 980 520 L980 780 L0 780 Z" fill="#0b1a31" />
+              <path id="s7-coast" d="M0 560 C180 520 320 610 520 566 S860 470 980 520" fill="none" stroke="rgba(142,197,255,0.5)" stroke-width="3" />
+              <g fill="none" stroke="#1d2e4a" stroke-width="3" stroke-linecap="round" class="streets">
+                <path d="M40 120 L300 180 L520 140 L760 210 L960 160" />
+                <path d="M60 300 L240 260 L420 340 L620 280 L900 330" />
+                <path d="M80 450 L280 420 L500 470 L700 420 L940 440" />
+                <path d="M200 60 L240 260 L280 420 L300 540" />
+                <path d="M450 40 L420 340 L460 480" />
+                <path d="M680 60 L620 280 L700 420 L720 500" />
+                <path d="M880 80 L900 330 L940 440" />
+              </g>
+              <path id="s7-route" d="M150 470 C250 360 300 300 390 300 S560 430 640 380 S780 220 840 200" fill="none" stroke="#8ec5ff" stroke-width="7" stroke-linecap="round" />
+            </svg>
+            <div id="s7-runner"></div>
+          </div>
+          <div id="s7-persp"><div id="s7-cube"></div></div>
+        </div>
+        <div class="ring" id="s7-ring" style="opacity: 0"></div>
+      </section>
+
+      <!-- 08 · One tap -->
+      <section id="s8" class="clip" data-start="15.9375" data-duration="2.34375" data-track-index="1">
+        <div id="s8-label"></div>
+        <div class="rip" id="rp1"></div><div class="rip" id="rp2"></div><div class="rip" id="rp3"></div>
+        <div class="orbit" id="s8-orbit"></div>
+        <div id="s8-btn">
+          <div id="s8-slot">
+            <div><svg class="isvg"><use href="#i-plane" /></svg>Book trip</div>
+            <div><svg class="isvg"><use href="#i-check" /></svg>Booked</div>
+          </div>
+          <div class="tap" id="s8-tap"></div>
+        </div>
+        <div id="s8-price"><span class="lab">Total</span><div id="s8-odo" data-layout-allow-occlusion></div></div>
+        <div id="s8-saved"><span class="chip" id="s8-chip"><svg class="isvg"><use href="#i-star" /></svg>saved € 312 vs. booking alone</span></div>
+        <div class="tiles" id="s8-tiles" data-layout-allow-occlusion></div>
+      </section>
+
+      <!-- 09 · Less planning. More going. -->
+      <section id="s9" class="clip" data-start="18.28125" data-duration="2.8125" data-track-index="1">
+        <div id="s9-cam">
+          <div class="ring" id="s9-shock"></div>
+          <div id="s9-stack"></div>
+          <div id="s9-more"><span id="s9-m1">More</span><span id="s9-m2" class="sky">going.</span></div>
+        </div>
+        <div class="ring" id="s9-ring" style="opacity: 0"></div>
+        <div class="tiles" id="s9-tiles" data-layout-allow-occlusion></div>
+      </section>
+
+      <!-- 10 · Endcard -->
+      <section id="s10" class="clip" data-start="21.09375" data-duration="3.30625" data-track-index="1">
+        <div id="s10-word">
+          <span class="lt">c</span><span class="lt">i</span><span class="lt">r</span><span class="lt">r</span><span id="s10-o" style="opacity: 0"></span>
+        </div>
+        <div class="ring" id="s10-ring"></div>
+        <div id="s10-oo"><i class="odot"></i><i class="odot"></i><i class="odot"></i></div>
+        <div id="s10-url"><span class="mw"><span class="mi">cirro.travel</span></span></div>
+        <div id="s10-badges">
+          <span class="badge" id="bd1"><svg class="isvg"><use href="#i-phone" /></svg><span><small>BADGE · iOS</small><b>App store</b></span></span>
+          <span class="badge" id="bd2"><svg class="isvg"><use href="#i-phone" /></svg><span><small>BADGE · ANDROID</small><b>Play store</b></span></span>
+        </div>
+      </section>
+
+      <div id="vig" class="clip" data-start="0" data-duration="24.4" data-track-index="2"></div>
+      <svg id="grain" class="clip" data-start="0" data-duration="24.4" data-track-index="3" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
+
+      <!-- MUSIC (temp, synthesized 128 BPM bed — tools/make_audio.py) -->
+      <audio id="music" src="assets/music/cirro_bed.wav" data-start="0" data-duration="24.4" data-track-index="9" data-volume="0.62"></audio>
+      <!-- SFX (temp) -->
+      <audio id="sfx-pop0" src="assets/sfx/pop_1.wav" data-start="0.04" data-duration="0.18" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-tk1" src="assets/sfx/blip.wav" data-start="0.2" data-duration="0.09" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx-tk2" src="assets/sfx/blip.wav" data-start="0.34" data-duration="0.09" data-track-index="12" data-volume="0.35"></audio>
+      <audio id="sfx-tk3" src="assets/sfx/blip.wav" data-start="0.46" data-duration="0.09" data-track-index="10" data-volume="0.35"></audio>
+      <audio id="sfx-tk4" src="assets/sfx/blip.wav" data-start="0.58" data-duration="0.09" data-track-index="11" data-volume="0.35"></audio>
+      <audio id="sfx-tk5" src="assets/sfx/blip.wav" data-start="0.7" data-duration="0.09" data-track-index="12" data-volume="0.35"></audio>
+      <audio id="sfx-thock1" src="assets/sfx/thock.wav" data-start="0.9" data-duration="0.2" data-track-index="10" data-volume="0.9"></audio>
+      <audio id="sfx-whump1" src="assets/sfx/whump.wav" data-start="1.08" data-duration="0.5" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-swoosh1" src="assets/sfx/swoosh_soft.wav" data-start="1.4062" data-duration="0.45" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-pop1" src="assets/sfx/pop_2.wav" data-start="1.45" data-duration="0.18" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-orb1" src="assets/sfx/tick.wav" data-start="1.75" data-duration="0.06" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-orb2" src="assets/sfx/tick.wav" data-start="1.98" data-duration="0.06" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-orb3" src="assets/sfx/tick.wav" data-start="2.2" data-duration="0.06" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-thup1" src="assets/sfx/thup.wav" data-start="2.27" data-duration="0.25" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-slam1" src="assets/sfx/slam.wav" data-start="2.5781" data-duration="0.5" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-fwip1" src="assets/sfx/fwip.wav" data-start="2.98" data-duration="0.18" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-riser" src="assets/sfx/riser.wav" data-start="3.3" data-duration="1.4" data-track-index="11" data-volume="0.55"></audio>
+      <audio id="sfx-boing1" src="assets/sfx/boing.wav" data-start="3.5156" data-duration="0.38" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-boing2" src="assets/sfx/boing.wav" data-start="3.9844" data-duration="0.38" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-boing3" src="assets/sfx/boing.wav" data-start="4.4531" data-duration="0.38" data-track-index="11" data-volume="0.8"></audio>
+      <audio id="sfx-wh1" src="assets/sfx/whoosh_short.wav" data-start="4.3" data-duration="0.32" data-track-index="12" data-volume="0.8"></audio>
+      <audio id="sfx-plop1" src="assets/sfx/plop.wav" data-start="4.88" data-duration="0.9" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-snap1" src="assets/sfx/snap.wav" data-start="5.1" data-duration="0.05" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx-snap2" src="assets/sfx/snap.wav" data-start="5.27" data-duration="0.05" data-track-index="12" data-volume="1"></audio>
+      <audio id="sfx-snap3" src="assets/sfx/snap.wav" data-start="5.44" data-duration="0.05" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx-snap4" src="assets/sfx/snap.wav" data-start="5.61" data-duration="0.05" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx-scan1" src="assets/sfx/scan.wav" data-start="5.69" data-duration="0.6" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="sfx-zoom1" src="assets/sfx/zoom_whoosh.wav" data-start="6.5" data-duration="0.55" data-track-index="10" data-volume="0.9"></audio>
+      <audio id="sfx-wh2" src="assets/sfx/whoosh_short.wav" data-start="7.03" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-swell1" src="assets/sfx/swell.wav" data-start="7.4" data-duration="0.6" data-track-index="12" data-volume="0.55"></audio>
+      <audio id="sfx-type1" src="assets/sfx/typing_23.wav" data-start="7.85" data-duration="0.95" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-pop2" src="assets/sfx/pop_2.wav" data-start="8.03" data-duration="0.18" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-pop3" src="assets/sfx/pop_3.wav" data-start="8.26" data-duration="0.18" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-pop4" src="assets/sfx/pop_4.wav" data-start="8.4" data-duration="0.18" data-track-index="10" data-volume="0.7"></audio>
+      <audio id="sfx-click1" src="assets/sfx/mouse_click.wav" data-start="9.05" data-duration="0.08" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx-fwip2" src="assets/sfx/fwip.wav" data-start="9.5" data-duration="0.18" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-swoosh2" src="assets/sfx/swoosh_soft.wav" data-start="9.84" data-duration="0.45" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-tk6" src="assets/sfx/tick.wav" data-start="10.12" data-duration="0.06" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-tk7" src="assets/sfx/tick.wav" data-start="10.19" data-duration="0.06" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-tk8" src="assets/sfx/tick.wav" data-start="10.26" data-duration="0.06" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-tk9" src="assets/sfx/tick.wav" data-start="10.33" data-duration="0.06" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-zoom2" src="assets/sfx/zoom_whoosh.wav" data-start="11.5" data-duration="0.55" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-pop5" src="assets/sfx/pop_1.wav" data-start="11.93" data-duration="0.18" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-wh3" src="assets/sfx/whoosh_short.wav" data-start="12.27" data-duration="0.32" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-plop2" src="assets/sfx/plop.wav" data-start="12.66" data-duration="0.9" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-tok1" src="assets/sfx/tok.wav" data-start="12.98" data-duration="0.12" data-track-index="10" data-volume="0.9"></audio>
+      <audio id="sfx-tok2" src="assets/sfx/tok.wav" data-start="13.21" data-duration="0.12" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-tok3" src="assets/sfx/tok.wav" data-start="13.45" data-duration="0.12" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-scan2" src="assets/sfx/scan.wav" data-start="13.0" data-duration="0.7" data-track-index="10" data-volume="0.45"></audio>
+      <audio id="sfx-thock2" src="assets/sfx/thock.wav" data-start="14.0625" data-duration="0.2" data-track-index="11" data-volume="0.9"></audio>
+      <audio id="sfx-thock3" src="assets/sfx/thock.wav" data-start="15.0" data-duration="0.2" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-fwip3" src="assets/sfx/fwip.wav" data-start="15.52" data-duration="0.18" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-whump2" src="assets/sfx/whump.wav" data-start="15.94" data-duration="0.5" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-snap5" src="assets/sfx/snap.wav" data-start="17.03" data-duration="0.05" data-track-index="12" data-volume="1"></audio>
+      <audio id="sfx-snap6" src="assets/sfx/snap.wav" data-start="17.18" data-duration="0.05" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx-snap7" src="assets/sfx/snap.wav" data-start="17.33" data-duration="0.05" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx-click2" src="assets/sfx/mouse_click.wav" data-start="17.37" data-duration="0.08" data-track-index="12" data-volume="1"></audio>
+      <audio id="sfx-ting1" src="assets/sfx/ting.wav" data-start="17.42" data-duration="1.2" data-track-index="10" data-volume="0.45"></audio>
+      <audio id="sfx-tk10" src="assets/sfx/blip.wav" data-start="16.4" data-duration="0.09" data-track-index="11" data-volume="0.3"></audio>
+      <audio id="sfx-tk11" src="assets/sfx/blip.wav" data-start="16.6" data-duration="0.09" data-track-index="12" data-volume="0.3"></audio>
+      <audio id="sfx-tk12" src="assets/sfx/blip.wav" data-start="16.8" data-duration="0.09" data-track-index="10" data-volume="0.3"></audio>
+      <audio id="sfx-pop6" src="assets/sfx/pop_4.wav" data-start="17.66" data-duration="0.18" data-track-index="11" data-volume="0.7"></audio>
+      <audio id="sfx-rustle1" src="assets/sfx/rustle.wav" data-start="17.93" data-duration="0.6" data-track-index="12" data-volume="0.7"></audio>
+      <audio id="sfx-swell2" src="assets/sfx/swell.wav" data-start="18.3" data-duration="0.6" data-track-index="10" data-volume="0.5"></audio>
+      <audio id="sfx-stamp1" src="assets/sfx/stamp.wav" data-start="19.6875" data-duration="0.3" data-track-index="11" data-volume="1"></audio>
+      <audio id="sfx-slam2" src="assets/sfx/slam.wav" data-start="19.6875" data-duration="0.5" data-track-index="12" data-volume="0.9"></audio>
+      <audio id="sfx-fwip4" src="assets/sfx/fwip.wav" data-start="20.7" data-duration="0.18" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-deep" src="assets/sfx/whoosh_deep.wav" data-start="21.1" data-duration="0.8" data-track-index="11" data-volume="0.6"></audio>
+      <audio id="sfx-ting2" src="assets/sfx/ting.wav" data-start="21.7" data-duration="2.6" data-track-index="12" data-volume="0.6"></audio>
+      <audio id="sfx-pop7" src="assets/sfx/pop_3.wav" data-start="22.15" data-duration="0.18" data-track-index="10" data-volume="0.6"></audio>
+      <audio id="sfx-pop8" src="assets/sfx/pop_4.wav" data-start="22.25" data-duration="0.18" data-track-index="11" data-volume="0.6"></audio>
+    </div>
+
+<!--
+  Motion Blur — After Effects-style shutter-based motion blur.
+
+  Usage: paste this snippet into your composition, then put
+  data-hf-motion-blur on any element your GSAP timeline animates.
+  Nothing else to call, and no order to get wrong.
+
+  How it works — the same model After Effects uses for the layer Motion Blur
+  switch (temporal supersampling), synthesised inside the page because the
+  renderer captures one instant per frame with no shutter:
+
+    1. After every timeline update (each rendered frame), the snippet seeks
+       the timeline to `samplesPerFrame` sub-frame times spread evenly across
+       the shutter window, reads each target's RESOLVED `transform` at every
+       sample, then restores the frame time. Seeks run with events suppressed,
+       so no user callbacks fire and the DOM ends up exactly where the frame
+       left it. Reading the resolved matrix rather than a list of named GSAP
+       properties is what makes every driver work: translation, scale,
+       rotation, 3D rotation and skew arrive in the same one value, and a
+       driver nobody thought of needs no change here.
+    2. One copy of the element per sample is stacked in an isolated group,
+       each carrying its sample's transform, each at 1/N opacity with
+       `mix-blend-mode: plus-lighter`. plus-lighter adds premultiplied colour,
+       so N+1 copies at 1/N sum to the average — the shutter integral. The
+       isolation is load-bearing: without a transparent backdrop of its own
+       the first copy would add onto the page and blow a light background out
+       to white. Result: a smear along the actual trajectory whose extent is
+       speed × shutter time, with no decaying one-sided trail. The tails —
+       where fewer copies overlap — step down evenly at 1/N per copy; wherever
+       the element travels less than its own size the copies pile up past 1
+       and clamp, so the middle of the smear is solid rather than a plateau.
+    3. The element itself paints over that group, sharp and at full opacity.
+       No single copy ever exceeds 1/N, so a moving edge resolves as a
+       staircase of ghosts behind a solid frame-time instance. The group
+       carries the element's own opacity, so a beat that moves and fades at
+       once fades its smear with it. With `sharp: 0` the element is hidden
+       while it moves instead, leaving only the shutter average.
+    4. When every sampled transform collapses to the current one (element at
+       rest), the group is hidden so the element renders sharp.
+
+  Shutter window (AE semantics, per frame at time t, frame interval 1/fps):
+    shutterTime = shutterAngle / 360 / fps
+    windowStart = t + shutterPhase / 360 / fps
+    copy k      = windowStart + k / N × shutterTime,   k = 0..N  (N+1 copies)
+  N counts sub-intervals, so both ends of the window carry a copy.
+  Defaults (shutterAngle 720, shutterPhase -360) integrate [t - 1/fps, t + 1/fps]:
+  a solid moving at 2000 px/s at 30 fps smears 133 px, centred on its position.
+
+  These defaults are measured, not assumed. On a 1920×1080 / 30 fps After Effects
+  export of translating text, the outermost duplicate on the trailing side sits
+  exactly at the previous frame's position and the outermost leading duplicate
+  exactly at the next frame's, with 8 evenly spaced duplicates in between on each
+  side (window = 2 frames = 720°, phase -360°, 16 sub-intervals). Reading the ghost
+  staircase across a stroke gives steps of 0.063 ± 0.002 of the sharp text
+  intensity — a flat 1/16 per duplicate, with no taper toward the window edges
+  (triangle weighting scores 1.6 dB worse against the same export). The sharp
+  instance on top is what keeps total ink above the unblurred frame's.
+
+  Requirements:
+  - Elements must be animated via `transform` (GSAP x/y/scale/rotation and the
+    3D and skew properties all qualify), not left/top. Transformed ancestors
+    are still not compensated.
+  - A 3D beat reads its perspective off the element's parent and applies it per
+    copy, so the vanishing point follows each copy's transform-origin rather
+    than the parent's perspective-origin. Those agree when the element is
+    centred in its perspective parent, which is how a 3D beat is authored.
+  - A copy drops the element's id but keeps its classes, because a class rule is
+    the only thing that can still style a copy's pseudo-elements. So a selector
+    written against a class matches the copies too: after attaching, address the
+    element by id or by reference, never by a class a copy also carries.
+  - A target is blurred once: a second attachMotionBlur() call naming the same
+    element leaves the first call's copies in place rather than stacking a
+    second set over them.
+  - Cost is N + 1 copies of the target's whole subtree, restyled on attach and
+    on resize and re-transformed every frame. Point it at the element that
+    moves, not at a container holding it.
+  - The host must render the timeline for the blur to update — HyperFrames
+    seeks every frame. A fresh paused timeline that is never seeked shows no
+    blur on its first frame.
+  - A declarative target is attached as soon as its composition's timeline is
+    registered, and the registry is also polled for about eight seconds after
+    load, so a composition that mounts asynchronously is picked up too. A
+    target added to the document after that window needs attachMotionBlur().
+  - GSAP must be loaded before this snippet executes.
+
+  API:
+    data-hf-motion-blur on the element that moves. Empty for defaults, else a
+      JSON OBJECT of the options below (double quotes on the keys). The
+      element's timeline is the one registered under the data-composition-id of
+      its nearest ancestor carrying that attribute, so a sub-composition's
+      targets follow that sub-composition.
+      Three things warn rather than rendering sharp in silence: a target no
+      composition ever registers a timeline for, a value that is not JSON, and
+      a value that parses but is not an object (null, a number, a string).
+      A second timeline registered under the same key also warns: the copies
+      keep following the first one.
+    attachMotionBlur(selector, timeline, options?) — the imperative form, for a
+      target built after the polling window. Call it AFTER defining all tweens,
+      so the timeline's final duration is known.
+      Either form blurs a given element once, whichever names it first.
+
+  Options:
+    shutterAngle     — degrees of the frame interval the shutter is open
+                       (default 720 = two frames, as measured off the AE
+                       reference; 360 = one frame, 0 disables)
+    shutterPhase     — degrees offset of the window start from the frame
+                       time (default -360 = centred on the frame, one frame
+                       back, like the AE reference)
+    samplesPerFrame  — sub-intervals of the shutter window, so N+1 duplicates
+                       each at 1/N opacity (default 16, max 64)
+    fps              — composition frame rate (default: the data-fps of the
+                       target's own composition root, else 30). Pass it
+                       explicitly when rendering with an fps override
+                       (`hyperframes render --fps`).
+    sharp            — 1 (default) paints the element itself, crisp, over its
+                       smear; 0 hides it while it moves, leaving only the
+                       shutter average: a soft blur with no frame-time edge.
+                       It hides through a marker attribute, never the
+                       element's own visibility, so autoAlpha still works
+                       (an inline visibility !important on it wins).
+
+  A key that is none of the five, or a value that is not a finite number, is
+  refused by name rather than read as defaults. Both halves matter: a
+  non-numeric angle hides the smear, and a non-numeric phase seeks every copy
+  to NaN, which parks them at the timeline's start.
+-->
+
+<script>
+  (function () {
+    /* SHUTTER_SNIPPET_START */
+    if (!window._hfMbUid) window._hfMbUid = 0;
+    if (!window._hfMbAttached) window._hfMbAttached = new WeakSet();
+    if (!window._hfMbSkipped) window._hfMbSkipped = new WeakSet();
+    if (!window._hfMbProxies) window._hfMbProxies = new WeakSet();
+    if (!window._hfMbTimeline) window._hfMbTimeline = new WeakMap();
+    if (!window._hfMbWarned) window._hfMbWarned = new WeakSet();
+
+    // The declarative form. A copy of a target must not carry it, or the copy is swept
+    // as a target of its own; the group's own marker is `data-hf-motion-blur-group`.
+    var SWEEP_ATTR = "data-hf-motion-blur";
+    // About eight seconds. Long enough for an asynchronously mounted sub-composition, short
+    // enough that a page with a genuine mistake in it reports before anyone stops watching.
+    var POLL_MS = 32;
+    var POLL_TICKS = 250;
+    var SWEEP_SELECTOR = "[" + SWEEP_ATTR + "]";
+    var OPTION_KEYS = ["shutterAngle", "shutterPhase", "samplesPerFrame", "fps", "sharp"];
+
+    // A copy is a deep clone, so the attribute rides along on the root AND on every marked
+    // descendant. Any one left behind is swept as a target of its own, which clones again.
+    var COPY_STRIP = [SWEEP_ATTR, "data-composition-id", "data-fps"];
+
+    // sharp 0 hides a moving target through this marker rather than its own visibility,
+    // which the author's timeline (autoAlpha) may be writing too.
+    var HIDE_ATTR = "data-hf-motion-blur-hiding";
+
+    function installHideRule() {
+      if (document.getElementById("hf-mb-hide")) return;
+      var rule = document.createElement("style");
+      rule.id = "hf-mb-hide";
+      rule.textContent = "[" + HIDE_ATTR + "]{visibility:hidden!important}";
+      (document.head || document.documentElement).appendChild(rule);
+    }
+
+    function stripAttrs(el) {
+      for (var a = 0; a < COPY_STRIP.length; a++) el.removeAttribute(COPY_STRIP[a]);
+    }
+
+    function stripCopyAttrs(root) {
+      stripAttrs(root);
+      var inner = root.querySelectorAll("[" + COPY_STRIP.join("],[") + "]");
+      for (var i = 0; i < inner.length; i++) stripAttrs(inner[i]);
+    }
+
+    // Shutter length is measured in frames, so the snippet must know the composition
+    // frame rate: explicit option, else the target's OWN root, else the first root in
+    // the document, else 30. The target's root is what makes two compositions on one
+    // page read their own data-fps instead of sharing the first one written.
+    function resolveFps(optionFps, target) {
+      var explicit = Number(optionFps);
+      if (explicit > 0) return explicit;
+
+      var scoped = target ? target.closest("[data-composition-id][data-fps]") : null;
+      var root = scoped || document.querySelector("[data-composition-id][data-fps]");
+      var rootFps = root ? Number(root.getAttribute("data-fps")) : 0;
+      if (rootFps > 0) return rootFps;
+
+      return 30;
+    }
+
+    function numOption(value, fallback) {
+      return value !== undefined ? Number(value) : fallback;
+    }
+
+    // A resolved `transform` is either "none", a 2D matrix(a,b,c,d,e,f) or a 3D
+    // matrix3d of 16. Splitting the numbers into the linear part and the
+    // translation is what lets the deadband below use a pixel tolerance on the
+    // one and an angle/ratio tolerance on the other.
+    function parseTransform(value) {
+      if (!value || value === "none") return { linear: [1, 0, 0, 1], translate: [0, 0, 0] };
+      var nums = value
+        .slice(value.indexOf("(") + 1, -1)
+        .split(",")
+        .map(parseFloat);
+      if (nums.length === 16) {
+        return {
+          linear: [
+            nums[0],
+            nums[1],
+            nums[2],
+            nums[4],
+            nums[5],
+            nums[6],
+            nums[8],
+            nums[9],
+            nums[10],
+            nums[3],
+            nums[7],
+            nums[11],
+            nums[15],
+          ],
+          translate: [nums[12], nums[13], nums[14]],
+        };
+      }
+      return {
+        linear: [nums[0], nums[1], nums[2], nums[3]],
+        translate: [nums[4], nums[5], 0],
+      };
+    }
+
+    // Deadband: half a pixel of travel, a thousandth of a unit of linear change,
+    // about 0.06 degrees or 0.1% of scale. Below it the average is the source.
+    // The 2D and 3D forms have different arities, so a change of form counts as
+    // movement rather than being compared component by component.
+    function differs(a, b) {
+      if (a.linear.length !== b.linear.length) return true;
+      for (var i = 0; i < a.linear.length; i++) {
+        if (Math.abs(a.linear[i] - b.linear[i]) > 0.001) return true;
+      }
+      for (var j = 0; j < 3; j++) {
+        if (Math.abs(a.translate[j] - b.translate[j]) > 0.5) return true;
+      }
+      return false;
+    }
+
+    window.attachMotionBlur = function (selector, tl, opts) {
+      opts = opts || {};
+      var shutterAngle = numOption(opts.shutterAngle, 720);
+      var shutterPhase = numOption(opts.shutterPhase, -360);
+      var requestedSamples = numOption(opts.samplesPerFrame, 16);
+      var sharp = opts.sharp !== 0;
+      if (!sharp) installHideRule();
+      var samples = Number.isFinite(requestedSamples)
+        ? Math.max(2, Math.min(64, Math.round(requestedSamples)))
+        : 16;
+      var items = Array.isArray(selector) ? selector : [selector];
+      var targets = items.reduce(function (acc, s) {
+        if (typeof s === "string") {
+          document.querySelectorAll(s).forEach(function (el) {
+            acc.push(el);
+          });
+        } else if (s instanceof Element) {
+          acc.push(s);
+        }
+        return acc;
+      }, []);
+
+      // `samples` counts sub-intervals of the shutter window, so there is one copy at
+      // every interval boundary — both ends of the window included — and each carries
+      // 1/samples of the source. That is what the reference export shows: the outermost
+      // copy sits exactly one frame away from the frame time, not half a step short.
+      var copies = samples + 1;
+      var alpha = String(1 / samples);
+
+      // A copy loses the `#id` rules that styled the original, so it carries its resolved style inline
+      // (enumerated: Chrome returns "" for a computed cssText). Visibility is not frozen: the root
+      // follows the group each frame, so a target hidden at attach still smears.
+      function resolvedStyles(source, out, parentVisibility) {
+        var cs = getComputedStyle(source);
+        var text = "";
+        for (var i = 0; i < cs.length; i++) {
+          var value = cs.getPropertyValue(cs[i]);
+          var inherited = parentVisibility === undefined || value === parentVisibility;
+          if (cs[i] === "visibility" && inherited) continue;
+          text += cs[i] + ":" + value + ";";
+        }
+        // A copy is a still of one instant. Left live, an inherited transition or
+        // keyframe animation would carry it somewhere the timeline never sampled.
+        out.push(text + "transition:none;animation:none;");
+        for (var c = 0; c < source.children.length; c++) {
+          resolvedStyles(source.children[c], out, cs.getPropertyValue("visibility"));
+        }
+        return out;
+      }
+
+      function paintResolvedStyles(copy, styles, cursor) {
+        copy.style.cssText = styles[cursor.i++];
+        for (var c = 0; c < copy.children.length; c++) {
+          paintResolvedStyles(copy.children[c], styles, cursor);
+        }
+      }
+
+      // Perspective applies to a parent's children only, and a copy is a grandchild.
+      // Sharing the parent's 3D context would need preserve-3d on the group, which
+      // mix-blend-mode flattens, so each copy carries the perspective itself. See the
+      // header for what that does to the vanishing point.
+      function parentPerspective(el) {
+        var value = el.parentNode ? getComputedStyle(el.parentNode).perspective : "none";
+        return value && value !== "none" ? "perspective(" + value + ") " : "";
+      }
+
+      function attachOne(el) {
+        var group = document.createElement("div");
+        group.setAttribute("data-hf-motion-blur-group", "hf-mb-" + window._hfMbUid++);
+        group.style.cssText =
+          "position:absolute;left:0;top:0;width:0;height:0;isolation:isolate;pointer-events:none;display:none;";
+
+        var clones = [];
+        for (var k = 0; k < copies; k++) {
+          var clone = el.cloneNode(true);
+          clone.removeAttribute("id");
+          stripCopyAttrs(clone);
+          clones.push(clone);
+          group.appendChild(clone);
+        }
+        var s = {
+          el: el,
+          group: group,
+          clones: clones,
+          samples: [],
+          perspective: "",
+          watch: null,
+        };
+
+        // Resolved styles and the parent's perspective are px once read, so a
+        // container-relative element needs them again when its box changes. Per frame
+        // that would walk the whole subtree once per copy; on resize it costs nothing
+        // on a fixed-size render and keeps a live preview honest.
+        function snapshot() {
+          // Read a target hidden right now (an autoAlpha entrance) as shown, so a descendant
+          // hidden by its own rule still differs from it; the inline value goes back exactly.
+          var hidden = getComputedStyle(el).visibility !== "visible";
+          var inline = el.style.getPropertyValue("visibility");
+          var priority = el.style.getPropertyPriority("visibility");
+          if (hidden) el.style.setProperty("visibility", "visible", "important");
+          var styles;
+          try {
+            styles = resolvedStyles(el, []);
+          } finally {
+            if (hidden) el.style.setProperty("visibility", inline, priority);
+          }
+          s.perspective = parentPerspective(el);
+          for (var c = 0; c < clones.length; c++) {
+            paintResolvedStyles(clones[c], styles, { i: 0 });
+            clones[c].style.position = "absolute";
+            clones[c].style.margin = "0";
+            clones[c].style.opacity = alpha;
+            clones[c].style.mixBlendMode = "plus-lighter";
+          }
+        }
+
+        // Snapshot BEFORE the group enters the page, so a throw in the style walk leaves
+        // nothing behind: the record the rollback needs does not exist until it returns.
+        snapshot();
+        el.parentNode.insertBefore(group, el);
+        if (typeof ResizeObserver === "function") {
+          s.watch = new ResizeObserver(snapshot);
+          s.watch.observe(el);
+        }
+        return s;
+      }
+
+      var state = [];
+      // Every element this call marked. A throw inside `attachOne` never returns its
+      // record, so `state` alone cannot give the marks back.
+      var claimed = [];
+      try {
+        for (var q = 0; q < targets.length; q++) {
+          var candidate = targets[q];
+          // One group per element, whether a second call names it or one call names it
+          // twice: a second set of copies over the first would double the ink. Marked
+          // BEFORE the copies go in: inserting them runs custom-element reactions
+          // synchronously, and one that registers a timeline re-enters the write trap.
+          if (window._hfMbAttached.has(candidate)) continue;
+          window._hfMbAttached.add(candidate);
+          window._hfMbTimeline.set(candidate, tl);
+          claimed.push(candidate);
+          state.push(attachOne(candidate));
+        }
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+      // Nothing to blur means nothing to seek: a tracker here would run the whole sample
+      // loop every frame over an empty set.
+      if (state.length === 0) return;
+
+      // One seek loop drives the whole call, so the window is ONE length, and it belongs
+      // to the composition of an element this call actually attached.
+      var fps = resolveFps(opts.fps, state[0].el);
+      for (var d = 1; d < state.length; d++) {
+        if (resolveFps(opts.fps, state[d].el) === fps) continue;
+        var line = "one call cannot blur compositions at different frame rates; using ";
+        console.warn("[motion-blur] " + line + fps, state[d].el);
+        break;
+      }
+
+      function readTransform(el) {
+        var cs = getComputedStyle(el);
+        return {
+          css: cs.transform,
+          origin: cs.transformOrigin,
+          opacity: cs.opacity,
+          visibility: cs.visibility,
+          parsed: parseTransform(cs.transform),
+        };
+      }
+
+      var scheduled = false;
+
+      function applyShutter() {
+        var shutterTime = shutterAngle / 360 / fps;
+        if (!(shutterTime > 0)) {
+          state.forEach(function (s) {
+            s.group.style.display = "none";
+          });
+          return;
+        }
+
+        var t0 = tl.time();
+        var duration = tl.duration();
+        var windowStart = t0 + shutterPhase / 360 / fps;
+
+        // Sample the real trajectory: seek to each sub-frame time with events
+        // suppressed (so no tween callbacks, including this tracker's, fire),
+        // read the resolved transform, then restore the frame time.
+        try {
+          for (var k = 0; k < copies; k++) {
+            var tk = windowStart + (k / samples) * shutterTime;
+            tl.time(Math.min(duration, Math.max(0, tk)), true);
+            state.forEach(function (s) {
+              s.samples[k] = readTransform(s.el);
+            });
+          }
+        } finally {
+          tl.time(t0, true);
+        }
+
+        state.forEach(function (s) {
+          // Read the element as the timeline left it: the marker is this snippet's own.
+          if (!sharp) s.el.removeAttribute(HIDE_ATTR);
+          var current = readTransform(s.el);
+          var moved = false;
+          for (var i = 0; i < copies; i++) {
+            if (differs(s.samples[i].parsed, current.parsed)) {
+              moved = true;
+              break;
+            }
+          }
+          if (!moved) {
+            s.group.style.display = "none";
+            return;
+          }
+
+          // The copies are absolutely positioned inside the group, and the group sits at
+          // the origin of the element's own containing block, so the element's offset box
+          // places them. Re-read every frame: a beat is free to move the box itself.
+          var left = s.el.offsetLeft + "px";
+          var top = s.el.offsetTop + "px";
+          var width = s.el.offsetWidth + "px";
+          var height = s.el.offsetHeight + "px";
+          for (var j = 0; j < copies; j++) {
+            var clone = s.clones[j];
+            clone.style.left = left;
+            clone.style.top = top;
+            clone.style.width = width;
+            clone.style.height = height;
+            clone.style.transformOrigin = s.samples[j].origin;
+            clone.style.transform =
+              s.perspective + (s.samples[j].css === "none" ? "" : s.samples[j].css);
+          }
+          // The copies are the element's own ink, so they carry its opacity and visibility:
+          // a beat that moves and fades at once would otherwise leave a full-strength
+          // smear behind a vanishing element. It rides the group, not the copies, whose
+          // own opacity is the 1/N shutter weight.
+          s.group.style.opacity = current.opacity;
+          // Set only where the element differs from its parent: an explicit value would
+          // outlive an ancestor that hides later, like a clip that has ended.
+          var shared = getComputedStyle(s.el.parentNode).visibility;
+          s.group.style.visibility = current.visibility === shared ? "" : current.visibility;
+          s.group.style.display = "";
+          if (!sharp) s.el.setAttribute(HIDE_ATTR, "");
+        });
+      }
+
+      // tl.eventCallback("onUpdate") is unavailable under the HyperFrames runtime proxy, so a
+      // tracker tween's onUpdate fires on every seek. Sampling is deferred to a microtask:
+      // seeking GSAP from inside its own render reads stale tween state, while the microtask
+      // runs after the seek returns and before the frame is captured or painted.
+      var _proxy = { t: 0 };
+      try {
+        tl.to(
+          _proxy,
+          {
+            t: 1,
+            duration: Math.max(tl.duration(), 0.1),
+            ease: "none",
+            onUpdate: function () {
+              if (scheduled) return;
+              scheduled = true;
+              Promise.resolve().then(function () {
+                scheduled = false;
+                applyShutter();
+              });
+            },
+          },
+          0,
+        );
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+    };
+
+    // An empty attribute means defaults; anything else is a JSON options object. A value that
+    // is not an options object is skipped loudly rather than read as defaults, because a typo
+    // in it would otherwise render as a silently unblurred element.
+    function sweepOptions(el) {
+      var text = (el.getAttribute(SWEEP_ATTR) || "").trim();
+      if (text === "") return {};
+      var parsed = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch (e) {
+        return refuse(el, "is not JSON: " + text);
+      }
+      // `null`, a number and a string all parse. None of them is a set of options.
+      if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+        return refuse(el, "is not a JSON object: " + text);
+      }
+      var bad = unknownKey(parsed);
+      if (bad !== null) return refuse(el, "names no such option: " + bad);
+      var wrong = nonNumber(parsed);
+      if (wrong !== null) return refuse(el, "needs a number for " + wrong);
+      if (parsed.sharp !== undefined && parsed.sharp !== 0 && parsed.sharp !== 1) {
+        return refuse(el, "needs 0 or 1 for sharp");
+      }
+      return parsed;
+    }
+
+    // A misspelled key is the likeliest typo in a JSON object, and reading it as
+    // defaults is the silent no-op this attribute exists to remove.
+    function unknownKey(parsed) {
+      for (var key in parsed) {
+        if (OPTION_KEYS.indexOf(key) < 0) return key;
+      }
+      return null;
+    }
+
+    // A key with a value the shutter cannot use is the same silent no-op as a key it does
+    // not know: a non-numeric angle hides the smear, a non-numeric phase parks every copy
+    // at the timeline's start. JSON gives real numbers, so anything else is a typo.
+    function nonNumber(parsed) {
+      for (var i = 0; i < OPTION_KEYS.length; i++) {
+        var held = parsed[OPTION_KEYS[i]];
+        if (held === undefined) continue;
+        if (typeof held !== "number" || !Number.isFinite(held)) return OPTION_KEYS[i];
+      }
+      return null;
+    }
+
+    // A throw partway through an attach leaves an element blurred by nothing, so the copies
+    // go too, along with the observer that would otherwise keep walking a detached subtree
+    // on every resize of an element nothing blurs.
+    // The mark is what a second trigger reads, so it is the first thing to give back.
+    function unmark(els) {
+      for (var i = 0; i < els.length; i++) {
+        window._hfMbAttached.delete(els[i]);
+        window._hfMbTimeline.delete(els[i]);
+      }
+    }
+
+    function discard(state) {
+      for (var i = 0; i < state.length; i++) {
+        var s = state[i];
+        if (s.watch !== null) s.watch.disconnect();
+        if (s.group.parentNode !== null) s.group.parentNode.removeChild(s.group);
+      }
+    }
+
+    function refuse(el, why) {
+      window._hfMbSkipped.add(el);
+      console.warn("[motion-blur] " + SWEEP_ATTR + " " + why, el);
+      return null;
+    }
+
+    // An element belongs to the nearest composition above it, so a sub-composition's
+    // targets follow that sub-composition's own timeline.
+    function compositionOf(el) {
+      var host = el.closest("[data-composition-id]");
+      return host ? host.getAttribute("data-composition-id") : null;
+    }
+
+    // Anything else registered on the container is somebody else's bookkeeping: a
+    // timeline is the thing this snippet can seek and extend.
+    function isTimeline(value) {
+      return !!value && typeof value.time === "function" && typeof value.to === "function";
+    }
+
+    // Attached, or skipped as unparseable. Both are terminal, so a later trigger must not
+    // report or attach the element twice.
+    function handled(el) {
+      return window._hfMbAttached.has(el) || window._hfMbSkipped.has(el);
+    }
+
+    // The timeline registered for an element's own composition, or null. Read from the
+    // registry rather than taken from whoever wrote it, so every trigger agrees.
+    function timelineFor(el) {
+      var id = compositionOf(el);
+      if (id === null) return null;
+      var registry = window.__timelines;
+      var found = registry ? registry[id] : null;
+      return isTimeline(found) ? found : null;
+    }
+
+    // A marked element whose parent is not an Element has no target above it: the parent
+    // of a root is the Document, which has no `closest`.
+    function nestedInTarget(el) {
+      var parent = el.parentNode;
+      if (parent === null || typeof parent.closest !== "function") return false;
+      return parent.closest(SWEEP_SELECTOR) !== null;
+    }
+
+    // One owner of attaching one element. Answers whether the element still needs a trigger.
+    function claim(el) {
+      var tl = timelineFor(el);
+      if (handled(el)) {
+        var owner = window._hfMbTimeline.get(el);
+        // Re-registering a key with a DIFFERENT timeline leaves the copies driven by the one
+        // nobody seeks, which renders sharp and says nothing. Report it rather than guess.
+        var changed = tl !== null && owner !== undefined && owner !== tl;
+        if (changed && !window._hfMbWarned.has(el)) {
+          window._hfMbWarned.add(el);
+          console.warn(
+            "[motion-blur] a second timeline registered for this element; the copies still follow the first",
+            el,
+          );
+        }
+        return true;
+      }
+      // Its group would be inserted into the live outer element, so the outer target's
+      // style replay would walk a subtree its cursor no longer matches.
+      if (nestedInTarget(el)) {
+        refuse(el, "cannot blur a target inside another target; blur one of them");
+        return true;
+      }
+      var opts = sweepOptions(el);
+      if (opts === null) return true;
+      if (tl === null) return false;
+      window.attachMotionBlur(el, tl, opts);
+      return true;
+    }
+
+    // Returns the elements still waiting for their composition to register a timeline.
+    // The trap below runs this INSIDE the author's registration statement, so one bad
+    // target must not abort the rest of their composition script.
+    function sweep() {
+      var pending = [];
+      document.querySelectorAll(SWEEP_SELECTOR).forEach(function (el) {
+        try {
+          if (!claim(el)) pending.push(el);
+        } catch (e) {
+          window._hfMbSkipped.add(el);
+          console.warn("[motion-blur] could not blur this element: " + e, el);
+        }
+      });
+      return pending;
+    }
+
+    // Registering a timeline is the moment the author has finished building it, so trapping
+    // the write attaches before the renderer captures a frame. A microtask would be too
+    // early: it runs before the next `<script>` tag.
+    function registrationProxy(container) {
+      var proxy = new Proxy(container, {
+        set: function (target, key, value) {
+          target[key] = value;
+          if (typeof key === "string") sweep();
+          return true;
+        },
+      });
+      window._hfMbProxies.add(proxy);
+      return proxy;
+    }
+
+    function hookRegistration() {
+      var held = window.__timelines;
+      Object.defineProperty(window, "__timelines", {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return held;
+        },
+        set: function (value) {
+          var container = !!value && typeof value === "object";
+          var fresh = container && !window._hfMbProxies.has(value);
+          held = fresh ? registrationProxy(value) : value;
+          if (fresh) sweep();
+        },
+      });
+      // A container assigned before this snippet ran is replayed through the setter, so a
+      // timeline already registered on it is swept too.
+      if (held !== undefined) window.__timelines = held;
+    }
+
+    // The trap above cannot see every registration: the runtime owns the registry object,
+    // wraps it per sub-composition, and mounts nested compositions asynchronously. So the
+    // registry is also POLLED, which needs no cooperation from whoever writes it.
+    function poll(ticks) {
+      var pending = sweep();
+      // The WHOLE budget, every time. Stopping the first tick nothing is pending kills the
+      // poll one tick into an ordinary page, which is before a late composition arrives.
+      if (ticks > 0) {
+        setTimeout(function () {
+          poll(ticks - 1);
+        }, POLL_MS);
+        return;
+      }
+      if (pending.length === 0) return;
+      var count = pending.length + " element(s) carry " + SWEEP_ATTR;
+      console.warn(
+        "[motion-blur] " + count + ", and no composition registered a timeline for them",
+        pending,
+      );
+    }
+
+    if (!window._hfMbHooked) {
+      window._hfMbHooked = true;
+      hookRegistration();
+      poll(POLL_TICKS);
+    }
+    /* SHUTTER_SNIPPET_END */
+  })();
+</script>
+
+<!--
+  Timeline integration example:
+
+  <div id="root" data-composition-id="my-composition" data-duration="6" data-fps="30">
+    <div id="my-box" data-hf-motion-blur></div>
+    <div id="my-title" data-hf-motion-blur='{"shutterAngle": 360}'></div>
+  </div>
+
+  const tl = gsap.timeline({ paused: true });
+
+  tl.fromTo("#my-box", { x: -100 }, { x: 1700, duration: 1.2, ease: "power3.inOut" }, 0.5);
+
+  // Extend to data-duration so seeks past the last tween reach the blur callback.
+  tl.set(document.body, {}, DATA_DURATION);
+
+  // The registration below is what attaches both targets, in that order.
+  window.__timelines = window.__timelines || {};
+  window.__timelines["my-composition"] = tl;
+
+  // Only for an element created later than the polling window above:
+  attachMotionBlur("#late-box", tl, { shutterAngle: 720, samplesPerFrame: 16 });
+-->
+
+
+    <script>
+      document.fonts.ready.then(() => {
+        const B = 60 / 128; // one beat
+        const master = gsap.timeline({ paused: true });
+        const tl = gsap.timeline();
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => Array.from(document.querySelectorAll(s));
+        let seed = 11;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+        const lerp = (a, b, t) => a + (b - a) * t;
+        const svgUse = (id) => `<svg class="isvg"><use href="#${id}" /></svg>`;
+        const centre = (el) => {
+          let x = 0, y = 0, n = el;
+          while (n && n.id !== "root") { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+          return { x: x + el.offsetWidth / 2, y: y + el.offsetHeight / 2 };
+        };
+        // split text into masked words (outer clips, inner rises)
+        const maskWords = (el, text, cls = {}) => {
+          el.innerHTML = text.split(" ").map((w, i) => `<span class="mw"><span class="mi ${cls[i] || ""}">${w}</span></span>`).join(" ");
+          return el.querySelectorAll(".mi");
+        };
+        const rise = (targets, at, o = {}) =>
+          tl.fromTo(targets, { yPercent: o.from ?? 118, rotation: o.rot ?? 7 }, { yPercent: 0, rotation: 0, duration: o.dur ?? 0.5, ease: o.ease ?? "back.out(1.9)", stagger: o.stagger ?? 0.07 }, at);
+        const sink = (targets, at, o = {}) =>
+          tl.to(targets, { yPercent: o.to ?? -118, duration: o.dur ?? 0.22, ease: "power3.in", stagger: o.stagger ?? 0.03 }, at);
+        // odometer: columns of digits that roll to a final string
+        const buildOdo = (el, cols) => {
+          el.innerHTML = "";
+          return cols.map((c) => {
+            if (c.static) { const s = document.createElement("span"); s.className = c.static === "\u00a0" ? "sp" : "cur"; s.textContent = c.static; el.appendChild(s); return null; }
+            const col = document.createElement("div"); col.className = "odc";
+            const strip = document.createElement("div"); strip.className = "ods";
+            c.seq.forEach((d) => { const sp = document.createElement("span"); sp.textContent = d; strip.appendChild(sp); });
+            col.appendChild(strip); el.appendChild(col);
+            return { strip, n: c.seq.length };
+          }).filter(Boolean);
+        };
+        const pumpEl = (el, at, s = 1.12, d = 0.4) => tl.fromTo(el, { scale: s }, { scale: 1, duration: d, ease: "elastic.out(1, 0.45)", immediateRender: false }, at);
+
+        // ambient -----------------------------------------------------------------
+        tl.fromTo("#amb-g1", { x: 0, y: 0, scale: 1 }, { x: -380, y: 160, scale: 1.2, duration: 24.4, ease: "sine.inOut" }, 0);
+        tl.fromTo("#amb-g2", { x: 0, y: 0 }, { x: 300, y: -200, duration: 24.4, ease: "sine.inOut" }, 0);
+        tl.fromTo("#amb-dots", { y: 0 }, { y: -44 * 6, duration: 24.4, ease: "none" }, 0);
+
+        tl.to("#vig", { opacity: 0.25, duration: 0.2 }, 4.6);
+        tl.to("#vig", { opacity: 1, duration: 0.2 }, 6.9);
+
+        // =========================================================================
+        // 01 · 37 TABS  (0 – 1.406)
+        // =========================================================================
+        {
+          const host = $("#s1-tabs");
+          const favs = ["#8ec5ff", "#cfe8ff", "#7189a8", "#4f86c6", "#eef6ff", "#2f5f95"];
+          const tabs = [];
+          for (let r = 0; r < 8; r++) for (let c = 0; c < 12; c++) {
+            const x = 52 + c * 152 + (r % 2) * 40, y = 46 + r * 128;
+            if (x > 380 && x < 1450 && y > 300 && y < 720) continue;
+            if (x > 1800) continue;
+            const t = document.createElement("div"); t.className = "tab";
+            t.style.left = x + "px"; t.style.top = y + "px";
+            t.innerHTML = `<i style="background:${favs[(r * 5 + c * 3) % favs.length]}"></i><b></b><s></s>`;
+            host.appendChild(t); tabs.push({ el: t, d: Math.hypot(x + 68 - 960, y + 22 - 540), rot: (rnd() - 0.5) * 14, fall: rnd() });
+          }
+          tabs.forEach((t) => {
+            tl.fromTo(t.el, { scale: 0, rotation: t.rot * 3, opacity: 1 }, { scale: 1, rotation: t.rot, duration: 0.42, ease: "back.out(3.2)" }, 0.04 + (t.d / 1100) * 0.55);
+            tl.to(t.el, { y: 1250 + t.fall * 300, rotation: t.rot + (t.fall - 0.5) * 120, duration: 0.42, ease: "power2.in" }, 1.0 + t.fall * 0.12 + (1 - t.d / 1100) * 0.05);
+          });
+          const odo = buildOdo($("#s1-odo"), [
+            { seq: [" ", "1", "2", "3"] },
+            { seq: Array.from({ length: 37 }, (_, i) => String((i + 1) % 10)) },
+          ]);
+          $$("#s1-odo .odc")[0].style.width = "176px";
+          $$("#s1-odo .odc")[1].style.width = "176px";
+          odo.forEach((o) => tl.fromTo(o.strip, { y: 0 }, { y: -(o.n - 1) * 300, duration: 0.82, ease: "power3.inOut" }, 0.08));
+          tl.fromTo("#s1-odo", { scale: 0.4, y: 120 }, { scale: 1, y: 0, duration: 0.5, ease: "back.out(2.4)" }, 0.02);
+          pumpEl("#s1-odo", 0.9, 1.16, 0.45);
+          rise("#s1-tabs-w", 0.22, { dur: 0.45 });
+          tl.fromTo("#s1-tabs-w", { "--wd": 75 }, { "--wd": 100, duration: 0.7, ease: "power2.out" }, 0.22);
+          tl.to("#s1-row", { scaleY: 0.04, scaleX: 1.35, y: 260, opacity: 0, duration: 0.24, ease: "power3.in" }, 1.16);
+        }
+
+        // =========================================================================
+        // 02 · 12 APPS. 0 PLAN.  (1.406 – 3.281)
+        // =========================================================================
+        {
+          const T = 1.40625;
+          const icons = ["i-plane", "i-bed", "i-food", "i-map", "i-cal", "i-card", "i-chat", "i-cam", "i-ticket", "i-train", "i-car", "i-sun"];
+          const orbit = $("#s2-orbit");
+          const k = 0.4;
+          gsap.set(orbit, { rotation: -9, scaleY: k });
+          icons.forEach((id, i) => {
+            const a = (i / icons.length) * 360;
+            orbit.insertAdjacentHTML("beforeend", `<div class="arm"><div class="pos"><div class="up"><div class="ic">${svgUse(id)}</div></div></div></div>`);
+            const arm = orbit.lastElementChild, pos = arm.firstElementChild, up = pos.firstElementChild, ic = up.firstElementChild;
+            gsap.set(up, { scaleY: 1 / k });
+            tl.fromTo(arm, { rotation: a }, { rotation: a + 150, duration: 1.0, ease: "none" }, T);
+            tl.fromTo(up, { rotation: -a }, { rotation: -a - 150, duration: 1.0, ease: "none" }, T);
+            tl.fromTo(pos, { x: 0 }, { x: 700, duration: 0.7, ease: "elastic.out(1, 0.55)" }, T + 0.02 + i * 0.018);
+            tl.fromTo(ic, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, T + 0.02 + i * 0.018);
+            // implosion
+            tl.to(pos, { x: 0, duration: 0.26, ease: "back.in(2.2)" }, T + 0.86 + i * 0.008);
+            tl.to(ic, { scale: 0, duration: 0.26, ease: "power3.in" }, T + 0.86 + i * 0.008);
+          });
+          tl.fromTo("#s2-apps-in", { scale: 0.3, opacity: 0, "--wd": 75 }, { scale: 1, opacity: 1, "--wd": 75, duration: 0.42, ease: "back.out(2.6)" }, T);
+          tl.to("#s2-apps-in", { "--wd": 100, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, T + 0.2);
+          tl.to("#s2-apps-in", { scale: 0, duration: 0.2, ease: "back.in(2)" }, T + 0.98);
+          // 0 plan. slam on the beat
+          const S = 5.5 * B; // 2.578
+          tl.fromTo("#s2-zero", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "expo.out" }, S);
+          tl.to("#s2-zero", { keyframes: { x: [14, -12, 9, -6, 3, 0] }, duration: 0.3, ease: "none" }, S + 0.02);
+          // plan. falls away, 0 becomes the ring
+          tl.to("#s2-plan", { y: 260, rotation: 18, opacity: 0, duration: 0.28, ease: "power2.in" }, S + 0.4);
+          const z = centre($("#s2-0"));
+          const ring = $("#s2-ring");
+          ring.style.left = z.x - 75 + "px"; ring.style.top = z.y - 75 + "px";
+          tl.to("#s2-0", { scale: 0.7, opacity: 0, duration: 0.14, ease: "power2.in" }, S + 0.48);
+          tl.fromTo(ring, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(3)" }, S + 0.5);
+          tl.to(ring, { x: 960 - z.x, y: 540 - z.y, duration: 0.3, ease: "power3.inOut" }, S + 0.66 - 0.06);
+        }
+
+        // =========================================================================
+        // 03 · BOUNCE → MEET  (3.281 – 4.6875)
+        // =========================================================================
+        {
+          const T = 3.28125;
+          const FY = 565; // ball centre when touching the floor (floor y = 640)
+          gsap.set("#s3-x", { x: 960 }); gsap.set("#s3-y", { y: 540 });
+          tl.fromTo("#s3-floor", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, T + 0.02);
+          tl.fromTo("#s3-x", { x: 960 }, { x: 420, duration: 1.2, ease: "none" }, T);
+          const lands = [7.5 * B, 8.5 * B, 9.5 * B];
+          const apex = [300, 380];
+          tl.fromTo("#s3-y", { y: 540 }, { y: FY, duration: lands[0] - T, ease: "power2.in" }, T);
+          lands.forEach((L, i) => {
+            tl.fromTo("#s3-ball", { scaleX: 1.45, scaleY: 0.62, transformOrigin: "50% 100%" }, { scaleX: 1, scaleY: 1, duration: 0.32, ease: "elastic.out(1.2, 0.4)", immediateRender: false }, L);
+            if (i < 2) {
+              const mid = L + (lands[i + 1] - L) / 2;
+              tl.to("#s3-y", { y: apex[i], duration: mid - L, ease: "power2.out" }, L);
+              tl.to("#s3-y", { y: FY, duration: lands[i + 1] - mid, ease: "power2.in" }, mid);
+            }
+          });
+          // Meet rises out of the floor on bounce 2
+          const ms = $$("#s3-meet .ch");
+          tl.fromTo(ms, { yPercent: 105, "--wg": 200, scaleY: 1.4 }, { yPercent: 0, "--wg": 800, scaleY: 1, duration: 0.5, ease: "back.out(2.2)", stagger: 0.045 }, lands[1] - 0.04);
+          // venetian slices sweep in from alternating sides
+          const host = $("#s3-slices");
+          for (let i = 0; i < 12; i++) {
+            const s = document.createElement("div"); s.className = "slice"; s.style.top = i * 90 + "px"; host.appendChild(s);
+            const fromC = Math.abs(i - 5.5);
+            tl.fromTo(s, { x: i % 2 ? 1920 : -1920 }, { x: 0, duration: 0.24, ease: "power3.out" }, 4.33 + (5.5 - fromC) * 0.02);
+          }
+        }
+
+        // =========================================================================
+        // 04 · CIRRO — the drop  (4.6875 – 7.031)
+        // =========================================================================
+        {
+          const T = 4.6875;
+          const o = $("#s4-o");
+          const oc = centre(o);
+          tl.fromTo(o, { y: -760 }, { y: 0, duration: 0.2, ease: "power2.in" }, T);
+          tl.fromTo(o, { scaleX: 1.5, scaleY: 0.6, transformOrigin: "50% 100%" }, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1.2, 0.35)", immediateRender: false }, T + 0.2);
+          $$("#s4-word .lt").forEach((l, i) => {
+            const at = T + 0.24 + i * 0.17;
+            tl.fromTo(l, { y: -900, rotation: (i % 2 ? 1 : -1) * 24 }, { y: 0, rotation: 0, duration: 0.5, ease: "bounce.out" }, at);
+            tl.to(l, { keyframes: { scaleY: [0.72, 1.12, 1], scaleX: [1.25, 0.94, 1] }, duration: 0.28, ease: "none" }, at + 0.18);
+          });
+          // subtitle: scramble/decode
+          const sub = $("#s4-sub");
+          const text = "trips that plan themselves.";
+          const pool = "abcdefghjkmnopqrstuvwxyz#%&*+=/<>?";
+          sub.innerHTML = "";
+          const t0 = T + 1.0;
+          text.split("").forEach((ch, i) => {
+            const sp = document.createElement("span"); sp.className = "ch"; sp.textContent = ch; sub.appendChild(sp);
+            if (ch === " ") return;
+            const appear = t0 + i * 0.012, resolve = t0 + 0.22 + i * 0.02;
+            tl.fromTo(sp, { opacity: 0 }, { opacity: 1, duration: 0.01 }, appear);
+            for (let t = appear, j = 0; t < resolve; t += 1 / 30, j++) tl.set(sp, { textContent: pool[Math.floor(rnd() * pool.length)], color: "#4f86c6" }, t);
+            tl.set(sp, { textContent: ch, color: "#16233a" }, resolve);
+          });
+          // weight wave across the wordmark
+          tl.to("#s4-word .lt", { "--wg": 350, duration: 0.22, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.06 }, T + 1.25);
+          // fill the o, then dive through it
+          tl.fromTo("#s4-hole", { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(2)" }, 6.45);
+          tl.fromTo("#s4-zoom", { scale: 1, transformOrigin: `${oc.x}px ${oc.y}px` }, { scale: 60, duration: 0.46, ease: "expo.in" }, 6.57);
+        }
+
+        // =========================================================================
+        // 05 · TELL IT THE VIBE  (7.031 – 9.844)
+        // =========================================================================
+        {
+          const T = 7.03125;
+          gsap.set("#s5-bar", { xPercent: -50 });
+          // out of the portal: thick ring shrinks to size, then stretches into the bar
+          tl.fromTo("#s5-bar", { scale: 14 }, { scale: 1, duration: 0.42, ease: "expo.out" }, T);
+          tl.to("#s5-bar", { width: 1240, borderWidth: 3, duration: 0.75, ease: "elastic.out(1, 0.6)" }, T + 0.36);
+          tl.to("#s5-glow", { opacity: 1, duration: 0.6, ease: "power2.out" }, T + 0.5);
+          tl.fromTo("#s5-glow", { scaleX: 0.2 }, { scaleX: 1, duration: 0.8, ease: "expo.out" }, T + 0.4);
+          tl.to("#s5-in", { opacity: 1, duration: 0.2 }, T + 0.62);
+          tl.fromTo("#s5-spark", { rotation: -120, scale: 0 }, { rotation: 0, scale: 1, duration: 0.5, ease: "back.out(3)" }, T + 0.62);
+          tl.fromTo("#s5-send", { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, T + 0.7);
+          const lab = maskWords($("#s5-label"), "Tell it the vibe.", { 3: "sky" });
+          rise(lab, T + 0.2, { stagger: 0.06 });
+          // typing
+          const txt = "5 days in Lisbon. Food, sun, no museums.";
+          const host = $("#s5-chars");
+          const t0 = T + 0.82, cps = 44;
+          txt.split("").forEach((c, i) => {
+            const s = document.createElement("span"); s.className = "c"; s.textContent = c; host.appendChild(s);
+            tl.set(s, { display: "inline" }, t0 + i / cps);
+          });
+          tl.fromTo("#s5-caret", { opacity: 1 }, { opacity: 0, duration: 0.12, repeat: 7, yoyo: true, ease: "steps(1)" }, t0 + txt.length / cps);
+          // chips pop when their keyword is typed
+          [[6, "#chip1"], [16, "#chip2"], [22, "#chip3"]].forEach(([n, id], i) => {
+            tl.fromTo(id, { y: 70, scale: 0.3, rotation: (i - 1) * 10, opacity: 0 }, { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(3)" }, t0 + n / cps + 0.04);
+          });
+          // send
+          const P = 9.05;
+          tl.to("#s5-send", { scale: 0.78, duration: 0.07, ease: "power2.in", yoyo: true, repeat: 1 }, P);
+          tl.to("#s5-chips .chip", { y: -150, scale: 0.2, opacity: 0, duration: 0.24, ease: "back.in(2)", stagger: 0.03 }, P + 0.1);
+          tl.to("#s5-in", { opacity: 0, duration: 0.12 }, P + 0.12);
+          tl.to("#s5-glow", { opacity: 0, duration: 0.2 }, P + 0.12);
+          tl.to("#s5-bar", { width: 140, borderWidth: 22, duration: 0.3, ease: "back.in(1.4)" }, P + 0.14);
+          sink(lab, P + 0.1);
+          // ring shoots up + burst
+          const Q = 9.5;
+          tl.set("#s5-bar", { opacity: 0 }, Q);
+          tl.set("#s5-shot", { opacity: 1 }, Q);
+          tl.to("#s5-shot", { y: -900, scaleX: 0.7, scaleY: 1.5, duration: 0.3, ease: "power3.in" }, Q);
+          const bh = $("#s5-burst");
+          for (let i = 0; i < 16; i++) {
+            const d = document.createElement("i"); d.className = "spark-dot"; bh.appendChild(d);
+            const a = (i / 16) * Math.PI * 2, r = 260 + (i % 3) * 90;
+            tl.fromTo(d, { x: 0, y: 0, scale: 1.4, opacity: 1 }, { x: Math.cos(a) * r, y: Math.sin(a) * r, scale: 0, opacity: 1, duration: 0.34, ease: "expo.out", immediateRender: false }, Q);
+          }
+        }
+
+        // =========================================================================
+        // 06 · IT FINDS THE SPOTS  (9.844 – 12.656)
+        // =========================================================================
+        {
+          const T = 9.84375;
+          const places = [
+            ["IMG 01", "Alfama · tram 28"], ["IMG 02", "Pastel de nata"], ["IMG 03", "Miradouro da Graça"], ["IMG 04", "Praia da Ursa"],
+            ["IMG 05", "Azulejo walls"], ["IMG 06", "Time Out Market"], ["IMG 07", "LX Factory"], ["IMG 08", "Pena Palace"],
+            ["IMG 09", "Belém tower"], ["IMG 10", "Rooftop bar"], ["IMG 11", "Grilled sardines"], ["IMG 12", "Sunset tram"],
+          ];
+          const wall = $("#s6-wall");
+          const cols = [];
+          for (let c = 0; c < 6; c++) {
+            const col = document.createElement("div"); col.className = "col";
+            for (let r = 0; r < 5; r++) {
+              const p = places[(c * 5 + r * 7 + c) % places.length];
+              col.insertAdjacentHTML("beforeend", `<div class="ph">${svgUse("i-img").replace('class="isvg"', 'class="isvg pi"')}<div class="pl"><small>${p[0]}</small>${p[1]}</div></div>`);
+            }
+            wall.appendChild(col); cols.push(col);
+          }
+          gsap.set(wall, { rotationX: 30, rotationZ: -14, z: -200 });
+          tl.fromTo(wall, { y: 1500 }, { y: 0, duration: 0.7, ease: "power4.out" }, T);
+          cols.forEach((col, c) => {
+            const dir = c % 2 ? 1 : -1, sp = 260 + (c % 3) * 140;
+            tl.fromTo(col, { y: dir > 0 ? -sp : 0 }, { y: dir > 0 ? 0 : -sp, duration: 2.8, ease: "sine.inOut" }, T);
+          });
+          tl.fromTo("#s6-shade", { opacity: 0 }, { opacity: 1, duration: 0.4 }, T + 0.15);
+          const head = maskWords($("#s6-head"), "It finds the spots.", { 3: "sky" });
+          rise(head, T + 0.28, { stagger: 0.07, dur: 0.55 });
+          tl.fromTo("#s6-head", { "--wd": 76 }, { "--wd": 100, duration: 0.9, ease: "power2.out" }, T + 0.28);
+          sink(head, 11.45);
+          // hero card flies out of the wall
+          const H = 11.55;
+          tl.to("#s6-dim", { opacity: 0.72, duration: 0.35, ease: "power2.out" }, H);
+          tl.fromTo("#s6-hero", { x: 420, y: 260, rotationX: 30, rotationZ: -14, scale: 0.6, opacity: 0, transformPerspective: 1700 }, { x: 0, y: 0, rotationX: 0, rotationZ: 0, scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }, H);
+          tl.fromTo("#s6-saved", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(3.5)" }, 11.92);
+          tl.fromTo("#s6-saved svg", { scale: 1.6 }, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.35)" }, 12.0);
+          // FLIP into the first map pin (S7 pin 1 sits at x 230, y 700)
+          const F = 12.28;
+          tl.to("#s6-saved", { scale: 0, duration: 0.14, ease: "back.in(2)" }, F - 0.04);
+          tl.to("#s6-hero", { x: 230 - 960, y: 660 - 543, scale: 0.13, borderRadius: 200, rotation: -12, duration: 0.36, ease: "power3.inOut" }, F);
+          tl.to("#s6-dim", { opacity: 1, duration: 0.3 }, F);
+        }
+
+        // =========================================================================
+        // 07 · DAY BY DAY  (12.656 – 15.9375)
+        // =========================================================================
+        {
+          const T = 12.65625;
+          const head = maskWords($("#s7-head"), "Day by day.", { 2: "sky" });
+          rise(head, T + 0.05, { stagger: 0.06 });
+          tl.fromTo("#s7-map", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, T);
+          tl.fromTo("#s7-map .streets path", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.out", stagger: 0.04 }, T);
+          // pins
+          const pts = [[150, 470], [390, 300], [640, 380], [840, 200]];
+          const map = $("#s7-map");
+          const pins = pts.map(([x, y], i) => {
+            const p = document.createElement("div"); p.className = "pin";
+            p.style.left = x - 33 + "px"; p.style.top = y - 84 + "px";
+            p.innerHTML = `<svg viewBox="0 0 66 84"><path d="M33 82 C33 82 4 52 4 32 A29 29 0 0 1 62 32 C62 52 33 82 33 82 Z" fill="#cfe8ff" /><circle cx="33" cy="80" r="0" /></svg><span>${i + 1}</span>`;
+            map.appendChild(p); return p;
+          });
+          tl.fromTo(pins[0], { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" }, T);
+          pins.slice(1).forEach((p, i) => {
+            tl.fromTo(p, { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "bounce.out" }, T + 0.22 + i * (B / 2));
+          });
+          // route draws + runner follows the path
+          const route = $("#s7-route");
+          const len = route.getTotalLength();
+          tl.fromTo(route, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.0, ease: "power1.inOut" }, T + 0.35);
+          const kf = [];
+          for (let i = 0; i <= 40; i++) { const p = route.getPointAtLength((len * i) / 40); kf.push({ x: p.x, y: p.y }); }
+          tl.set("#s7-runner", { opacity: 1, x: kf[0].x, y: kf[0].y }, T + 0.35);
+          tl.to("#s7-runner", { keyframes: kf, duration: 1.0, ease: "power1.inOut" }, T + 0.35);
+          // cube of days
+          const days = [
+            ["Day 1", "Alfama & views", "THUMB D1", [["09:30", "i-sun", "Miradouro da Graça"], ["13:00", "i-food", "Time Out Market"], ["21:00", "i-ticket", "Fado night"]]],
+            ["Day 2", "Coast day", "THUMB D2", [["10:00", "i-train", "Train to Cascais"], ["12:30", "i-sun", "Praia da Rainha"], ["19:30", "i-food", "Grilled sardines"]]],
+            ["Day 3", "Sintra hills", "THUMB D3", [["09:00", "i-car", "Ride to Sintra"], ["11:30", "i-map", "Pena Palace"], ["20:00", "i-star", "Rooftop sunset"]]],
+          ];
+          const cube = $("#s7-cube");
+          const faces = days.map((d, i) => {
+            const f = document.createElement("div"); f.className = "face";
+            f.innerHTML = `<h3>${d[0]}</h3><h4>${d[1]}</h4><div class="ph th">${svgUse("i-img").replace('class="isvg"', 'class="isvg pi"')}<div class="pl">${d[2]}</div></div><div class="rows">${d[3].map((r) => `<div class="it"><time>${r[0]}</time><i>${svgUse(r[1])}</i><span>${r[2]}</span></div>`).join("")}</div>`;
+            f.style.transform = `rotateY(${i * 90}deg) translateZ(310px)`;
+            f.style.transformOrigin = "50% 50%";
+            cube.appendChild(f); return f;
+          });
+          gsap.set(cube, { z: -310 });
+          tl.fromTo(cube, { x: 800, rotationY: -70 }, { x: 0, rotationY: 0, duration: 0.7, ease: "back.out(1.4)" }, T + 0.12);
+          const popRows = (f, at) => tl.fromTo(f.querySelectorAll(".it"), { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "back.out(2.4)", stagger: 0.06 }, at);
+          popRows(faces[0], T + 0.45);
+          const R1 = 30 * B, R2 = 32 * B; // 14.06, 15.0
+          tl.to(cube, { rotationY: -90, duration: 0.5, ease: "back.out(1.7)" }, R1);
+          popRows(faces[1], R1 + 0.12);
+          tl.to(cube, { rotationY: -180, duration: 0.5, ease: "back.out(1.7)" }, R2);
+          popRows(faces[2], R2 + 0.12);
+          // highlight the pins per day
+          pumpEl(pins[1], R1, 1.35, 0.5);
+          pumpEl(pins[3], R2, 1.35, 0.5);
+          // roll everything into the ring
+          const O = 15.5;
+          tl.to("#s7-all", { scale: 0.04, rotation: 120, opacity: 0, duration: 0.36, ease: "power3.in" }, O);
+          tl.fromTo("#s7-ring", { scale: 0, opacity: 1, rotation: 0 }, { scale: 1, duration: 0.35, ease: "back.out(3)" }, O + 0.2);
+        }
+
+        // =========================================================================
+        // 08 · ONE TAP  (15.9375 – 18.281)
+        // =========================================================================
+        {
+          const T = 15.9375;
+          gsap.set("#s8-btn", { xPercent: -50 });
+          tl.fromTo("#s8-btn", { width: 160, height: 160, borderRadius: 80, borderWidth: 30, y: -5, backgroundColor: "rgba(207,232,255,0)" },
+            { width: 600, height: 150, borderRadius: 75, borderWidth: 0, y: 0, backgroundColor: "rgba(207,232,255,1)", duration: 0.6, ease: "elastic.out(1, 0.55)" }, T);
+          tl.fromTo("#s8-slot", { y: 150 }, { y: 0, duration: 0.45, ease: "back.out(2.2)" }, T + 0.18);
+          const lab = maskWords($("#s8-label"), "One tap.", { 1: "sky" });
+          rise(lab, T + 0.08, { stagger: 0.07 });
+          // icons orbit the button, then snap in
+          const orbit = $("#s8-orbit");
+          const k = 0.38;
+          gsap.set(orbit, { scaleY: k, rotation: -6 });
+          ["i-plane", "i-bed", "i-food"].forEach((id, i) => {
+            const a = i * 120 + 30;
+            orbit.insertAdjacentHTML("beforeend", `<div class="arm"><div class="pos"><div class="up"><div class="ic">${svgUse(id)}</div></div></div></div>`);
+            const arm = orbit.lastElementChild, pos = arm.firstElementChild, up = pos.firstElementChild, ic = up.firstElementChild;
+            gsap.set(up, { scaleY: 1 / k });
+            tl.fromTo(arm, { rotation: a }, { rotation: a + 300, duration: 1.2, ease: "power1.inOut" }, T);
+            tl.fromTo(up, { rotation: -a }, { rotation: -a - 300, duration: 1.2, ease: "power1.inOut" }, T);
+            tl.fromTo(pos, { x: 0 }, { x: 560, duration: 0.6, ease: "elastic.out(1, 0.5)" }, T + 0.06 + i * 0.05);
+            tl.fromTo(ic, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, T + 0.06 + i * 0.05);
+            const S = 16.85 + i * 0.15;
+            tl.to(pos, { x: 0, duration: 0.2, ease: "power3.in" }, S);
+            tl.to(ic, { scale: 0.2, opacity: 0, duration: 0.2, ease: "power3.in" }, S);
+            tl.fromTo("#s8-btn", { scaleX: 1.08, scaleY: 0.9 }, { scaleX: 1, scaleY: 1, duration: 0.3, ease: "elastic.out(1, 0.4)", immediateRender: false }, S + 0.2);
+          });
+          // tap
+          const P = 17.38;
+          tl.fromTo("#s8-tap", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 0.9, duration: 0.14, ease: "power2.out" }, P - 0.12);
+          tl.to("#s8-tap", { scale: 2.4, opacity: 0, duration: 0.3, ease: "power2.out" }, P + 0.04);
+          tl.to("#s8-btn", { scale: 0.9, duration: 0.07, ease: "power2.in", yoyo: true, repeat: 1 }, P);
+          tl.to("#s8-slot", { y: -150, duration: 0.4, ease: "back.out(2.4)" }, P + 0.08);
+          ["#rp1", "#rp2", "#rp3"].forEach((r, i) => tl.fromTo(r, { scale: 1, opacity: 0.7 }, { scale: 2.2 + i * 0.5, opacity: 0, duration: 0.7, ease: "power2.out" }, P + 0.06 + i * 0.08));
+          // price odometer
+          const fin = "1284";
+          const odo = buildOdo($("#s8-odo"), [{ static: "€" }, { static: " " }, ...fin.split("").map((d, i) => {
+            const seq = [];
+            for (let c = 0; c < i; c++) for (let n = 0; n < 10; n++) seq.push(String(n));
+            for (let n = 0; n <= +d; n++) seq.push(String(n));
+            return { seq };
+          })]);
+          // thin space after the thousands digit
+          const cols = $$("#s8-odo .odc");
+          cols[0].style.marginRight = "0.2em";
+          tl.fromTo("#s8-price", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, T + 0.3);
+          odo.forEach((o) => tl.fromTo(o.strip, { y: 0 }, { y: -(o.n - 1) * 110, duration: 0.9, ease: "power3.inOut" }, T + 0.3));
+          tl.fromTo("#s8-chip", { y: 50, scale: 0.3, opacity: 0, rotation: 8 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: 0.5, ease: "back.out(3)" }, P + 0.25);
+          // tile flip into S9
+          const tiles = $("#s8-tiles");
+          const tlist = [];
+          for (let r = 0; r < 9; r++) for (let c = 0; c < 16; c++) {
+            const t = document.createElement("div"); t.className = "tile"; t.style.left = c * 120 + "px"; t.style.top = r * 120 + "px"; tiles.appendChild(t); tlist.push({ t, d: r + c });
+          }
+          tlist.forEach(({ t, d }) => tl.fromTo(t, { rotationY: -90, autoAlpha: 0, transformPerspective: 700 }, { rotationY: 0, autoAlpha: 1, duration: 0.18, ease: "power2.out" }, 17.93 + d * 0.0072));
+        }
+
+        // =========================================================================
+        // 09 · LESS PLANNING. MORE GOING.  (18.281 – 21.094)
+        // =========================================================================
+        {
+          const T = 18.28125;
+          const tiles = $("#s9-tiles");
+          for (let r = 0; r < 9; r++) for (let c = 0; c < 16; c++) {
+            const t = document.createElement("div"); t.className = "tile"; t.style.left = c * 120 + "px"; t.style.top = r * 120 + "px"; tiles.appendChild(t);
+            tl.fromTo(t, { rotationY: 0, autoAlpha: 1, transformPerspective: 700 }, { rotationY: 90, autoAlpha: 0, duration: 0.18, ease: "power2.in" }, T + (r + c) * 0.0072);
+          }
+          // echo stack
+          const st = $("#s9-stack");
+          const offs = [-3, -2, -1, 1, 2, 3, 0];
+          const echoes = offs.map((o) => {
+            const e = document.createElement("div"); e.className = "echo" + (o ? " o" : ""); e.textContent = "Less planning."; st.appendChild(e); return { e, o };
+          });
+          echoes.forEach(({ e, o }) => {
+            if (!o) {
+              tl.fromTo(e, { scaleY: 0, "--wg": 200 }, { scaleY: 1, "--wg": 720, duration: 0.45, ease: "back.out(2.4)" }, T + 0.12);
+              return;
+            }
+            tl.fromTo(e, { y: 0, opacity: 0 }, { y: o * 150, opacity: 1 - Math.abs(o) * 0.26, duration: 0.5, ease: "expo.out" }, T + 0.16 + Math.abs(o) * 0.03);
+            tl.to(e, { y: 0, opacity: 0, duration: 0.24, ease: "power3.in" }, 19.25 + (3 - Math.abs(o)) * 0.02);
+          });
+          tl.fromTo("#s9-stack", { y: 120 }, { y: 0, duration: 0.5, ease: "expo.out" }, 19.3);
+          // slam on beat 42
+          const S = 42 * B; // 19.6875
+          tl.fromTo("#s9-more span", { scale: 1.9, opacity: 0, "--wd": 75, "--wg": 300 }, { scale: 1, opacity: 1, "--wd": 100, "--wg": 800, duration: 0.42, ease: "expo.out", stagger: 0.08 }, S);
+          tl.to("#s9-cam", { keyframes: { x: [16, -12, 8, -4, 0], y: [-10, 8, -5, 2, 0] }, duration: 0.32, ease: "none" }, S + 0.1);
+          tl.fromTo("#s9-shock", { scale: 0.3, opacity: 0.8 }, { scale: 9, opacity: 0, duration: 0.8, ease: "power2.out" }, S + 0.1);
+          tl.to("#s9-stack .echo:not(.o)", { color: "#7189a8", duration: 0.3 }, S + 0.1);
+          // squeeze into the ring
+          const Q = 20.7;
+          tl.to(["#s9-stack", "#s9-more"], { scaleX: 0.02, "--wd": 75, opacity: 0, duration: 0.28, ease: "power3.in", transformOrigin: "50% 50%" }, Q);
+          tl.fromTo("#s9-ring", { scale: 0, opacity: 1 }, { scale: 1, duration: 0.26, ease: "back.out(3)" }, Q + 0.2);
+        }
+
+        // =========================================================================
+        // 10 · ENDCARD  (21.094 – 24.4)
+        // =========================================================================
+        {
+          const T = 21.09375;
+          const o = $("#s10-o");
+          const oc = centre(o);
+          // ring travels from centre into the o slot, letters spring out from behind it
+          tl.fromTo("#s10-ring", { x: 0, y: 0, width: 150, height: 150, borderWidth: 30 }, { x: oc.x - 960, y: oc.y - 540, width: 140, height: 140, borderWidth: 34, duration: 0.55, ease: "expo.inOut" }, T + 0.05);
+          tl.set("#s10-ring", { opacity: 0 }, T + 0.6);
+          tl.set(o, { opacity: 1 }, T + 0.6);
+          const lts = $$("#s10-word .lt").reverse();
+          lts.forEach((l, i) => {
+            const lc = centre(l);
+            tl.fromTo(l, { x: oc.x - lc.x, scale: 0.2, opacity: 0 }, { x: 0, scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2.2)" }, T + 0.42 + i * 0.06);
+          });
+          pumpEl(o, T + 0.6, 1.25, 0.6);
+          tl.to("#s10-word .lt", { "--wg": 300, duration: 0.24, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.07 }, T + 1.15);
+          rise("#s10-url .mi", T + 0.85, { dur: 0.5 });
+          tl.fromTo(".badge", { y: 60, scale: 0.4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.1 }, T + 1.05);
+          // little clouds orbit the o
+          const oo = $("#s10-oo");
+          oo.style.left = oc.x + "px"; oo.style.top = oc.y + "px";
+          gsap.set(oo, { scaleY: 0.42, rotation: -12 });
+          $$("#s10-oo .odot").forEach((d, i) => {
+            const arm = document.createElement("div"); arm.className = "arm"; oo.appendChild(arm);
+            const pos = document.createElement("div"); pos.className = "pos"; arm.appendChild(pos);
+            const up = document.createElement("div"); up.className = "up"; pos.appendChild(up); up.appendChild(d);
+            gsap.set(up, { scaleY: 1 / 0.42 });
+            tl.fromTo(arm, { rotation: i * 120 }, { rotation: i * 120 + 300, duration: 3.0, ease: "none" }, T + 0.7);
+            tl.fromTo(up, { rotation: -i * 120 }, { rotation: -i * 120 - 300, duration: 3.0, ease: "none" }, T + 0.7);
+            tl.fromTo(pos, { x: 0, opacity: 0 }, { x: 150 + i * 14, opacity: 1, duration: 0.6, ease: "back.out(2)" }, T + 0.7 + i * 0.08);
+          });
+        }
+
+        tl.set({}, {}, 24.4);
+        master.add(tl, 0);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = master;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+      });
+    </script>
+  </body>
+</html>
