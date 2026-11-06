@@ -65,10 +65,11 @@ version: v2
 - **Výstup:** 2,9–3,28 „plan.“ odpadne, „0“ sa nafúkne a premení na **kruh** (prstenec, ľad).
 - **Zvuk:** 1,41 swoosh · orbit „tick-tick“ · 2,35 „thup“ implózie + „snap“.
 
-## Frame 03 — Bounce → Meet
-- 3,28–4,69
-- **Pohyb:** kruh **3× odskočí** po dobách (squash 1,35/0,7 pri dopade, stretch 0,8/1,25 v letoch), každým skokom sa zmenší. Pri 2. dopade vyrazí **„Meet“** (maska zdola, hrúbka 200 → 800). 4,4 obrazovka sa rozreže na **12 horizontálnych pásov**, ktoré odletia striedavo doľava/doprava a odhalia ľadovú plochu.
-- **Zvuk:** 3× „boing“ na dobách · 4,4 swoosh pásov · **riser** do dropu.
+## Frame 03 — 0 plan. → Meet. (v4: plynulý prechod jedným kruhom)
+- 2,58–4,69 · bez strihu, beží v jednej scéne s 02
+- **Pohyb:** „0“ v „0 plan.“ je od začiatku **samotný kruh** (oválny ako nula), takže sa nič nevymieňa. 3,00 kruh **vcucne písmená „plan.“** jedno po druhom (letia do jeho stredu, zmenšia sa a otočia) a pri každom jemne pulzne. Potom sa z oválu **nafúkne na dokonalý kruh** (`elastic`). 3,36 kruh sa presunie na začiatok slova. 3,66 **prejde cez obrazovku** a jeho stred je hrana odhalenia: „Meet“ sa objavuje za ním ako cez šošovku, každé písmeno vyskočí a zhrubne (300 → 700). Počas pohybu sa kruh naťahuje, na konci sa **naplní ľadovou farbou** a zastane ako bodka: **„Meet ●“**.
+- **Výstup:** 4,36–4,69 bodka sa **rozšíri cez celú obrazovku** (`expo.in`) → ľadová plocha = drop. V scéne 04 priletí tmavé „o“ z miesta, kde sa bodka rozšírila, a zmenší sa do loga.
+- **Zvuk:** 3,20–3,36 päť blikov (zjedené písmená) · 3,36 whoosh · 3,68 swoosh prechodu · 4,22 „thock“ bodky · 4,34 zoom whoosh · **4,69 drop**.
 
 ## Frame 04 — cirro (DROP)
 - 4,69–7,03 · **inverzia:** ľadové pozadie `#CFE8FF`, tmavé písmo `#060A12`
@@ -177,3 +178,7 @@ version: v2
 - Karty majú namiesto „IMG 0x“ krátky popis kategórie (ALFAMA, EAT, VIEWPOINT, BEACH, WALK, ART, DAY TRIP, BELÉM, NIGHT, RIDE) a názov miesta. Spodok karty má tmavý prechod, aby bol text čitateľný.
 - Fotky na šírku (07–12) sú orezané cez `background-position` na hlavný motív: mural s tvárou a kvetom, palác, veža, drinky s výhľadom, sardinky, električka.
 - Stena: stĺpec `c`, riadok `r` → fotka `(7c + r) mod 12`, takže sú viditeľné všetky a rovnaké fotky nie sú vedľa seba.
+
+## Changes from v3
+
+- Prechod „0 plan.“ → „Meet“ prerobený: odstránené skákanie, čiara podlahy aj horizontálne pásy. Namiesto toho jeden plynulý pohyb kruhu (zje „plan.“, prejde cez obrazovku a odhalí „Meet“, zastane ako bodka a zaleje obraz). Scény 02 a 03 sú teraz jeden klip `#s2` (1,41–4,69).

@@ -84,16 +84,15 @@
       .ic { position: absolute; width: 112px; height: 112px; left: -56px; top: -56px; border-radius: 32px; background: var(--navy); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ice); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
       .ic svg { width: 50px; height: 50px; }
       #s2-apps { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 200px; --wg: 750; letter-spacing: -0.035em; }
-      #s2-zero { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 40px; font-size: 220px; --wg: 800; letter-spacing: -0.035em; }
-      #s2-0 { color: var(--ice); display: inline-block; }
+      #s2-zero { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 40px; font-size: 220px; --wg: 700; letter-spacing: -0.035em; }
+      #s2-0 { color: transparent; display: inline-block; position: relative; }
+      #s2-ring { left: 50%; top: 50%; width: 132px; height: 156px; margin: -78px 0 0 -66px; border-width: 26px; }
+      #s2-fill { position: absolute; inset: -2px; border-radius: 50%; background: var(--ice); transform: scale(0); }
       #s2-plan { display: inline-block; }
-
-      /* S3 */
-      #s3-floor { position: absolute; left: 200px; top: 640px; width: 1520px; height: 3px; border-radius: 2px; background: rgba(142, 197, 255, 0.35); transform-origin: 50% 50%; }
-      #s3-meet { position: absolute; left: 700px; top: 330px; height: 310px; overflow: hidden; font-size: 300px; line-height: 300px; --wg: 800; --wd: 90; letter-spacing: -0.04em; white-space: nowrap; }
-      #s3-meet .ch { transform-origin: 50% 100%; }
-      .ballx, .bally { position: absolute; left: 0; top: 0; }
-      .slice { position: absolute; left: 0; width: 1920px; height: 91px; background: var(--ice); }
+      #s2-plan .ch { transform-origin: 50% 60%; }
+      #s2-meet { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 300px; line-height: 1; --wg: 700; letter-spacing: -0.045em; white-space: nowrap; }
+      #s2-mw { display: inline-block; padding: 40px 170px 60px 0; margin-left: 170px; clip-path: inset(0% 100% 0% 0%); }
+      #s2-mw .ch { transform-origin: 50% 80%; }
 
       /* S4 */
       #s4-bg { background: var(--ice); }
@@ -272,19 +271,11 @@
         </div>
       </section>
       <!-- 02 · 12 apps. 0 plan. -->
-      <section id="s2" class="clip" data-start="1.40625" data-duration="1.875" data-track-index="1">
+      <section id="s2" class="clip" data-start="1.40625" data-duration="3.28125" data-track-index="1">
         <div class="orbit" id="s2-orbit"></div>
         <div id="s2-apps"><span id="s2-apps-in">12 apps.</span></div>
-        <div id="s2-zero"><span id="s2-0">0</span><span id="s2-plan">plan.</span></div>
-        <div class="ring" id="s2-ring" style="width: 150px; height: 150px; opacity: 0"></div>
-      </section>
-
-      <!-- 03 · bounce → Meet -->
-      <section id="s3" class="clip" data-start="3.28125" data-duration="1.40625" data-track-index="1">
-        <div id="s3-floor"></div>
-        <div id="s3-meet"><span class="ch">M</span><span class="ch">e</span><span class="ch">e</span><span class="ch">t</span></div>
-        <div class="ballx" id="s3-x"><div class="bally" id="s3-y"><div class="ring" id="s3-ball" data-hf-motion-blur='{"samplesPerFrame": 12}' style="left: -75px; top: -75px; width: 150px; height: 150px"></div></div></div>
-        <div id="s3-slices" class="fill"></div>
+        <div id="s2-meet"><span id="s2-mw"><span class="ch">M</span><span class="ch">e</span><span class="ch">e</span><span class="ch">t</span></span></div>
+        <div id="s2-zero"><span id="s2-0">0<div class="ring" id="s2-ring"><i id="s2-fill"></i></div></span><span id="s2-plan"><span class="ch">p</span><span class="ch">l</span><span class="ch">a</span><span class="ch">n</span><span class="ch">.</span></span></div>
       </section>
 
       <!-- 04 · cirro (drop) -->
@@ -420,13 +411,17 @@
       <audio id="sfx-orb3" src="assets/sfx/tick.wav" data-start="2.2" data-duration="0.06" data-track-index="10" data-volume="0.5"></audio>
       <audio id="sfx-thup1" src="assets/sfx/thup.wav" data-start="2.27" data-duration="0.25" data-track-index="11" data-volume="0.9"></audio>
       <audio id="sfx-slam1" src="assets/sfx/slam.wav" data-start="2.5781" data-duration="0.5" data-track-index="12" data-volume="0.9"></audio>
-      <audio id="sfx-fwip1" src="assets/sfx/fwip.wav" data-start="2.98" data-duration="0.18" data-track-index="10" data-volume="0.8"></audio>
       <audio id="sfx-riser" src="assets/sfx/riser.wav" data-start="3.3" data-duration="1.4" data-track-index="11" data-volume="0.55"></audio>
-      <audio id="sfx-boing1" src="assets/sfx/boing.wav" data-start="3.5156" data-duration="0.38" data-track-index="12" data-volume="0.8"></audio>
-      <audio id="sfx-boing2" src="assets/sfx/boing.wav" data-start="3.9844" data-duration="0.38" data-track-index="10" data-volume="0.8"></audio>
-      <audio id="sfx-boing3" src="assets/sfx/boing.wav" data-start="4.4531" data-duration="0.38" data-track-index="11" data-volume="0.8"></audio>
-      <audio id="sfx-wh1" src="assets/sfx/whoosh_short.wav" data-start="4.3" data-duration="0.32" data-track-index="12" data-volume="0.8"></audio>
-      <audio id="sfx-plop1" src="assets/sfx/plop.wav" data-start="4.88" data-duration="0.9" data-track-index="10" data-volume="0.8"></audio>
+      <audio id="sfx-eat0" src="assets/sfx/blip.wav" data-start="3.2" data-duration="0.09" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="sfx-eat1" src="assets/sfx/blip.wav" data-start="3.24" data-duration="0.09" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-eat2" src="assets/sfx/blip.wav" data-start="3.28" data-duration="0.09" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="sfx-eat3" src="assets/sfx/blip.wav" data-start="3.32" data-duration="0.09" data-track-index="14" data-volume="0.45"></audio>
+      <audio id="sfx-eat4" src="assets/sfx/blip.wav" data-start="3.36" data-duration="0.09" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="sfx-glide" src="assets/sfx/whoosh_short.wav" data-start="3.36" data-duration="0.32" data-track-index="15" data-volume="0.6"></audio>
+      <audio id="sfx-roll" src="assets/sfx/swoosh_soft.wav" data-start="3.68" data-duration="0.45" data-track-index="13" data-volume="0.8"></audio>
+      <audio id="sfx-stop" src="assets/sfx/thock.wav" data-start="4.22" data-duration="0.2" data-track-index="14" data-volume="0.8"></audio>
+      <audio id="sfx-flood" src="assets/sfx/zoom_whoosh.wav" data-start="4.34" data-duration="0.55" data-track-index="15" data-volume="0.9"></audio>
+      <audio id="sfx-plop1" src="assets/sfx/plop.wav" data-start="4.74" data-duration="0.9" data-track-index="10" data-volume="0.8"></audio>
       <audio id="sfx-snap1" src="assets/sfx/snap.wav" data-start="5.1" data-duration="0.05" data-track-index="11" data-volume="1"></audio>
       <audio id="sfx-snap2" src="assets/sfx/snap.wav" data-start="5.27" data-duration="0.05" data-track-index="12" data-volume="1"></audio>
       <audio id="sfx-snap3" src="assets/sfx/snap.wav" data-start="5.44" data-duration="0.05" data-track-index="10" data-volume="1"></audio>
@@ -1346,7 +1341,7 @@
         }
 
         // =========================================================================
-        // 02 · 12 APPS. 0 PLAN.  (1.406 – 3.281)
+        // 02 · 12 APPS. 0 PLAN. → MEET  (1.406 – 4.6875)
         // =========================================================================
         {
           const T = 1.40625;
@@ -1374,46 +1369,46 @@
           const S = 5.5 * B; // 2.578
           tl.fromTo("#s2-zero", { scale: 1.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.32, ease: "expo.out" }, S);
           tl.to("#s2-zero", { keyframes: { x: [14, -12, 9, -6, 3, 0] }, duration: 0.3, ease: "none" }, S + 0.02);
-          // plan. falls away, 0 becomes the ring
-          tl.to("#s2-plan", { y: 260, rotation: 18, opacity: 0, duration: 0.28, ease: "power2.in" }, S + 0.4);
-          const z = centre($("#s2-0"));
+          // ---- 0 plan. → Meet: the ring eats "plan.", rolls out "Meet", then floods the frame ----
           const ring = $("#s2-ring");
-          ring.style.left = z.x - 75 + "px"; ring.style.top = z.y - 75 + "px";
-          tl.to("#s2-0", { scale: 0.7, opacity: 0, duration: 0.14, ease: "power2.in" }, S + 0.48);
-          tl.fromTo(ring, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(3)" }, S + 0.5);
-          tl.to(ring, { x: 960 - z.x, y: 540 - z.y, duration: 0.3, ease: "power3.inOut" }, S + 0.66 - 0.06);
-        }
-
-        // =========================================================================
-        // 03 · BOUNCE → MEET  (3.281 – 4.6875)
-        // =========================================================================
-        {
-          const T = 3.28125;
-          const FY = 565; // ball centre when touching the floor (floor y = 640)
-          gsap.set("#s3-x", { x: 960 }); gsap.set("#s3-y", { y: 540 });
-          tl.fromTo("#s3-floor", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, T + 0.02);
-          tl.fromTo("#s3-x", { x: 960 }, { x: 420, duration: 1.2, ease: "none" }, T);
-          const lands = [7.5 * B, 8.5 * B, 9.5 * B];
-          const apex = [300, 380];
-          tl.fromTo("#s3-y", { y: 540 }, { y: FY, duration: lands[0] - T, ease: "power2.in" }, T);
-          lands.forEach((L, i) => {
-            tl.fromTo("#s3-ball", { scaleX: 1.45, scaleY: 0.62, transformOrigin: "50% 100%" }, { scaleX: 1, scaleY: 1, duration: 0.32, ease: "elastic.out(1.2, 0.4)", immediateRender: false }, L);
-            if (i < 2) {
-              const mid = L + (lands[i + 1] - L) / 2;
-              tl.to("#s3-y", { y: apex[i], duration: mid - L, ease: "power2.out" }, L);
-              tl.to("#s3-y", { y: FY, duration: lands[i + 1] - mid, ease: "power2.in" }, mid);
-            }
+          const rc = centre($("#s2-0"));
+          const plan = $$("#s2-plan .ch");
+          const A = 3.0;
+          plan.forEach((ch, i) => {
+            const c = centre(ch);
+            const at = A + i * 0.04;
+            tl.to(ch, { x: rc.x - c.x, y: rc.y - c.y, scale: 0.08, rotation: -40, opacity: 0, duration: 0.24, ease: "power3.in" }, at);
+            tl.fromTo(ring, { scale: 1.14 }, { scale: 1, duration: 0.22, ease: "power2.out", immediateRender: false }, at + 0.22);
           });
-          // Meet rises out of the floor on bounce 2
-          const ms = $$("#s3-meet .ch");
-          tl.fromTo(ms, { yPercent: 105, "--wg": 200, scaleY: 1.4 }, { yPercent: 0, "--wg": 800, scaleY: 1, duration: 0.5, ease: "back.out(2.2)", stagger: 0.045 }, lands[1] - 0.04);
-          // venetian slices sweep in from alternating sides
-          const host = $("#s3-slices");
-          for (let i = 0; i < 12; i++) {
-            const s = document.createElement("div"); s.className = "slice"; s.style.top = i * 90 + "px"; host.appendChild(s);
-            const fromC = Math.abs(i - 5.5);
-            tl.fromTo(s, { x: i % 2 ? 1920 : -1920 }, { x: 0, duration: 0.24, ease: "power3.out" }, 4.33 + (5.5 - fromC) * 0.02);
-          }
+          // oval "0" inflates into a perfect circle
+          tl.to(ring, { width: 170, height: 170, marginLeft: -85, marginTop: -85, borderWidth: 30, duration: 0.42, ease: "elastic.out(1, 0.5)" }, A + 0.3);
+          // measure "Meet"
+          const mw = $("#s2-mw");
+          const letters = $$("#s2-mw .ch");
+          const wordL = centre(mw).x - mw.offsetWidth / 2; // padding-left is 0
+          const span = mw.offsetWidth; // word + 170px trailing pad
+          const x0 = wordL, x1 = wordL + span;
+          window.__cirroMeetRing = { x: x1, y: 540 };
+          // glide to the start of the word
+          const G = 3.36;
+          tl.to(ring, { x: x0 - rc.x, y: 540 - rc.y, duration: 0.3, ease: "power3.inOut" }, G);
+          // roll across: the ring's centre is the wipe edge, letters pop as it passes
+          const R = 3.66, RD = 0.56;
+          tl.to(ring, { x: x1 - rc.x, duration: RD, ease: "power2.inOut" }, R);
+          tl.to(ring, { keyframes: { scaleX: [1, 1.24, 1.24, 1], scaleY: [1, 0.86, 0.86, 1] }, duration: RD, ease: "none" }, R);
+          tl.fromTo(mw, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: RD, ease: "power2.inOut" }, R);
+          const inv = (q) => (q < 0.5 ? Math.sqrt(q / 2) : 1 - Math.sqrt((1 - q) / 2));
+          letters.forEach((l) => {
+            const f = (centre(l).x - x0) / span;
+            tl.fromTo(l, { y: 70, scale: 0.8, "--wg": 300 }, { y: 0, scale: 1, "--wg": 700, duration: 0.42, ease: "back.out(2.4)" }, R + RD * inv(f) - 0.04);
+          });
+          // settle like a full stop
+          tl.fromTo(ring, { scaleX: 0.84, scaleY: 1.14 }, { scaleX: 1, scaleY: 1, duration: 0.4, ease: "elastic.out(1.1, 0.4)", immediateRender: false }, R + RD);
+          // fill with ice and flood the frame → the drop
+          tl.to("#s2-fill", { scale: 1, duration: 0.18, ease: "power2.out" }, R + RD - 0.16); // lands as a solid full stop: "Meet."
+          const F = 4.36;
+          tl.to(ring, { scale: 26, duration: 0.32, ease: "expo.in" }, F);
+          tl.to("#s2-meet", { scale: 0.92, duration: 0.32, ease: "power2.in" }, F);
         }
 
         // =========================================================================
@@ -1423,8 +1418,9 @@
           const T = 4.6875;
           const o = $("#s4-o");
           const oc = centre(o);
-          tl.fromTo(o, { y: -760 }, { y: 0, duration: 0.2, ease: "power2.in" }, T);
-          tl.fromTo(o, { scaleX: 1.5, scaleY: 0.6, transformOrigin: "50% 100%" }, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "elastic.out(1.2, 0.35)", immediateRender: false }, T + 0.2);
+          const mr = window.__cirroMeetRing || { x: 960, y: 540 };
+          tl.fromTo(o, { x: mr.x - oc.x, y: mr.y - oc.y, scale: 3.4 }, { x: 0, y: 0, scale: 1, duration: 0.55, ease: "expo.out" }, T);
+          tl.fromTo(o, { scaleX: 1.3, scaleY: 0.78 }, { scaleX: 1, scaleY: 1, duration: 0.45, ease: "elastic.out(1.2, 0.4)", immediateRender: false }, T + 0.5);
           $$("#s4-word .lt").forEach((l, i) => {
             const at = T + 0.24 + i * 0.17;
             tl.fromTo(l, { y: -900, rotation: (i % 2 ? 1 : -1) * 24 }, { y: 0, rotation: 0, duration: 0.5, ease: "bounce.out" }, at);
