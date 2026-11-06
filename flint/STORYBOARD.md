@@ -170,3 +170,15 @@ version: v1
 - Hudba aj SFX sú **dočasné**, syntetizované skriptom `tools/make_audio.py` (`python3 tools/make_audio.py`). Každý zvuk je samostatná stopa `sfx-NN-názov` — dá sa vymeniť 1:1 alebo posunúť v Studiu. Strihy sedia na mriežku 128 BPM (doba 0,469 s); pri inej hudbe treba časy prepočítať.
 - Placeholdery sú `.ph` dlaždice s kódom; výmena = nahradiť `<div class="ph">…</div>` za `<img src="assets/img/…">` s rovnakými rozmermi (`object-fit: cover`). „Fire“ v 08 = `background-image` na `.fire`.
 - Render: `npm run render` → `renders/`.
+
+## Changes from v1 (spätná väzba)
+
+> „Príliš generické tlačidlá, zaoblené rohy, search bar… glassmorphism, zmeň pozadie, nech je to prémiové a unique.“
+
+- **Pozadie „obsidián + roztavený hodváb“:** namiesto plochého tmavého gradientu tmavý obsidián, cez ktorý tečú dve rozmazané stuhy červeného svetla (karmín → žeravá → pahreba) s ostrou svetelnou hranou. Stuhy sa pomaly prelievajú (morph tvaru), pod nimi driftujú tri svetelné jadrá; na každú dobu svetlo zadýcha. Šumová textúra (grain) odstránená.
+- **Glassmorphism:** lišta „Still editing?“ (teraz príkazová lišta s časovačom a REC počítadlom), štítok „clips added“, čipy funkcií, panel timeline, štítky v 06, meter skóre a reakcie v 07 sú matné sklo — rozmazávajú svetlo za sebou, majú jemný tónovaný odraz a gradientový okraj (biela → červená).
+- **Tvarový jazyk = úlomok kresadla:** žiadne „pilulky“. Všetky tlačidlá, lišty a štítky majú **zrezané protiľahlé rohy** (facety), ikony sedia v malých zrezaných červených dlaždiciach. Titulkový box je šikmý „highlighter“.
+- **Tlačidlá:** „Cut it“ a „Try it free“ sú červené sklo s vnútorným svetlom, prebehnutým odleskom (sheen), žiarou pod sebou; CTA má šípku vo vlastnom zrezanom okne a pulzujúce facetové obrysy.
+- **Placeholdery:** tmavé šošovkové karty s **rohmi hľadáčika** a jemným červeným svetlom namiesto pruhov.
+- **Svetelné efekty namiesto lúčov:** šoková vlna (tenký žiariaci prstenec), anamorfný horizontálny odlesk a bloom pri náraze (01, 03, 09). Prechod z červenej na tmu v 03 je teraz „diera“, ktorá sa roztvára zo stredu a odhalí svetelné pozadie.
+- **Detaily:** kamene z obsidiánu s červeným okrajovým svetlom, wordmark s jemným kovovým prechodom, bodka nad „i“ je kosoštvorcová faseta, telefón má titánový rám a sklenený displej, meter má stupnicu, lopta je lesklá guľa, linky sú svetelné čepele.

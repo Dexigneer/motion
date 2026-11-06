@@ -9,16 +9,20 @@
       @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-style: normal; }
 
       :root {
-        --bg: #0b0a0d;
+        --bg: #060508;
+        --ink: #0d0a0f;
         --panel: #16131a;
-        --panel-2: #1d1922;
         --line: #2a2430;
         --red: #ff2a3d;
+        --red-hi: #ff5a68;
         --crim: #b0101f;
+        --deep: #5a0610;
         --ember: #ff6b4a;
         --bone: #f5eeee;
-        --ash: #8d8592;
+        --ash: #9a909f;
         --f: "Archivo", sans-serif;
+        --glass: linear-gradient(140deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.045) 42%, rgba(255, 255, 255, 0.02) 70%, rgba(255, 90, 104, 0.08) 100%);
+        --redglass: linear-gradient(180deg, #ff5a68 0%, #ff2a3d 42%, #d8132a 72%, #9c0b19 100%);
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
@@ -30,17 +34,52 @@
       .ib { display: inline-block; }
       .mask { display: inline-block; overflow: hidden; vertical-align: top; }
       .mask > span { display: inline-block; }
-      svg.ico { display: block; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+      svg.ico { display: block; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-      /* image placeholders */
-      .ph { position: absolute; overflow: hidden; background: repeating-linear-gradient(135deg, #1b171f 0 14px, #221d27 14px 28px); border: 2px dashed #3d3443; color: #6f6575; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
-      .ph svg { width: 40px; height: 40px; }
-      .ph b { font-weight: 700; font-size: 20px; letter-spacing: 0.06em; font-variation-settings: "wdth" 100, "wght" 700; }
+      /* ── material system ─────────────────────────────────────────────── */
+      /* frosted glass: blur of the light field behind + tinted sheen; the faceted
+         (chamfered) outline and its gradient edge are drawn by cham() in JS */
+      .glass { position: relative; background: var(--glass); -webkit-backdrop-filter: blur(26px) saturate(165%); backdrop-filter: blur(26px) saturate(165%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -18px 40px rgba(255, 42, 61, 0.05); }
+      .redbtn { position: relative; background: var(--redglass); box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.45), inset 0 -14px 26px rgba(70, 0, 10, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.08); color: #fff; }
+      .edge { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; z-index: 4; }
+      .sheen { position: absolute; top: -20%; left: 0; width: 34%; height: 140%; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.42) 50%, rgba(255, 255, 255, 0)); pointer-events: none; z-index: 3; }
+      .tagic { width: 48px; height: 48px; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; background: var(--redglass); clip-path: polygon(28% 0, 100% 0, 100% 72%, 72% 100%, 0 100%, 0 28%); }
+      .tagic svg { width: 26px; height: 26px; }
 
-      /* ambient */
-      #glow { position: absolute; left: 160px; top: 560px; width: 1600px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.34), rgba(255, 42, 61, 0)); }
-      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%); z-index: 80; pointer-events: none; }
-      #grain { position: absolute; inset: 0; z-index: 90; opacity: 0.07; mix-blend-mode: screen; pointer-events: none; }
+      /* image placeholders: dark lens-glass card with viewfinder corner marks */
+      .ph {
+        --cm: rgba(245, 238, 238, 0.55); --cl: 26px; --ci: 14px;
+        position: absolute; overflow: hidden; color: rgba(245, 238, 238, 0.62);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+        background:
+          linear-gradient(var(--cm), var(--cm)) left var(--ci) top var(--ci) / var(--cl) 2px no-repeat,
+          linear-gradient(var(--cm), var(--cm)) left var(--ci) top var(--ci) / 2px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right var(--ci) top var(--ci) / var(--cl) 2px no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right var(--ci) top var(--ci) / 2px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) left var(--ci) bottom var(--ci) / var(--cl) 2px no-repeat,
+          linear-gradient(var(--cm), var(--cm)) left var(--ci) bottom var(--ci) / 2px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right var(--ci) bottom var(--ci) / var(--cl) 2px no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right var(--ci) bottom var(--ci) / 2px var(--cl) no-repeat,
+          radial-gradient(120% 90% at 88% -10%, rgba(255, 42, 61, 0.28), rgba(255, 42, 61, 0) 58%),
+          radial-gradient(90% 70% at 0% 110%, rgba(255, 107, 74, 0.12), rgba(255, 107, 74, 0) 60%),
+          linear-gradient(165deg, #1d161b 0%, #0e0b10 58%, #130b0f 100%);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      .ph svg { width: 58px; height: 58px; padding: 15px; border-radius: 50%; background: rgba(255, 255, 255, 0.06); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); }
+      .ph b { font-weight: 700; font-size: 18px; letter-spacing: 0.18em; text-transform: uppercase; font-variation-settings: "wdth" 110, "wght" 700; }
+
+      /* ── ambient: obsidian + molten silk light ───────────────────────── */
+      #amb-base { position: absolute; inset: 0; background: radial-gradient(130% 95% at 50% -5%, #170a10 0%, #09070b 48%, #050407 100%); }
+      #silk { position: absolute; left: -160px; top: -90px; width: 2240px; height: 1260px; overflow: visible; }
+      .orb { position: absolute; border-radius: 50%; }
+      #orb1 { left: -380px; top: 420px; width: 1300px; height: 1000px; background: radial-gradient(closest-side, rgba(176, 16, 31, 0.55), rgba(176, 16, 31, 0)); }
+      #orb2 { left: 1260px; top: -320px; width: 1000px; height: 820px; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.28), rgba(255, 42, 61, 0)); }
+      #orb3 { left: 820px; top: 760px; width: 760px; height: 520px; background: radial-gradient(closest-side, rgba(255, 107, 74, 0.16), rgba(255, 107, 74, 0)); }
+      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 46%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.62) 100%); z-index: 80; pointer-events: none; }
+      /* light FX */
+      .flare { position: absolute; left: 60px; width: 1800px; height: 10px; margin-top: -5px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 120, 130, 0.55) 35%, rgba(255, 42, 61, 0) 100%); opacity: 0; mix-blend-mode: screen; }
+      .bloom { position: absolute; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.42), rgba(255, 42, 61, 0.12) 55%, rgba(255, 42, 61, 0)); opacity: 0; }
+      .shock { position: absolute; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(255, 238, 238, 0.85), 0 0 30px rgba(255, 42, 61, 0.7), inset 0 0 24px rgba(255, 42, 61, 0.5); opacity: 0; }
 
       /* S1 */
       .s1-half { position: absolute; inset: 0; }
@@ -52,131 +91,147 @@
       .odo { display: inline-block; height: 230px; overflow: hidden; vertical-align: top; }
       .odo .col { display: block; }
       .odo .col i { display: block; font-style: normal; height: 230px; }
-      #s1-slash { position: absolute; left: -100px; top: 532px; width: 2120px; height: 8px; background: var(--red); transform-origin: 0 50%; }
+      .blade { position: absolute; height: 4px; border-radius: 2px; background: linear-gradient(90deg, rgba(255, 42, 61, 0), #ff2a3d 18%, #fff 50%, #ff2a3d 82%, rgba(255, 42, 61, 0)); box-shadow: 0 0 18px rgba(255, 42, 61, 0.9), 0 0 60px rgba(255, 42, 61, 0.45); }
+      #s1-slash { left: -100px; top: 534px; width: 2120px; transform-origin: 0 50%; }
 
       /* S2 */
       #s2-grid { position: absolute; left: 290px; top: 98px; width: 1340px; height: 884px; perspective: 1600px; }
       .tile { position: absolute; width: 200px; height: 200px; transform-style: preserve-3d; }
-      .tile .face { position: absolute; inset: 0; border-radius: 26px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-      .tile .ph { border-radius: 26px; }
-      .tile .back { background: var(--red); transform: rotateY(180deg); }
-      #s2-red { position: absolute; inset: 0; background: var(--red); opacity: 0; }
-      #s2-pill { position: absolute; left: 0; right: 0; top: 440px; height: 200px; display: flex; justify-content: center; }
-      #s2-pillbox { display: flex; align-items: center; gap: 34px; height: 200px; padding: 0 70px 0 40px; border-radius: 100px; background: var(--bg); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7), 0 0 0 3px var(--red); }
-      #s2-clock { position: relative; width: 128px; height: 128px; border-radius: 50%; background: var(--red); flex: none; }
-      #s2-clock i { position: absolute; left: 61px; bottom: 64px; width: 6px; border-radius: 3px; background: var(--bone); transform-origin: 50% 100%; }
-      #s2-h1 { height: 30px; }
-      #s2-h2 { height: 46px; }
-      #s2-clock b { position: absolute; left: 56px; top: 56px; width: 16px; height: 16px; border-radius: 50%; background: var(--bone); }
-      #s2-txt { font-size: 110px; line-height: 1; white-space: nowrap; font-variation-settings: "wdth" 62, "wght" 800; }
+      .tile .face { position: absolute; inset: 0; border-radius: 14px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+      .tile .ph { --cl: 18px; --ci: 12px; border-radius: 14px; gap: 8px; }
+      .tile .ph svg { width: 46px; height: 46px; padding: 12px; }
+      .tile .ph b { font-size: 15px; }
+      .tile .back { background: linear-gradient(150deg, #ff6370 0%, #ff2a3d 38%, #c50f22 75%, #7e0713 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5); transform: rotateY(180deg); }
+      #s2-red { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 45%, #ff3a4b 0%, #ff2a3d 35%, #c3111f 75%, #7d0812 100%); opacity: 0; }
+      #s2-pill { position: absolute; left: 0; right: 0; top: 452px; height: 176px; display: flex; justify-content: center; }
+      #s2-pillbox { display: flex; align-items: center; gap: 36px; height: 176px; padding: 0 40px 0 34px; }
+      #s2-clock { position: relative; width: 112px; height: 112px; flex: none; }
+      #s2-clock svg { width: 112px; height: 112px; display: block; overflow: visible; }
+      #s2-txt { font-size: 104px; line-height: 1; white-space: nowrap; flex: none; font-variation-settings: "wdth" 112, "wght" 800; }
+      #s2-rec { display: flex; align-items: center; gap: 14px; height: 76px; padding: 0 24px; margin-left: 10px; background: rgba(0, 0, 0, 0.35); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); font-size: 36px; font-variation-settings: "wdth" 90, "wght" 700; font-feature-settings: "tnum" 1; color: var(--bone); }
+      #s2-rec > i { width: 16px; height: 16px; border-radius: 50%; background: var(--red); box-shadow: 0 0 14px var(--red); }
+      #s2-rec .odo, #s2-rec .odo .col i { height: 40px; line-height: 40px; }
 
       /* S3 */
-      #s3-red { position: absolute; inset: 0; background: var(--red); }
-      #s3-meet { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 360px; line-height: 1; color: var(--bg); font-variation-settings: "wdth" 62, "wght" 900; }
+      #s3-red { position: absolute; inset: 0; --hole: 0%; background: radial-gradient(120% 95% at 50% 42%, #ff4152 0%, #ff2a3d 32%, #cf1325 70%, #6e0711 100%); -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) var(--hole), #000 calc(var(--hole) + 0.4%)); mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) var(--hole), #000 calc(var(--hole) + 0.4%)); }
+      #s3-sheen { position: absolute; top: -200px; left: 0; width: 520px; height: 1480px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 210, 214, 0.22) 50%, rgba(255, 255, 255, 0)); transform-origin: 50% 50%; }
+      #s3-meet { position: absolute; left: 0; right: 0; top: 330px; text-align: center; font-size: 360px; line-height: 1; color: #0a0709; font-variation-settings: "wdth" 62, "wght" 900; }
       #s3-meet span { display: inline-block; transform-origin: 50% 100%; }
-      .stone { position: absolute; top: 440px; width: 240px; height: 200px; }
+      .stone { position: absolute; top: 440px; width: 240px; height: 200px; overflow: visible; }
       #st-l { left: 720px; }
       #st-r { left: 960px; }
-      #s3-black { position: absolute; inset: 0; background: var(--bg); clip-path: circle(0% at 50% 50%); }
       #s3-flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
-      .rays { position: absolute; left: 60px; top: -360px; width: 1800px; height: 1800px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255, 42, 61, 0.16) 0deg 7deg, rgba(255, 42, 61, 0) 7deg 30deg); -webkit-mask-image: radial-gradient(circle, #000 12%, rgba(0, 0, 0, 0) 62%); mask-image: radial-gradient(circle, #000 12%, rgba(0, 0, 0, 0) 62%); }
-      .spk { position: absolute; opacity: 0; left: 955px; top: 518px; width: 10px; height: 46px; border-radius: 5px; background: var(--ember); }
+      .spk { position: absolute; left: 955px; top: 518px; width: 8px; height: 46px; border-radius: 4px; opacity: 0; }
       #s3-row, #s9-row { position: absolute; left: 0; right: 0; top: 380px; height: 300px; display: flex; align-items: center; justify-content: center; gap: 40px; }
       .logo { width: 210px; height: 210px; flex: none; color: var(--red); }
       .logo svg { width: 100%; height: 100%; display: block; overflow: visible; }
       .wm { display: flex; align-items: flex-end; font-size: 260px; line-height: 1; height: 260px; font-variation-settings: "wdth" 125, "wght" 900; letter-spacing: -0.02em; }
-      .wm .lt { display: inline-block; position: relative; transform-origin: 50% 100%; }
-      .idot { position: absolute; left: 50%; top: 18px; width: 50px; height: 50px; margin-left: -25px; background: var(--red); }
+      .wm .lt { display: inline-block; position: relative; transform-origin: 50% 100%; background: linear-gradient(180deg, #ffffff 0%, #f5eeee 52%, #cbbcc1 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .idot { position: absolute; left: 50%; top: 12px; width: 60px; height: 60px; margin-left: -30px; background: linear-gradient(160deg, #ff7480, #ff2a3d 45%, #b50e20); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
       #s3-sub { position: absolute; left: 0; right: 0; top: 740px; display: flex; justify-content: center; gap: 16px; font-size: 48px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 500; }
 
       /* S4 */
       #s4-red { position: absolute; inset: 0; perspective: 900px; }
-      #s4-red i { display: block; height: 135px; background: var(--red); }
+      #s4-red i { display: block; height: 135px; background: linear-gradient(180deg, #ff3b4c, #d81427); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35); }
       #s4-head { position: absolute; left: 140px; top: 250px; font-size: 168px; line-height: 0.95; font-variation-settings: "wdth" 75, "wght" 900; }
       #s4-head .w { display: inline-block; margin-right: 34px; transform-origin: 50% 100%; }
-      #s4-chip { position: absolute; left: 140px; top: 650px; height: 84px; display: flex; align-items: center; gap: 16px; padding: 0 34px 0 22px; border-radius: 42px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 34px; font-variation-settings: "wdth" 100, "wght" 700; }
-      #s4-chip .ic { width: 50px; height: 50px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; color: var(--bone); }
-      #s4-chip .ic svg { width: 28px; height: 28px; }
+      #s4-chip { position: absolute; left: 140px; top: 650px; height: 84px; display: flex; align-items: center; gap: 18px; padding: 0 34px 0 18px; font-size: 34px; font-variation-settings: "wdth" 100, "wght" 700; }
       #s4-n { display: inline-block; height: 40px; overflow: hidden; vertical-align: top; color: var(--red); }
       #s4-ncol { display: block; }
       #s4-ncol i { display: block; height: 40px; line-height: 40px; font-style: normal; }
       #s4-phone { position: absolute; left: 1115px; top: 110px; width: 430px; height: 860px; }
-      #s4-body { position: absolute; inset: 0; border-radius: 66px; background: var(--panel); box-shadow: inset 0 0 0 3px #352d3b, 0 40px 120px rgba(0, 0, 0, 0.8), 0 0 160px rgba(255, 42, 61, 0.18); }
-      #s4-screen { position: absolute; inset: 16px; border-radius: 52px; background: #0f0d12; overflow: hidden; }
-      #s4-notch { position: absolute; left: 155px; top: 30px; width: 120px; height: 32px; border-radius: 16px; background: #000; }
-      .ph-h { position: absolute; left: 44px; top: 92px; font-size: 40px; font-variation-settings: "wdth" 100, "wght" 800; }
-      .ph-s { position: absolute; left: 44px; top: 142px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 500; }
-      #s4-drop { position: absolute; left: 45px; top: 270px; width: 340px; height: 320px; border-radius: 30px; border: 3px dashed #3d3443; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--ash); font-size: 26px; font-variation-settings: "wdth" 100, "wght" 600; }
-      #s4-drop svg { width: 64px; height: 64px; color: var(--red); }
-      #s4-btn { position: absolute; left: 44px; right: 44px; bottom: 46px; height: 96px; border-radius: 48px; background: var(--red); display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 36px; font-variation-settings: "wdth" 110, "wght" 800; }
-      #s4-btn svg { width: 34px; height: 34px; fill: var(--bone); stroke: none; }
+      #s4-body { position: absolute; inset: 0; border-radius: 68px; background: linear-gradient(145deg, #5a5058 0%, #1b171c 18%, #0c0a0d 50%, #221c22 82%, #6a5a63 100%); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.22), inset 0 0 0 6px #0a080b, 0 50px 120px rgba(0, 0, 0, 0.85), 0 0 200px rgba(255, 42, 61, 0.22); }
+      #s4-screen { position: absolute; inset: 14px; border-radius: 55px; overflow: hidden; background: radial-gradient(130% 70% at 50% -10%, #3a0b14 0%, #120a0f 45%, #08070a 100%); }
+      #s4-screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(118deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 34%, rgba(255, 255, 255, 0) 34.5%); pointer-events: none; }
+      #s4-notch { position: absolute; left: 150px; top: 26px; width: 130px; height: 36px; border-radius: 18px; background: #000; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
+      .ph-h { position: absolute; left: 40px; top: 92px; font-size: 40px; font-variation-settings: "wdth" 110, "wght" 800; }
+      .ph-s { position: absolute; left: 40px; top: 142px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 500; }
+      #s4-drop { --cm: rgba(255, 42, 61, 0.9); --cl: 34px; --ci: 0px; position: absolute; left: 40px; top: 270px; width: 346px; height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: var(--ash); font-size: 26px; font-variation-settings: "wdth" 100, "wght" 600;
+        background:
+          linear-gradient(var(--cm), var(--cm)) left top / var(--cl) 3px no-repeat, linear-gradient(var(--cm), var(--cm)) left top / 3px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right top / var(--cl) 3px no-repeat, linear-gradient(var(--cm), var(--cm)) right top / 3px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) left bottom / var(--cl) 3px no-repeat, linear-gradient(var(--cm), var(--cm)) left bottom / 3px var(--cl) no-repeat,
+          linear-gradient(var(--cm), var(--cm)) right bottom / var(--cl) 3px no-repeat, linear-gradient(var(--cm), var(--cm)) right bottom / 3px var(--cl) no-repeat,
+          radial-gradient(closest-side, rgba(255, 42, 61, 0.14), rgba(255, 42, 61, 0)); }
+      #s4-drop svg { width: 76px; height: 76px; padding: 18px; color: #fff; background: var(--redglass); clip-path: polygon(28% 0, 100% 0, 100% 72%, 72% 100%, 0 100%, 0 28%); }
+      #s4-btn { position: absolute; left: 40px; right: 40px; bottom: 44px; height: 96px; display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 36px; font-variation-settings: "wdth" 115, "wght" 800; overflow: hidden; }
+      #s4-btn svg { width: 30px; height: 30px; fill: #fff; stroke: none; }
+      #s4-btnglow { position: absolute; left: 0; right: 0; bottom: 10px; height: 160px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.55), rgba(255, 42, 61, 0)); }
       .cl { position: absolute; left: 105px; top: 355px; width: 220px; height: 150px; }
-      .cl .ph { inset: 0; border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6); }
+      .cl .ph { --cl: 18px; --ci: 10px; inset: 0; border-radius: 12px; gap: 6px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 18px 40px rgba(0, 0, 0, 0.7); }
+      .cl .ph svg { width: 42px; height: 42px; padding: 11px; }
+      .cl .ph b { font-size: 15px; }
 
       /* S5 */
       #s5-head { position: absolute; left: 0; right: 0; top: 110px; display: flex; justify-content: center; gap: 30px; font-size: 112px; line-height: 1.05; font-variation-settings: "wdth" 110, "wght" 800; }
       #s5-head .w { display: inline-block; }
-      #s5-chips { position: absolute; left: 0; right: 0; top: 296px; display: flex; justify-content: center; gap: 22px; }
-      .chip { height: 76px; display: flex; align-items: center; gap: 14px; padding: 0 30px 0 18px; border-radius: 38px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 32px; font-variation-settings: "wdth" 100, "wght" 700; }
-      .chip .ic { width: 46px; height: 46px; border-radius: 50%; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; }
-      .chip .ic svg { width: 26px; height: 26px; }
-      #s5-panel { position: absolute; left: 295px; top: 430px; width: 1330px; height: 420px; border-radius: 32px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line), 0 40px 100px rgba(0, 0, 0, 0.6); }
+      #s5-chips { position: absolute; left: 0; right: 0; top: 298px; display: flex; justify-content: center; gap: 22px; }
+      .chip { height: 76px; display: flex; align-items: center; gap: 16px; padding: 0 30px 0 14px; font-size: 30px; font-variation-settings: "wdth" 105, "wght" 700; }
+      .chip .tagic { width: 46px; height: 46px; }
+      #s5-panel { position: absolute; left: 295px; top: 430px; width: 1330px; height: 420px; }
       #s5-row { position: absolute; left: 30px; top: 40px; width: 1270px; height: 140px; }
       .tc { position: absolute; left: 0; top: 0; width: 200px; height: 140px; }
-      .tc .ph { inset: 0; border-radius: 16px; }
-      .tc .ph b { font-size: 20px; }
+      .tc .ph { --cl: 16px; --ci: 10px; inset: 0; border-radius: 10px; gap: 6px; }
+      .tc .ph svg { width: 40px; height: 40px; padding: 10px; }
+      .tc .ph b { font-size: 15px; }
       #s5-wave { position: absolute; left: 30px; top: 222px; width: 1270px; height: 160px; display: flex; justify-content: space-between; align-items: center; }
-      #s5-wave i { display: block; width: 14px; border-radius: 7px; background: #4a3f52; }
-      #s5-wave i.on { background: var(--red); }
+      #s5-wave i { display: block; width: 12px; border-radius: 6px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.14)); }
       #s5-ph { position: absolute; left: 30px; top: -30px; width: 4px; height: 450px; }
-      #s5-ph .bar { position: absolute; left: 0; top: 0; width: 4px; height: 450px; background: var(--red); border-radius: 2px; box-shadow: 0 0 20px rgba(255, 42, 61, 0.8); }
-      #s5-sc { position: absolute; left: -38px; top: -96px; width: 80px; height: 80px; color: var(--bone); }
+      #s5-ph .bar { position: absolute; left: 0; top: 0; width: 3px; height: 450px; background: linear-gradient(180deg, #fff, #ff2a3d 20%, #ff2a3d 80%, rgba(255, 42, 61, 0)); box-shadow: 0 0 18px rgba(255, 42, 61, 0.9); }
+      #s5-ph .bar::before { content: ""; position: absolute; left: -9px; top: -10px; width: 21px; height: 21px; background: #fff; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+      #s5-sc { position: absolute; left: -38px; top: -104px; width: 80px; height: 80px; color: var(--bone); }
       #s5-sc svg { width: 80px; height: 80px; overflow: visible; }
-      .cutflash { position: absolute; top: 30px; width: 6px; height: 160px; margin-left: -3px; background: #fff; border-radius: 3px; opacity: 0; }
+      .cutflash { position: absolute; top: 30px; width: 4px; height: 160px; margin-left: -2px; background: #fff; box-shadow: 0 0 20px #fff, 0 0 40px var(--red); opacity: 0; }
 
       /* S6 */
       .s6p { position: absolute; inset: 0; overflow: hidden; }
       #s6a { clip-path: polygon(0% 0%, 0% 0%, -20% 100%, -20% 100%); }
-      #s6a-ph { inset: 0; border: none; }
-      #s6a-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 10, 13, 0.25), rgba(11, 10, 13, 0.1) 40%, rgba(11, 10, 13, 0.85)); }
-      #s6-wedge { position: absolute; left: -90px; top: -110px; width: 180px; height: 1300px; background: var(--red); box-shadow: 0 0 80px rgba(255, 42, 61, 0.7); }
-      .lab { position: absolute; left: 90px; top: 80px; display: flex; align-items: center; gap: 20px; font-size: 44px; font-variation-settings: "wdth" 100, "wght" 800; }
-      .lab .ic { width: 76px; height: 76px; border-radius: 22px; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; }
-      .lab .ic svg { width: 42px; height: 42px; }
+      #s6a-ph { inset: 0; --cl: 60px; --ci: 50px; }
+      #s6a-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6, 5, 8, 0.3), rgba(6, 5, 8, 0.05) 40%, rgba(6, 5, 8, 0.88)); }
+      #s6-wedge { position: absolute; left: -90px; top: -110px; width: 180px; height: 1300px; background: linear-gradient(90deg, #ff6b78, #ff2a3d 40%, #b50e20); box-shadow: 0 0 90px rgba(255, 42, 61, 0.8); }
+      .lab { position: absolute; left: 90px; top: 80px; height: 84px; display: flex; align-items: center; gap: 18px; padding: 0 32px 0 18px; font-size: 38px; font-variation-settings: "wdth" 105, "wght" 800; }
+      .lab .tagic { width: 52px; height: 52px; }
       #s6a-cap { position: absolute; left: 0; right: 0; top: 720px; display: flex; justify-content: center; gap: 30px; font-size: 120px; line-height: 1; font-variation-settings: "wdth" 90, "wght" 900; }
-      #s6a-cap .cw { position: relative; z-index: 2; display: inline-block; padding: 8px 18px 16px; }
+      #s6a-cap .cw { position: relative; z-index: 2; display: inline-block; padding: 8px 22px 16px; }
       #s6a-cap .cw span { position: relative; z-index: 2; display: inline-block; }
-      #s6a-box { position: absolute; left: 0; top: 0; width: 100px; height: 140px; border-radius: 18px; background: var(--red); z-index: 1; transform-origin: 0 50%; }
+      #s6a-box { position: absolute; left: 0; top: 0; width: 100px; height: 144px; background: var(--redglass); clip-path: polygon(7% 0, 100% 0, 93% 100%, 0 100%); z-index: 1; transform-origin: 0 50%; }
       #s6b { background: var(--bg); opacity: 0; }
-      #s6b-dim { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; }
-      #s6b-dimcover { position: absolute; left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; background: rgba(11, 10, 13, 0.72); }
-      #s6b-crop { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 24px; border-color: var(--red); clip-path: inset(0px 0px 0px 0px round 24px); }
-      #s6b-frame { position: absolute; left: 603px; top: 96px; width: 514px; height: 908px; border-radius: 28px; box-shadow: inset 0 0 0 5px var(--red), 0 0 60px rgba(255, 42, 61, 0.45); }
-      #s6b-tag { position: absolute; right: 90px; top: 98px; height: 76px; display: flex; align-items: center; gap: 16px; padding: 0 30px; border-radius: 38px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--line); font-size: 32px; font-variation-settings: "wdth" 100, "wght" 700; }
+      #s6b-dim { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 18px; --cl: 0px; }
+      #s6b-dimcover { position: absolute; left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 18px; background: rgba(6, 5, 8, 0.74); }
+      #s6b-crop { left: 160px; top: 100px; width: 1600px; height: 900px; border-radius: 18px; --cl: 0px; clip-path: inset(0px 0px 0px 0px round 18px); }
+      #s6b-frame { --fc: #ff2a3d; position: absolute; left: 603px; top: 96px; width: 514px; height: 908px;
+        background:
+          linear-gradient(var(--fc), var(--fc)) left top / 60px 5px no-repeat, linear-gradient(var(--fc), var(--fc)) left top / 5px 60px no-repeat,
+          linear-gradient(var(--fc), var(--fc)) right top / 60px 5px no-repeat, linear-gradient(var(--fc), var(--fc)) right top / 5px 60px no-repeat,
+          linear-gradient(var(--fc), var(--fc)) left bottom / 60px 5px no-repeat, linear-gradient(var(--fc), var(--fc)) left bottom / 5px 60px no-repeat,
+          linear-gradient(var(--fc), var(--fc)) right bottom / 60px 5px no-repeat, linear-gradient(var(--fc), var(--fc)) right bottom / 5px 60px no-repeat;
+        box-shadow: inset 0 0 0 1px rgba(255, 42, 61, 0.55), 0 0 70px rgba(255, 42, 61, 0.35); }
+      #s6b-tag { position: absolute; right: 90px; top: 84px; height: 76px; display: flex; align-items: center; gap: 16px; padding: 0 30px; font-size: 32px; font-variation-settings: "wdth" 105, "wght" 700; }
       #s6b-blinds { position: absolute; inset: 0; display: flex; }
-      #s6b-blinds i { display: block; flex: 1; height: 100%; background: var(--red); }
-      #s6c { background: radial-gradient(circle at 50% 70%, #3a0910 0%, var(--bg) 60%); clip-path: circle(0px at 960px 560px); }
+      #s6b-blinds i { display: block; flex: 1; height: 100%; background: linear-gradient(180deg, #ff4152, #c3111f); }
+      #s6c { background: radial-gradient(90% 80% at 50% 78%, rgba(122, 8, 20, 0.85) 0%, rgba(6, 5, 8, 0.92) 62%); -webkit-backdrop-filter: blur(30px); backdrop-filter: blur(30px); clip-path: circle(0px at 960px 560px); }
       #s6c-flame { position: absolute; left: 900px; top: 500px; width: 120px; height: 120px; color: var(--red); }
-      #s6c-flame svg { width: 120px; height: 120px; fill: var(--red); stroke: none; }
-      #s6c-g { position: absolute; left: 560px; top: 300px; width: 800px; height: 460px; }
+      #s6c-flame svg { width: 120px; height: 120px; fill: var(--red); stroke: none; filter: drop-shadow(0 0 24px rgba(255, 42, 61, 0.9)); }
+      #s6c-g { position: absolute; left: 560px; top: 300px; width: 800px; height: 460px; overflow: visible; }
       #s6c-num { position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center; font-size: 230px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; }
       #s6c-num .odo { height: 230px; }
-      #s6c-lab { position: absolute; left: 0; right: 0; top: 180px; display: flex; justify-content: center; align-items: center; gap: 18px; font-size: 52px; font-variation-settings: "wdth" 110, "wght" 800; }
-      #s6c-lab svg { width: 56px; height: 56px; fill: var(--red); stroke: none; }
-      
+      #s6c-lab { position: absolute; left: 0; right: 0; top: 170px; display: flex; justify-content: center; }
+      #s6c-labin { height: 84px; display: flex; align-items: center; gap: 18px; padding: 0 34px 0 18px; font-size: 40px; font-variation-settings: "wdth" 110, "wght" 800; }
+      #s6c-labin .tagic svg { fill: #fff; stroke: none; }
+
       /* S7 */
       #s7-stage { position: absolute; inset: 0; perspective: 1500px; }
-      .reel { position: absolute; left: 1000px; top: 200px; width: 360px; height: 640px; border-radius: 40px; overflow: hidden; background: var(--panel); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.75), inset 0 0 0 2px var(--line); }
-      .reel .ph { inset: 0; border: none; border-radius: 40px; }
-      .reel .ui { position: absolute; right: 20px; bottom: 90px; display: flex; flex-direction: column; gap: 22px; color: var(--bone); }
+      .reel { position: absolute; left: 1000px; top: 200px; width: 360px; height: 640px; border-radius: 44px; padding: 9px; background: linear-gradient(150deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.06) 40%, rgba(255, 42, 61, 0.22)); box-shadow: 0 50px 110px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+      .reel .ph { inset: 9px; border-radius: 36px; --ci: 26px; }
+      .reel .ui { position: absolute; right: 26px; bottom: 96px; display: flex; flex-direction: column; gap: 22px; color: var(--bone); }
       .reel .ui svg { width: 40px; height: 40px; }
-      .reel .who { position: absolute; left: 24px; bottom: 40px; font-size: 24px; font-variation-settings: "wdth" 100, "wght" 700; }
-      .reel .pb { position: absolute; left: 24px; right: 24px; bottom: 22px; height: 6px; border-radius: 3px; background: rgba(245, 238, 238, 0.2); overflow: hidden; }
-      .reel .pb i { display: block; height: 100%; background: var(--red); transform-origin: 0 50%; }
+      .reel .who { position: absolute; left: 30px; bottom: 46px; font-size: 24px; font-variation-settings: "wdth" 100, "wght" 700; }
+      .reel .pb { position: absolute; left: 30px; right: 30px; bottom: 28px; height: 5px; border-radius: 3px; background: rgba(245, 238, 238, 0.18); overflow: hidden; }
+      .reel .pb i { display: block; height: 100%; background: linear-gradient(90deg, #ff6b4a, #ff2a3d); transform-origin: 0 50%; }
       #s7-c { z-index: 3; }
-      .fl { position: absolute; width: 84px; height: 84px; border-radius: 50%; background: var(--red); color: var(--bone); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); z-index: 5; }
+      .fl { position: absolute; width: 88px; height: 88px; border-radius: 50%; color: var(--red); display: flex; align-items: center; justify-content: center; background: linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06)); -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 18px 40px rgba(0, 0, 0, 0.5); z-index: 5; }
       .fl svg { width: 44px; height: 44px; }
-      .fl.alt { background: var(--bone); color: var(--red); }
+      .fl.alt { background: var(--redglass); color: #fff; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.45), 0 0 40px rgba(255, 42, 61, 0.6); }
       .fl.h svg { fill: currentColor; stroke: none; }
       .stat { position: absolute; left: 130px; }
       .stat .big { display: flex; align-items: flex-end; font-size: 210px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; }
@@ -189,22 +244,26 @@
       #s8-slot { position: absolute; left: 0; right: 0; top: 410px; height: 260px; overflow: hidden; }
       #s8-col { position: absolute; left: 0; right: 0; top: 0; }
       .s8l { height: 260px; display: flex; justify-content: center; align-items: center; gap: 46px; font-size: 230px; line-height: 1; font-variation-settings: "wdth" 62, "wght" 900; white-space: nowrap; }
-      .fire { background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.1) 0 12px, rgba(255, 255, 255, 0) 12px 26px), linear-gradient(180deg, var(--ember), var(--red) 55%, var(--crim)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-      .s8rule { position: absolute; left: 260px; right: 260px; height: 6px; border-radius: 3px; background: var(--red); }
+      .fire { background: radial-gradient(60% 80% at 30% 20%, rgba(255, 230, 200, 0.55), rgba(255, 230, 200, 0) 60%), linear-gradient(180deg, #ff8a5c 0%, #ff2a3d 55%, #9c0b19 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .s8rule { left: 260px; right: 260px; width: auto; height: 3px; }
       #s8-r1 { top: 390px; }
-      #s8-r2 { top: 684px; }
-      #s8-tag { position: absolute; right: 120px; top: 720px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 600; letter-spacing: 0.06em; }
-      #s8-ball { position: absolute; left: 900px; top: 480px; width: 120px; height: 120px; border-radius: 50%; background: var(--red); }
+      #s8-r2 { top: 686px; }
+      #s8-tag { position: absolute; right: 120px; top: 722px; font-size: 22px; color: var(--ash); font-variation-settings: "wdth" 100, "wght" 600; letter-spacing: 0.12em; }
+      .ball { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 34% 28%, #ffd0d4 0%, #ff6b78 12%, #ff2a3d 38%, #b30e20 74%, #5c0610 100%); box-shadow: 0 0 60px rgba(255, 42, 61, 0.55); }
+      #s8-ball { left: 900px; top: 480px; }
 
       /* S9 */
-      #s9-ball { position: absolute; left: 900px; top: 470px; width: 120px; height: 120px; border-radius: 50%; background: var(--red); transform-origin: 50% 100%; }
-      #s9-shadow { position: absolute; left: 890px; top: 586px; width: 140px; height: 18px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); }
+      #s9-ball { left: 900px; top: 470px; transform-origin: 50% 100%; }
+      #s9-shadow { position: absolute; left: 880px; top: 586px; width: 160px; height: 20px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.55), rgba(255, 42, 61, 0)); }
       #s9-wmask { overflow: hidden; height: 300px; display: flex; align-items: center; padding-right: 10px; }
-      #s9-url { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font-size: 40px; color: var(--ash); font-variation-settings: "wdth" 110, "wght" 600; letter-spacing: 0.04em; }
-      #s9-cta { position: absolute; left: 0; right: 0; top: 820px; display: flex; justify-content: center; }
-      #s9-pill { position: relative; height: 96px; display: flex; align-items: center; gap: 18px; padding: 0 44px 0 52px; border-radius: 48px; background: var(--red); font-size: 38px; font-variation-settings: "wdth" 110, "wght" 800; }
-      #s9-pill svg { width: 36px; height: 36px; }
-      .ring { position: absolute; inset: 0; border-radius: 48px; box-shadow: 0 0 0 3px var(--red); opacity: 0; }
+      #s9-url { position: absolute; left: 0; right: 0; top: 712px; text-align: center; font-size: 30px; color: var(--ash); font-variation-settings: "wdth" 125, "wght" 600; letter-spacing: 0.36em; text-transform: uppercase; }
+      #s9-cta { position: absolute; left: 0; right: 0; top: 800px; display: flex; justify-content: center; }
+      #s9-ctaglow { position: absolute; left: 660px; top: 790px; width: 600px; height: 140px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 42, 61, 0.55), rgba(255, 42, 61, 0)); opacity: 0; }
+      #s9-pill { height: 104px; display: flex; align-items: center; gap: 26px; padding: 0 14px 0 52px; font-size: 38px; font-variation-settings: "wdth" 115, "wght" 800; overflow: hidden; }
+      #s9-arr { width: 76px; height: 76px; display: flex; align-items: center; justify-content: center; background: rgba(40, 0, 6, 0.45); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18); clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); }
+      #s9-arr svg { width: 34px; height: 34px; }
+      #s9-rings { position: absolute; left: 0; right: 0; top: 800px; height: 104px; display: flex; justify-content: center; pointer-events: none; }
+      .ring { position: absolute; height: 104px; opacity: 0; }
     </style>
   </head>
   <body>
@@ -228,18 +287,40 @@
           <path d="M50 2 L59.5 40.5 L50 50 Z" fill="#f5eeee" opacity="0.92" />
           <path d="M84 6 L86.6 13.4 L94 16 L86.6 18.6 L84 26 L81.4 18.6 L74 16 L81.4 13.4 Z" fill="#f5eeee" />
         </symbol>
-        <filter id="noise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="5" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
+        <linearGradient id="g-silk1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#5a0610" stop-opacity="0" /><stop offset="0.3" stop-color="#b0101f" /><stop offset="0.62" stop-color="#ff2a3d" /><stop offset="0.85" stop-color="#ff6b4a" stop-opacity="0.7" /><stop offset="1" stop-color="#ff6b4a" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="g-silk2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ff2a3d" stop-opacity="0" /><stop offset="0.4" stop-color="#7a0a16" /><stop offset="0.7" stop-color="#d8132a" stop-opacity="0.8" /><stop offset="1" stop-color="#5a0610" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="g-spec" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset="0.45" stop-color="#ffd6da" stop-opacity="0.75" /><stop offset="0.7" stop-color="#ff6b78" stop-opacity="0.35" /><stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="g-stone" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#2a2027" /><stop offset="0.5" stop-color="#0c090c" /><stop offset="1" stop-color="#030203" /></linearGradient>
+        <linearGradient id="g-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd0d4" /><stop offset="0.5" stop-color="#ff2a3d" stop-opacity="0.2" /><stop offset="1" stop-color="#ff6b78" /></linearGradient>
+        <linearGradient id="g-arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b0101f" /><stop offset="0.6" stop-color="#ff2a3d" /><stop offset="1" stop-color="#ff8a5c" /></linearGradient>
+        <filter id="f-silk" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="46" /></filter>
+        <filter id="f-spec" x="-5%" y="-50%" width="110%" height="200%"><feGaussianBlur stdDeviation="1.2" /></filter>
       </defs>
     </svg>
 
     <div id="root" data-composition-id="main" data-start="0" data-duration="24" data-fps="60" data-width="1920" data-height="1080">
       <!-- ambient -->
       <section id="amb" class="clip" data-start="0" data-duration="24" data-track-index="0">
-        <div class="fill" style="background: var(--bg)"></div>
-        <div id="glow"></div>
+        <div id="amb-base"></div>
+        <div class="orb" id="orb1"></div>
+        <div class="orb" id="orb2"></div>
+        <div class="orb" id="orb3"></div>
+        <svg id="silk" viewBox="0 0 2240 1260">
+          <g filter="url(#f-silk)">
+            <path id="silk1" d="M-100 930 C 420 700, 820 1120, 1240 860 S 1960 520, 2340 660" fill="none" stroke="url(#g-silk1)" stroke-width="170" stroke-linecap="round" />
+            <path id="silk2" d="M-100 330 C 520 150, 1000 470, 1420 290 S 2040 120, 2340 230" fill="none" stroke="url(#g-silk2)" stroke-width="120" stroke-linecap="round" opacity="0.75" />
+          </g>
+          <g filter="url(#f-spec)">
+            <path id="spec1" d="M-100 930 C 420 700, 820 1120, 1240 860 S 1960 520, 2340 660" fill="none" stroke="url(#g-spec)" stroke-width="2" />
+            <path id="spec2" d="M-100 330 C 520 150, 1000 470, 1420 290 S 2040 120, 2340 230" fill="none" stroke="url(#g-spec)" stroke-width="1.5" opacity="0.6" />
+          </g>
+        </svg>
       </section>
 
       <!-- 01 400 clips / 0 reels -->
@@ -252,7 +333,8 @@
           <div class="s1-l s1-l1"><span class="num" data-to="400"></span><span class="mask"><span class="s1-w1">clips.</span></span></div>
           <div class="s1-l s1-l2"><span class="ib s1-zero red">0</span><span class="ib s1-w2">reels.</span></div>
         </div>
-        <div id="s1-slash"></div>
+        <div class="blade" id="s1-slash"></div>
+        <div class="flare" id="s1-flare" style="top: 710px"></div>
       </section>
 
       <!-- 02 camera-roll chaos -->
@@ -260,30 +342,39 @@
         <div id="s2-grid"></div>
         <div id="s2-red"></div>
         <div id="s2-pill">
-          <div id="s2-pillbox">
-            <div id="s2-clock"><i id="s2-h1"></i><i id="s2-h2"></i><b></b></div>
+          <div id="s2-pillbox" class="glass" data-cham="26">
+            <div id="s2-clock"><svg viewBox="0 0 112 112">
+              <circle cx="56" cy="56" r="48" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="7" />
+              <circle id="s2-arc" cx="56" cy="56" r="48" fill="none" stroke="url(#g-arc)" stroke-width="7" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" transform="rotate(-90 56 56)" />
+              <line id="s2-hand" x1="56" y1="56" x2="56" y2="22" stroke="#f5eeee" stroke-width="5" stroke-linecap="round" />
+              <circle cx="56" cy="56" r="7" fill="#ff2a3d" />
+            </svg></div>
             <div id="s2-txt">Still editing?</div>
+            <div id="s2-rec"><i></i><span>4:12:3<span class="num" data-to="9"></span></span></div>
           </div>
         </div>
       </section>
 
       <!-- 03 Meet FLINT -->
       <section id="s3" class="clip" data-start="3.75" data-duration="2.8125" data-track-index="1">
-        <div id="s3-red"></div>
+        <div id="s3-red"><div id="s3-sheen"></div></div>
         <div id="s3-meet" data-layout-allow-occlusion><span>Meet</span></div>
         <svg class="stone" id="st-l" viewBox="0 0 240 200" data-hf-motion-blur='{"samplesPerFrame": 12}'>
-          <path d="M14 70 L86 12 L196 24 L238 98 L190 186 L60 178 Z" fill="#0b0a0d" />
-          <path d="M86 12 L196 24 L150 92 Z" fill="#2a2430" />
-          <path d="M196 24 L238 98 L150 92 Z" fill="#1d1922" />
+          <path d="M14 70 L86 12 L196 24 L238 98 L190 186 L60 178 Z" fill="url(#g-stone)" />
+          <path d="M86 12 L196 24 L150 92 Z" fill="#3a2e36" opacity="0.8" />
+          <path d="M196 24 L238 98 L150 92 Z" fill="#1d1620" />
+          <path d="M14 70 L86 12 L196 24 L238 98 L190 186 L60 178 Z" fill="none" stroke="url(#g-rim)" stroke-width="2.5" stroke-linejoin="round" />
         </svg>
         <svg class="stone" id="st-r" viewBox="0 0 240 200" data-hf-motion-blur='{"samplesPerFrame": 12}'>
-          <path d="M226 64 L150 14 L40 30 L2 104 L58 188 L186 172 Z" fill="#0b0a0d" />
-          <path d="M150 14 L40 30 L96 96 Z" fill="#2a2430" />
-          <path d="M40 30 L2 104 L96 96 Z" fill="#1d1922" />
+          <path d="M226 64 L150 14 L40 30 L2 104 L58 188 L186 172 Z" fill="url(#g-stone)" />
+          <path d="M150 14 L40 30 L96 96 Z" fill="#3a2e36" opacity="0.8" />
+          <path d="M40 30 L2 104 L96 96 Z" fill="#1d1620" />
+          <path d="M226 64 L150 14 L40 30 L2 104 L58 188 L186 172 Z" fill="none" stroke="url(#g-rim)" stroke-width="2.5" stroke-linejoin="round" />
         </svg>
-        <div id="s3-black">
-          <div class="rays" id="s3-rays"></div>
-        </div>
+        <div class="bloom" id="s3-bloom" style="left: 160px; top: 140px; width: 1600px; height: 800px"></div>
+        <div class="shock" id="s3-sh1" style="left: 960px; top: 540px"></div>
+        <div class="shock" id="s3-sh2" style="left: 960px; top: 540px"></div>
+        <div class="flare" id="s3-flare" style="top: 540px"></div>
         <div id="s3-sparks"></div>
         <div id="s3-row">
           <div class="logo" id="s3-icon"><svg viewBox="0 0 100 100"><use href="#mark" /></svg></div>
@@ -296,7 +387,7 @@
       <!-- 04 Drop your clips -->
       <section id="s4" class="clip" data-start="6.5625" data-duration="2.8125" data-track-index="1">
         <div id="s4-head"><span class="w">Drop</span><span class="w">your</span><div></div><span class="w red">clips.</span></div>
-        <div id="s4-chip"><span class="ic"><svg class="ico"><use href="#i-up" /></svg></span><span id="s4-n"><span id="s4-ncol"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></span></span><span>clips added</span></div>
+        <div id="s4-chip" class="glass" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-up" /></svg></span><span id="s4-n"><span id="s4-ncol"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></span></span><span>clips added</span></div>
         <div id="s4-phone">
           <div id="s4-body"></div>
           <div id="s4-screen">
@@ -304,7 +395,8 @@
             <div class="ph-h">New reel</div>
             <div class="ph-s">Drop raw clips · we do the rest</div>
             <div id="s4-drop"><svg class="ico"><use href="#i-up" /></svg><span>Drop clips here</span></div>
-            <div id="s4-btn"><svg viewBox="0 0 24 24"><use href="#i-star" /></svg><span>Cut it</span></div>
+            <div id="s4-btnglow"></div>
+            <div id="s4-btn" class="redbtn" data-cham="18"><i class="sheen" id="s4-sheen"></i><svg viewBox="0 0 24 24"><use href="#i-star" /></svg><span>Cut it</span></div>
           </div>
           <div id="s4-clips" data-layout-allow-overlap></div>
         </div>
@@ -315,11 +407,11 @@
       <section id="s5" class="clip" data-start="9.375" data-duration="3.75" data-track-index="1">
         <div id="s5-head"><span class="mask"><span class="w">Cuts</span></span><span class="mask"><span class="w red">on</span></span><span class="mask"><span class="w red">the</span></span><span class="mask"><span class="w red">beat.</span></span></div>
         <div id="s5-chips">
-          <div class="chip" id="ch1"><span class="ic"><svg class="ico"><use href="#i-music" /></svg></span>Beat sync</div>
-          <div class="chip" id="ch2"><span class="ic"><svg class="ico"><use href="#i-scis" /></svg></span>Smart cuts</div>
-          <div class="chip" id="ch3"><span class="ic"><svg class="ico"><use href="#i-cc" /></svg></span>Captions</div>
+          <div class="chip glass" id="ch1" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-music" /></svg></span>Beat sync</div>
+          <div class="chip glass" id="ch2" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-scis" /></svg></span>Smart cuts</div>
+          <div class="chip glass" id="ch3" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-cc" /></svg></span>Captions</div>
         </div>
-        <div id="s5-panel">
+        <div id="s5-panel" class="glass" data-cham="30">
           <div id="s5-row"></div>
           <div id="s5-wave"></div>
           <div id="s5-ph">
@@ -339,7 +431,7 @@
         <div class="s6p" id="s6a">
           <div class="ph" id="s6a-ph"><svg class="ico"><use href="#i-cam" /></svg><b>CAP · talking head 16:9</b></div>
           <div id="s6a-shade"></div>
-          <div class="lab"><span class="ic"><svg class="ico"><use href="#i-cc" /></svg></span>Auto captions</div>
+          <div class="lab glass" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-cc" /></svg></span>Auto captions</div>
           <div id="s6a-cap"><i id="s6a-box"></i><span class="cw"><span>this</span></span><span class="cw"><span>is</span></span><span class="cw"><span>actually</span></span><span class="cw"><span>insane</span></span></div>
         </div>
         <div id="s6-wedge"></div>
@@ -348,16 +440,17 @@
           <div id="s6b-dimcover"></div>
           <div class="ph" id="s6b-crop"><svg class="ico"><use href="#i-cam" /></svg><b>RF · wide shot 16:9</b></div>
           <div id="s6b-frame"></div>
-          <div class="lab"><span class="ic"><svg class="ico"><use href="#i-crop" /></svg></span>Auto reframe</div>
-          <div id="s6b-tag">16:9 <svg class="ico" style="width: 30px; height: 30px; color: var(--red)"><use href="#i-arrow" /></svg> 9:16</div>
+          <div class="lab glass" data-cham="16"><span class="tagic"><svg class="ico"><use href="#i-crop" /></svg></span>Auto reframe</div>
+          <div id="s6b-tag" class="glass" data-cham="16">16:9 <svg class="ico" style="width: 30px; height: 30px; color: var(--red)"><use href="#i-arrow" /></svg> 9:16</div>
         </div>
         <div id="s6b-blinds"></div>
         <div class="s6p" id="s6c">
-          <div id="s6c-lab"><svg viewBox="0 0 24 24"><use href="#i-flame" /></svg>Hook score</div>
+          <div id="s6c-lab"><div id="s6c-labin" class="glass" data-cham="16"><span class="tagic"><svg viewBox="0 0 24 24"><use href="#i-flame" /></svg></span>Hook score</div></div>
           <svg id="s6c-g" viewBox="0 0 800 460">
-            <path d="M80 420 A320 320 0 0 1 720 420" fill="none" stroke="#2a2430" stroke-width="34" stroke-linecap="round" />
-            <path id="s6c-arc" d="M80 420 A320 320 0 0 1 720 420" fill="none" stroke="#ff2a3d" stroke-width="34" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" />
-            <g id="s6c-needle"><path d="M394 420 L400 150 L406 420 Z" fill="#f5eeee" /><circle cx="400" cy="420" r="22" fill="#f5eeee" /></g>
+            <g id="s6c-ticks"></g>
+            <path d="M100 420 A300 300 0 0 1 700 420" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="16" />
+            <path id="s6c-arc" d="M100 420 A300 300 0 0 1 700 420" fill="none" stroke="url(#g-arc)" stroke-width="16" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" />
+            <g id="s6c-needle"><path d="M396 420 L400 170 L404 420 Z" fill="#f5eeee" /><path d="M398.5 200 L400 170 L401.5 200 Z" fill="#ff2a3d" /><circle cx="400" cy="420" r="20" fill="#16131a" stroke="#f5eeee" stroke-width="3" /><circle cx="400" cy="420" r="7" fill="#ff2a3d" /></g>
           </svg>
           <div id="s6c-num"><span class="num" data-to="98"></span></div>
         </div>
@@ -383,8 +476,8 @@
 
       <!-- 08 tagline slot -->
       <section id="s8" class="clip" data-start="18.75" data-duration="1.875" data-track-index="1">
-        <div class="s8rule" id="s8-r1"></div>
-        <div class="s8rule" id="s8-r2"></div>
+        <div class="blade s8rule" id="s8-r1"></div>
+        <div class="blade s8rule" id="s8-r2"></div>
         <div id="s8-slot">
           <div id="s8-col" data-hf-motion-blur='{"samplesPerFrame": 12}'>
             <div class="s8l"></div>
@@ -393,25 +486,29 @@
           </div>
         </div>
         <div id="s8-tag">“FIRE” = IMAGE FILL PLACEHOLDER</div>
-        <div id="s8-ball"></div>
+        <div class="ball" id="s8-ball"></div>
       </section>
 
       <!-- 09 endcard -->
       <section id="s9" class="clip" data-start="20.625" data-duration="3.375" data-track-index="1">
-        <div class="rays" id="s9-rays"></div>
+        <div class="bloom" id="s9-bloom" style="left: 160px; top: 140px; width: 1600px; height: 800px"></div>
+        <div class="shock" id="s9-sh1" style="left: 960px; top: 530px"></div>
+        <div class="shock" id="s9-sh2" style="left: 960px; top: 530px"></div>
+        <div class="flare" id="s9-flare" style="top: 530px"></div>
         <div id="s9-shadow"></div>
         <div id="s9-sparks"></div>
         <div id="s9-row">
           <div class="logo" id="s9-icon"><svg viewBox="0 0 100 100"><use href="#mark" /></svg></div>
           <div id="s9-wmask"><div class="wm" id="s9-wm"><span class="lt">f</span><span class="lt">l</span><span class="lt">ı<i class="idot"></i></span><span class="lt">n</span><span class="lt">t</span></div></div>
         </div>
-        <div id="s9-ball"></div>
+        <div class="ball" id="s9-ball"></div>
         <div id="s9-url">flint.video</div>
-        <div id="s9-cta"><div id="s9-pill"><i class="ring" id="rg1"></i><i class="ring" id="rg2"></i>Try it free<svg class="ico"><use href="#i-arrow" /></svg></div></div>
+        <div id="s9-ctaglow"></div>
+        <div id="s9-rings"><i class="ring" id="rg1" data-cham="22" data-noclip data-edge="red"></i><i class="ring" id="rg2" data-cham="22" data-noclip data-edge="red"></i></div>
+        <div id="s9-cta"><div id="s9-pill" class="redbtn" data-cham="22"><i class="sheen" id="s9-sheen"></i><span>Try it free</span><span id="s9-arr"><svg class="ico"><use href="#i-arrow" /></svg></span></div></div>
       </section>
 
-      <div id="vig" class="clip" data-start="0" data-duration="24" data-track-index="2"></div>
-      <svg id="grain" class="clip" data-start="0" data-duration="24" data-track-index="3" width="1920" height="1080"><rect width="1920" height="1080" filter="url(#noise)" /></svg>
+      <div id="vig" class="clip" data-layout-ignore data-start="0" data-duration="24" data-track-index="2"></div>
 
       <!-- music (temp) -->
       <audio id="mus" src="assets/music/temp_beat.wav" data-start="0" data-duration="24" data-track-index="9" data-volume="0.55"></audio>
@@ -528,7 +625,7 @@
         // Odometer: turns <span class="num" data-to="400"> into rolling columns.
         const odo = (el) => {
           const to = el.dataset.to;
-          const h = parseFloat(getComputedStyle(el.closest(".s1-l, #s6c-num, .big")).fontSize);
+          const h = parseFloat(getComputedStyle(el.closest(".s1-l, #s6c-num, .big, #s2-rec")).fontSize) * (el.closest("#s2-rec") ? 40 / 36 : 1);
           el.innerHTML = "";
           const cols = [];
           to.split("").forEach((d, i) => {
@@ -546,11 +643,48 @@
         const roll = (cols, at, o = {}) => cols.forEach((col, i) =>
           tl.fromTo(col.c, { y: 0 }, { y: -col.target * col.h, duration: (o.dur ?? 0.45) + i * (o.step ?? 0.07), ease: o.ease ?? "back.out(1.6)" }, at));
 
-        // ── AMBIENT: glow breathes on the beat after the drop ───────────────
-        tl.set("#glow", { opacity: 0.25 }, 0);
+        // ── MATERIAL: faceted (chamfered) outline + gradient edge ───────────
+        { const t2 = $("#s2-txt"); t2.style.width = t2.offsetWidth + 4 + "px"; }
+        let eg = 0;
+        $$("[data-cham]").forEach((el) => {
+          const c = Number(el.dataset.cham);
+          if (el.classList.contains("ring")) { const p = $("#s9-pill"); el.style.width = p.offsetWidth + "px"; }
+          const w = el.offsetWidth, h = el.offsetHeight;
+          if (!el.hasAttribute("data-noclip")) el.style.clipPath = `polygon(${c}px 0, ${w}px 0, ${w}px ${h - c}px, ${w - c}px ${h}px, 0 ${h}px, 0 ${c}px)`;
+          const id = "edge" + eg++;
+          const red = el.dataset.edge === "red" || el.classList.contains("redbtn");
+          const stops = el.dataset.edge === "red"
+            ? '<stop offset="0" stop-color="#ff8a94"/><stop offset="1" stop-color="#ff2a3d"/>'
+            : red
+              ? '<stop offset="0" stop-color="#fff" stop-opacity="0.85"/><stop offset="0.4" stop-color="#fff" stop-opacity="0.12"/><stop offset="1" stop-color="#fff" stop-opacity="0.35"/>'
+              : '<stop offset="0" stop-color="#fff" stop-opacity="0.6"/><stop offset="0.35" stop-color="#fff" stop-opacity="0.1"/><stop offset="0.7" stop-color="#ff2a3d" stop-opacity="0.08"/><stop offset="1" stop-color="#ff5a68" stop-opacity="0.75"/>';
+          const k = 1, d = c * 0.414 * k;
+          const pts = `${c + d * 0.4},${k} ${w - k},${k} ${w - k},${h - c - d * 0.4} ${w - c - d * 0.4},${h - k} ${k},${h - k} ${k},${c + d * 0.4}`;
+          el.insertAdjacentHTML("beforeend", `<svg class="edge" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">${stops}</linearGradient></defs><polygon points="${pts}" fill="none" stroke="url(#${id})" stroke-width="${el.dataset.edge === "red" ? 3 : 2}" stroke-linejoin="miter"/></svg>`);
+        });
+        const sheen = (el, at, dur = 0.5) => tl.fromTo(el, { xPercent: -120, skewX: -22 }, { xPercent: 420, duration: dur, ease: "power2.inOut" }, at);
+        const flareAt = (el, at, peak = 1) => {
+          tl.fromTo(el, { scaleX: 0.2, scaleY: 1, opacity: 0 }, { scaleX: 1, opacity: peak, duration: 0.06, ease: "power2.out", immediateRender: false }, at);
+          tl.to(el, { scaleX: 1.15, scaleY: 0.4, opacity: 0, duration: 0.5, ease: "power2.out" }, at + 0.06);
+        };
+        const shockAt = (el, at, to = 9, dur = 0.6) => tl.fromTo(el, { scale: 0.3, opacity: 1 }, { scale: to, opacity: 0, duration: dur, ease: "power3.out", immediateRender: false }, at);
+
+        // ── AMBIENT: molten silk drifts; light breathes on the beat ─────────
+        const silkAlt = {
+          silk1: "M-100 820 C 380 1020, 900 700, 1300 930 S 1900 760, 2340 480",
+          spec1: "M-100 820 C 380 1020, 900 700, 1300 930 S 1900 760, 2340 480",
+          silk2: "M-100 210 C 420 420, 1060 120, 1460 360 S 2000 300, 2340 90",
+          spec2: "M-100 210 C 420 420, 1060 120, 1460 360 S 2000 300, 2340 90",
+        };
+        Object.entries(silkAlt).forEach(([id, d]) => tl.to("#" + id, { attr: { d }, duration: 12, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0));
+        tl.fromTo("#silk", { x: 0, rotation: 0 }, { x: -120, rotation: -3, duration: 24, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0);
+        tl.fromTo("#orb1", { x: 0, y: 0 }, { x: 420, y: -160, duration: 24, ease: "sine.inOut" }, 0);
+        tl.fromTo("#orb2", { x: 0, y: 0 }, { x: -520, y: 140, duration: 24, ease: "sine.inOut" }, 0);
+        tl.fromTo("#orb3", { x: 0 }, { x: -700, duration: 24, ease: "sine.inOut" }, 0);
+        tl.set("#silk", { opacity: 0.55 }, 0);
         for (let b = 8; b < 51; b++) {
           if (b === 34) continue;
-          tl.fromTo("#glow", { opacity: 0.85, scale: 1.06 }, { opacity: 0.35, scale: 1, duration: B * 0.95, ease: "power2.out" }, b * B);
+          tl.fromTo("#silk", { opacity: 1 }, { opacity: 0.62, duration: B * 0.95, ease: "power2.out" }, b * B);
         }
 
         // ── 01 · 400 clips / 0 reels (0 – 1.875) ─────────────────────────────
@@ -563,6 +697,7 @@
         tl.fromTo(".s1-zero", { scaleX: 1.4, scaleY: 0.62 }, { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1, 0.35)", immediateRender: false }, 0.94);
         tl.fromTo(".s1-w2", { scaleX: 1.25, scaleY: 0.7 }, { scaleX: 1, scaleY: 1, duration: 0.6, ease: "elastic.out(1, 0.35)", immediateRender: false }, 0.98);
         tl.to(".s1-zero", { scale: 1.18, duration: 0.08, yoyo: true, repeat: 1, ease: "power2.out" }, 1.41);
+        flareAt("#s1-flare", 0.94, 0.9);
         // slash + split
         tl.fromTo("#s1-slash", { scaleX: 0, rotation: -6.4, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.09, ease: "power3.in" }, 1.6);
         tl.to("#s1-slash", { opacity: 0, duration: 0.06 }, 1.72);
@@ -591,8 +726,13 @@
         tl.to(grid, { x: 0, y: 0, rotation: 0, duration: 0.08 }, 3.25);
         tl.fromTo("#s2-pillbox", { y: 520, scaleX: 0.5, scaleY: 1.4 }, { y: 0, scaleX: 1, scaleY: 1, duration: 0.5, ease: "back.out(1.9)" }, 2.25);
         tl.fromTo("#s2-txt", { fontVariationSettings: fvs(62, 800) }, { fontVariationSettings: fvs(112, 800), duration: 0.7, ease: "elastic.out(1, 0.4)" }, 2.42);
-        tl.fromTo("#s2-h1", { rotation: 0 }, { rotation: 1440, duration: 1.4, ease: "none" }, 1.875);
-        tl.fromTo("#s2-h2", { rotation: 90 }, { rotation: 90 + 360 * 3, duration: 1.4, ease: "none" }, 1.875);
+        tl.fromTo("#s2-hand", { rotation: 0, svgOrigin: "56 56" }, { rotation: 1440, svgOrigin: "56 56", duration: 1.4, ease: "none" }, 1.875);
+        tl.fromTo("#s2-arc", { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.35, ease: "none", repeat: 3 }, 1.875);
+        {
+          const rc = odo($("#s2-rec .num"))[0];
+          tl.fromTo(rc.c, { y: 0 }, { y: -10 * rc.h, duration: 0.5, ease: "none", repeat: 1 }, 2.3);
+          tl.fromTo("#s2-rec i", { opacity: 1 }, { opacity: 0.25, duration: 0.18, yoyo: true, repeat: 5, ease: "sine.inOut" }, 2.3);
+        }
         tl.to("#s2-clock", { rotation: -12, duration: 0.07, yoyo: true, repeat: 7, ease: "sine.inOut" }, 2.75);
         tl.to("#s2-pillbox", { scale: 0, duration: 0.18, ease: "back.in(2)" }, 3.2);
         tiles.forEach(({ t, d }) => {
@@ -613,19 +753,26 @@
         const HIT = T3 + 2 * B;
         tl.fromTo("#st-l", { x: -1150, rotation: -40 }, { x: -6, rotation: 0, duration: 0.24, ease: "power3.in" }, HIT - 0.24);
         tl.fromTo("#st-r", { x: 1150, rotation: 40 }, { x: 6, rotation: 0, duration: 0.24, ease: "power3.in" }, HIT - 0.24);
-        tl.to("#st-l", { x: -520, y: 260, rotation: -70, duration: 0.5, ease: "power2.out" }, HIT);
-        tl.to("#st-r", { x: 520, y: 300, rotation: 80, duration: 0.5, ease: "power2.out" }, HIT);
+        tl.to("#st-l", { x: -1150, y: 520, rotation: -140, scale: 0.6, duration: 0.55, ease: "power2.in" }, HIT);
+        tl.to("#st-r", { x: 1150, y: 560, rotation: 150, scale: 0.6, duration: 0.55, ease: "power2.in" }, HIT);
         tl.set("#s3-flash", { opacity: 0.95 }, HIT);
         tl.to("#s3-flash", { opacity: 0, duration: 0.16, ease: "power2.out" }, HIT + 0.017);
-        tl.fromTo("#s3-black", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.42, ease: "power3.out" }, HIT);
-        tl.fromTo("#s3-rays", { rotation: 0, scale: 0.4, opacity: 0 }, { rotation: 50, scale: 1, opacity: 1, duration: 1.9, ease: "power2.out" }, HIT);
+        tl.fromTo("#s3-red", { "--hole": "0%" }, { "--hole": "101%", duration: 0.46, ease: "power3.out" }, HIT);
+        tl.fromTo("#s3-sh1", { scale: 0.3, opacity: 1 }, { scale: 11.2, opacity: 0.2, duration: 0.46, ease: "power3.out", immediateRender: false }, HIT);
+        tl.to("#s3-sh1", { opacity: 0, duration: 0.1 }, HIT + 0.46);
+        shockAt("#s3-sh2", HIT + 0.08, 5, 0.7);
+        flareAt("#s3-flare", HIT, 1);
+        tl.fromTo("#s3-bloom", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out", immediateRender: false }, HIT);
+        tl.to("#s3-bloom", { opacity: 0.55, duration: 1.2, ease: "sine.inOut" }, HIT + 0.6);
+        tl.fromTo("#s3-sheen", { x: -700, rotation: 18 }, { x: 2300, duration: 0.8, ease: "power2.inOut" }, T3 + 0.12);
         // sparks: ballistic keyframes
         const spawnSparks = (host, at, n, cx, cy, sp, grav, T) => {
           const box = $(host);
           for (let i = 0; i < n; i++) {
             const s = document.createElement("i"); s.className = "spk";
             s.style.left = cx - 5 + "px"; s.style.top = cy - 23 + "px";
-            s.style.background = ["#ff6b4a", "#f5eeee", "#ff2a3d"][i % 3];
+            s.style.background = ["linear-gradient(180deg,#fff,#ff6b4a)", "linear-gradient(180deg,#fff,#ffd0d4)", "linear-gradient(180deg,#ffb0b8,#ff2a3d)"][i % 3];
+            s.style.boxShadow = "0 0 12px rgba(255,90,104,0.9)";
             box.appendChild(s);
             const a = (i / n) * Math.PI * 2 + rnd() * 0.4;
             const v = sp * (0.6 + rnd() * 0.6);
@@ -698,7 +845,8 @@
         }
         tl.to("#s4-drop", { opacity: 0, scale: 0.85, duration: 0.15 }, T4 + 0.9);
         tl.to("#s4-btn", { scale: 0.88, duration: 0.07, yoyo: true, repeat: 1, ease: "power2.out" }, 8.88);
-        tl.to("#s4-btn", { boxShadow: "0 0 0 14px rgba(255,42,61,0.35)", duration: 0.12 }, 8.9);
+        sheen("#s4-sheen", 8.45, 0.5);
+        tl.fromTo("#s4-btnglow", { scale: 1, opacity: 0.7 }, { scale: 1.5, opacity: 1, duration: 0.15, ease: "power2.out" }, 8.88);
         tl.to(["#s4-head", "#s4-chip"], { x: -500, opacity: 0, duration: 0.2, ease: "power3.in" }, 8.98);
         tl.to("#s4-clips", { opacity: 0, duration: 0.14 }, 9.0);
         tl.fromTo("#s4-phone", { scale: 1 }, { scale: 10, duration: 0.36, ease: "power3.in", transformOrigin: "50% 50%", immediateRender: false }, 9.02);
@@ -818,6 +966,17 @@
         tl.to("#s6c-flame", { scale: 0, duration: 0.12, ease: "power2.in" }, T6c + 0.04);
         tl.fromTo("#s6c-lab", { y: -120, scale: 0.6 }, { y: 0, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, T6c + 0.1);
         tl.fromTo("#s6c-needle", { rotation: -88, svgOrigin: "400 420" }, { rotation: 84, svgOrigin: "400 420", duration: 0.75, ease: "elastic.out(1, 0.3)" }, T6c + 0.12);
+        {
+          const g = $("#s6c-ticks");
+          let html = "";
+          for (let k = 0; k <= 50; k++) {
+            const a = Math.PI * (1 - k / 50), major = k % 5 === 0;
+            const r1 = 336, r2 = major ? 368 : 354;
+            html += `<line x1="${400 + r1 * Math.cos(a)}" y1="${420 - r1 * Math.sin(a)}" x2="${400 + r2 * Math.cos(a)}" y2="${420 - r2 * Math.sin(a)}" stroke="${k >= 49 ? "#ff2a3d" : major ? "rgba(245,238,238,0.7)" : "rgba(245,238,238,0.25)"}" stroke-width="${major ? 3 : 1.5}" />`;
+          }
+          g.innerHTML = html;
+          tl.fromTo(g, { opacity: 0, scale: 0.92, svgOrigin: "400 420" }, { opacity: 1, scale: 1, svgOrigin: "400 420", duration: 0.35, ease: "back.out(2)" }, T6c + 0.05);
+        }
         tl.fromTo("#s6c-arc", { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 2 }, duration: 0.45, ease: "power3.out" }, T6c + 0.12);
         roll(odo($("#s6c-num .num")), T6c + 0.1, { dur: 0.5, step: 0.1, ease: "back.out(1.4)" });
         tl.to("#s6c-num", { scale: 1.12, duration: 0.07, yoyo: true, repeat: 1 }, T6c + 0.72);
@@ -882,15 +1041,22 @@
         const POP = T9 + 0.84;
         spawnSparks("#s9-sparks", POP, 12, 960, 535, 1100, 2000, 0.6);
         tl.fromTo(s9icon, { x: iconOff9, scale: 0, rotation: -180 }, { scale: 1.2, rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" }, POP);
-        tl.fromTo("#s9-rays", { scale: 0.3, opacity: 0, rotation: 0 }, { scale: 1, opacity: 1, rotation: 70, duration: 3, ease: "power2.out" }, POP);
+        tl.fromTo("#s9-bloom", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "power2.out", immediateRender: false }, POP);
+        tl.to("#s9-bloom", { opacity: 0.6, scale: 1.05, duration: 2, ease: "sine.inOut" }, POP + 0.7);
+        shockAt("#s9-sh1", POP, 8, 0.7);
+        shockAt("#s9-sh2", POP + 0.1, 4.5, 0.8);
+        flareAt("#s9-flare", POP, 0.9);
         tl.to(s9icon, { x: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, POP + 0.36);
         const wmW = $("#s9-wmask").offsetWidth + 40;
         tl.fromTo("#s9-wm .lt", { x: -wmW }, { x: 0, duration: 0.5, ease: "back.out(1.6)", stagger: { each: 0.045, from: "end" } }, POP + 0.4);
         tl.fromTo("#s9-wm", { fontVariationSettings: fvs(62, 900) }, { fontVariationSettings: fvs(125, 900), duration: 0.8, ease: "elastic.out(1, 0.45)" }, POP + 0.42);
         tl.fromTo("#s9-url", { yPercent: 80, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, POP + 0.75);
         tl.fromTo("#s9-pill", { scale: 0, rotation: -6 }, { scale: 1, rotation: 0, duration: 0.55, ease: "elastic.out(1, 0.5)" }, POP + 0.85);
+        tl.fromTo("#s9-ctaglow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, POP + 0.9);
+        sheen("#s9-sheen", POP + 1.25, 0.6);
+        sheen("#s9-sheen", POP + 2.25, 0.6);
         [0, 1, 2].forEach((k) => {
-          tl.fromTo(k % 2 ? "#rg2" : "#rg1", { scale: 1, opacity: 0.8 }, { scale: 1.45, opacity: 0, duration: 0.9, ease: "power2.out" }, POP + 1.2 + k * 0.6);
+          tl.fromTo(k % 2 ? "#rg2" : "#rg1", { scaleX: 1, scaleY: 1, opacity: 0.9 }, { scaleX: 1.18, scaleY: 1.6, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, POP + 1.2 + k * 0.6);
         });
         tl.to("#s9-pill", { scale: 1.05, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, POP + 1.9);
 
