@@ -130,6 +130,11 @@
       .ph .pl { position: absolute; left: 26px; right: 26px; bottom: 22px; font-size: 26px; --wg: 640; color: var(--ice); line-height: 1.15; }
       .ph .pl small { display: block; font-size: 19px; --wg: 500; color: var(--mist); letter-spacing: 0.06em; }
       .col .ph { width: 400px; height: 533px; }
+      .ph.img { border: none; background: #0f1b2e; box-shadow: inset 0 0 0 1.5px rgba(207, 232, 255, 0.1); }
+      .ph .photo { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; }
+      .ph.img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6, 10, 18, 0) 52%, rgba(6, 10, 18, 0.88)); box-shadow: inset 0 0 0 1.5px rgba(207, 232, 255, 0.12); border-radius: inherit; }
+      .ph.img .pl { z-index: 2; color: var(--frost); }
+      .ph.img .pl small { color: var(--sky); }
       #s6-shade { background: radial-gradient(ellipse 58% 46% at 50% 50%, rgba(6, 10, 18, 0.9), rgba(6, 10, 18, 0.6) 55%, rgba(6, 10, 18, 0) 100%); }
       #s6-dim { background: var(--night); opacity: 0; }
       #s6-head { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 34px; font-size: 140px; --wg: 760; letter-spacing: -0.035em; }
@@ -157,6 +162,7 @@
       .face .th { position: absolute; right: 46px; top: 46px; width: 150px; height: 150px; border-radius: 24px; }
       .face .th .pi { width: 44px; height: 44px; margin: -22px 0 0 -22px; top: 42%; }
       .face .th .pl { left: 0; right: 0; bottom: 12px; text-align: center; font-size: 17px; --wg: 600; }
+      .face .th.img::after { background: none; }
       .face .rows { position: absolute; left: 46px; right: 46px; top: 252px; }
       .it { display: flex; align-items: center; gap: 20px; height: 112px; border-top: 2px solid var(--line); font-size: 29px; --wg: 600; white-space: nowrap; }
       .it time { width: 104px; font-size: 28px; --wg: 600; color: var(--mist); flex: none; }
@@ -318,9 +324,9 @@
         <div id="s6-shade" class="fill"></div>
         <div id="s6-dim" class="fill" data-layout-allow-occlusion></div>
         <div id="s6-head"></div>
-        <div class="ph" id="s6-hero" data-hf-motion-blur='{"samplesPerFrame": 10}'>
-          <svg class="isvg pi"><use href="#i-img" /></svg>
-          <div class="pl"><small>IMG 03</small>Miradouro da Graça</div>
+        <div class="ph img" id="s6-hero" data-hf-motion-blur='{"samplesPerFrame": 10}'>
+          <div class="photo" style="background-image: url(assets/images/img03.webp); background-position: 50% 50%"></div>
+          <div class="pl"><small>VIEWPOINT</small>Miradouro da Graça</div>
         </div>
         <div id="s6-saved"><svg class="isvg"><use href="#i-heart" /></svg>Saved</div>
       </section>
@@ -1500,18 +1506,20 @@
         // =========================================================================
         {
           const T = 9.84375;
+          // [file, kicker, title, crop focus]
           const places = [
-            ["IMG 01", "Alfama · tram 28"], ["IMG 02", "Pastel de nata"], ["IMG 03", "Miradouro da Graça"], ["IMG 04", "Praia da Ursa"],
-            ["IMG 05", "Azulejo walls"], ["IMG 06", "Time Out Market"], ["IMG 07", "LX Factory"], ["IMG 08", "Pena Palace"],
-            ["IMG 09", "Belém tower"], ["IMG 10", "Rooftop bar"], ["IMG 11", "Grilled sardines"], ["IMG 12", "Sunset tram"],
+            ["img01", "ALFAMA", "Tram 28", "50% 60%"], ["img02", "EAT", "Pastel de nata", "50% 50%"], ["img03", "VIEWPOINT", "Miradouro da Graça", "50% 50%"], ["img04", "BEACH", "Praia da Ursa", "50% 50%"],
+            ["img05", "WALK", "Azulejo walls", "50% 45%"], ["img06", "EAT", "Time Out Market", "50% 55%"], ["img07", "ART", "LX Factory", "78% 50%"], ["img08", "DAY TRIP", "Pena Palace", "62% 50%"],
+            ["img09", "BELÉM", "Belém tower", "71% 50%"], ["img10", "NIGHT", "Rooftop bar", "40% 50%"], ["img11", "EAT", "Grilled sardines", "30% 50%"], ["img12", "RIDE", "Sunset tram", "68% 50%"],
           ];
+          const photoCard = (pl) => `<div class="photo" style="background-image:url(assets/images/${pl[0]}.webp);background-position:${pl[3]}"></div><div class="pl"><small>${pl[1]}</small>${pl[2]}</div>`;
           const wall = $("#s6-wall");
           const cols = [];
           for (let c = 0; c < 6; c++) {
             const col = document.createElement("div"); col.className = "col";
             for (let r = 0; r < 5; r++) {
-              const p = places[(c * 5 + r * 7 + c) % places.length];
-              col.insertAdjacentHTML("beforeend", `<div class="ph">${svgUse("i-img").replace('class="isvg"', 'class="isvg pi"')}<div class="pl"><small>${p[0]}</small>${p[1]}</div></div>`);
+              const p = places[(c * 7 + r) % places.length];
+              col.insertAdjacentHTML("beforeend", `<div class="ph img">${photoCard(p)}</div>`);
             }
             wall.appendChild(col); cols.push(col);
           }
@@ -1571,14 +1579,14 @@
           tl.to("#s7-runner", { keyframes: kf, duration: 1.0, ease: "power1.inOut" }, T + 0.35);
           // cube of days
           const days = [
-            ["Day 1", "Alfama & views", "THUMB D1", [["09:30", "i-sun", "Miradouro da Graça"], ["13:00", "i-food", "Time Out Market"], ["21:00", "i-ticket", "Fado night"]]],
-            ["Day 2", "Coast day", "THUMB D2", [["10:00", "i-train", "Train to Cascais"], ["12:30", "i-sun", "Praia da Rainha"], ["19:30", "i-food", "Grilled sardines"]]],
-            ["Day 3", "Sintra hills", "THUMB D3", [["09:00", "i-car", "Ride to Sintra"], ["11:30", "i-map", "Pena Palace"], ["20:00", "i-star", "Rooftop sunset"]]],
+            ["Day 1", "Alfama & views", "thumb_d1", [["09:30", "i-sun", "Miradouro da Graça"], ["13:00", "i-food", "Time Out Market"], ["21:00", "i-ticket", "Fado night"]]],
+            ["Day 2", "Coast day", "thumb_d2", [["10:00", "i-train", "Train to Cascais"], ["12:30", "i-sun", "Praia da Rainha"], ["19:30", "i-food", "Grilled sardines"]]],
+            ["Day 3", "Sintra hills", "thumb_d3", [["09:00", "i-car", "Ride to Sintra"], ["11:30", "i-map", "Pena Palace"], ["20:00", "i-star", "Rooftop sunset"]]],
           ];
           const cube = $("#s7-cube");
           const faces = days.map((d, i) => {
             const f = document.createElement("div"); f.className = "face";
-            f.innerHTML = `<h3>${d[0]}</h3><h4>${d[1]}</h4><div class="ph th">${svgUse("i-img").replace('class="isvg"', 'class="isvg pi"')}<div class="pl">${d[2]}</div></div><div class="rows">${d[3].map((r) => `<div class="it"><time>${r[0]}</time><i>${svgUse(r[1])}</i><span>${r[2]}</span></div>`).join("")}</div>`;
+            f.innerHTML = `<h3>${d[0]}</h3><h4>${d[1]}</h4><div class="ph th img"><div class="photo" style="background-image:url(assets/images/${d[2]}.webp);background-position:50% 50%"></div></div><div class="rows">${d[3].map((r) => `<div class="it"><time>${r[0]}</time><i>${svgUse(r[1])}</i><span>${r[2]}</span></div>`).join("")}</div>`;
             f.style.transform = `rotateY(${i * 90}deg) translateZ(310px)`;
             f.style.transformOrigin = "50% 50%";
             cube.appendChild(f); return f;

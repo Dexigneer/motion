@@ -170,3 +170,10 @@ version: v2
 - Font → **Space Grotesk** (jediný).
 - „Tell it the vibe.“ → **„Describe the vibe.“**, posunuté tesne nad bar.
 - Scéna 01 prerobená: namiesto mriežky rovnakých pilulek je to **okno prehliadača s množiacimi sa a sťahujúcimi sa tabmi**, meniacim sa adresným riadkom a vejárom ďalších okien.
+
+## Changes from v2 (fotky)
+
+- Všetkých 15 fotiek je zapojených (`assets/images/img01–12.webp`, `thumb_d1–d3.webp`).
+- Karty majú namiesto „IMG 0x“ krátky popis kategórie (ALFAMA, EAT, VIEWPOINT, BEACH, WALK, ART, DAY TRIP, BELÉM, NIGHT, RIDE) a názov miesta. Spodok karty má tmavý prechod, aby bol text čitateľný.
+- Fotky na šírku (07–12) sú orezané cez `background-position` na hlavný motív: mural s tvárou a kvetom, palác, veža, drinky s výhľadom, sardinky, električka.
+- Stena: stĺpec `c`, riadok `r` → fotka `(7c + r) mod 12`, takže sú viditeľné všetky a rovnaké fotky nie sú vedľa seba.
